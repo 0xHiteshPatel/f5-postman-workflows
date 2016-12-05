@@ -1,3 +1,6 @@
+// Minify f5_postman_test_functions.js and generate a Postman
+// Global environment variable file.
+
 var fs = require('fs');
 var UglifyJS = require("uglify-js")
 
