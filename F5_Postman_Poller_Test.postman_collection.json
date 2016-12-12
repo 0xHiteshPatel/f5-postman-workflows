@@ -1,0 +1,129 @@
+{
+	"variables": [],
+	"info": {
+		"name": "F5_Postman_Poller_Test",
+		"_postman_id": "8e352374-8e7a-33d5-f214-549a4807220b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var vars = [",
+							"    {",
+							"        \"name\":\"content\",",
+							"        \"value\":\"10\"",
+							"    }",
+							"    ];",
+							"",
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
+							"f5_check_response(vars);",
+							"f5_poll_until_all_tests_pass(\"1\", \"2\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://192.168.2.21/mgmt/shared/echo",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"content\":\"{{_f5_poll_iterator}}\"\n}"
+				},
+				"description": "Wait for attribute state to be ACTIVE"
+			},
+			"response": []
+		},
+		{
+			"name": "2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setNextRequest();"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://192.168.2.21/mgmt/shared/echo",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "_F5_POLL_DELAY",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
+							"f5_debug(\"_f5_poll_curr=\" + globals._f5_poll_curr)",
+							"",
+							"if(f5_check_response_code()) {",
+							"    postman.setNextRequest(globals._f5_poll_curr);",
+							"} else {",
+							"    postman.setNextRequest(null);",
+							"}",
+							"postman.setGlobalVariable(\"_f5_poll_curr\", \"\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

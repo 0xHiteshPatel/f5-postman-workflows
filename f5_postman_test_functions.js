@@ -1,4 +1,12 @@
 function f5_populate_env_vars(vars) {
+    if(parseInt(postman.getGlobalVariable("f5_enable_polled_mode")) === 1) {
+        f5_populate_env_vars_polled(vars);
+    } else {
+        f5_populate_env_vars_nonpolled(vars);
+    }
+}
+
+function f5_populate_env_vars_nonpolled(vars) {
     if(!f5_check_response_code()) {
         f5_debug("response code bad, next is null");
         postman.setNextRequest(null);
@@ -63,6 +71,14 @@ function f5_populate_env_vars_polled(vars) {
 }
 
 function f5_check_response(vars) {
+    if(parseInt(postman.getGlobalVariable("f5_enable_polled_mode")) === 1) {
+        f5_check_response_polled(vars);
+    } else {
+        f5_check_response_nonpolled(vars);
+    }
+}
+
+function f5_check_response_nonpolled(vars) {
     if (!f5_check_response_code()) {
         f5_debug("response code bad, next is null");
         postman.setNextRequest(null);
@@ -142,8 +158,15 @@ function f5_poll_until_all_tests_pass(curr, next) {
         var i = parseInt(postman.getGlobalVariable("_f5_poll_iterator"));
         i++;
         postman.setGlobalVariable("_f5_poll_iterator", i);
-        postman.setGlobalVariable("_f5_poll_curr", curr);
-        postman.setNextRequest("_F5_POLL_DELAY");
+
+        if(parseInt(postman.getGlobalVariable("_f5_poll_useinternal")) === 1) {
+            f5_sleep(parseInt(postman.getGlobalVariable("_f5_poll_wait")) * 1000)
+            postman.setNextRequest(curr);
+            postman.setGlobalVariable("_f5_poll_curr", "");
+        } else {
+            postman.setGlobalVariable("_f5_poll_curr", curr);
+            postman.setNextRequest("_F5_POLL_DELAY");
+        }
     }
 }
 
@@ -196,4 +219,21 @@ function f5_debug(msg) {
     if(postman.getGlobalVariable("_f5_debug") == "1") {
         console.log('[' + arguments.callee.caller.name + '] ' + msg);
     }    
+}
+
+function f5_clear_runtime_vars() {
+    var envKeys = Object.keys(environment);
+    for(var i = 0; i < envKeys.length; i++) {
+        if(envKeys[i].startsWith("_rt_")) {
+            f5_debug("clearing env variable: " + envKeys[i]);
+            postman.setEnvironmentVariable(envKeys[i], "");
+        }
+    }
+    tests["cleared_runtime_env_vars"] = 1;
+}
+
+function f5_sleep (time) {
+    f5_debug("sleeping for " + time);
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + time){ } 
 }

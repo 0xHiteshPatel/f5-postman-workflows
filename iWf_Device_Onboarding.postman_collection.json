@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_Device_Onboarding",
-		"_postman_id": "31132748-1ad3-d61b-0f93-1c9075332212",
+		"_postman_id": "44cce96c-9190-0fc5-e35f-ab84c1568672",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -22,26 +22,8 @@
 							"        }",
 							"    ];",
 							"",
-							"var envVars = [",
-							"    \"iwf_bigip_a_uuid\",",
-							"    \"iwf_bigip_b_uuid\",",
-							"    \"iwf_connector_uuid\",",
-							"    \"iwf_license_pool_uuid\",",
-							"    \"iwf_bigip_a_node_uuid\",",
-							"    \"iwf_bigip_a_task_uuid\",",
-							"    \"iwf_bigip_b_node_uuid\",",
-							"    \"iwf_bigip_b_task_uuid\",",
-							"    \"iwf_cluster_task_uuid\",",
-							"    \"iwf_bigip_a_restproxy_uri\",",
-							"    \"iwf_bigip_b_restproxy_uri\"",
-							"    ]",
-							"    ",
-							"for(var i = 0; i < envVars.length; i++) {",
-							"    postman.setEnvironmentVariable(envVars[i], \"\");",
-							"}",
-							"tests[\"cleared_runtime_env_vars\"] = 1;",
-							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"f5_clear_runtime_vars();",
 							"f5_check_response(vars);",
 							""
 						]
@@ -81,7 +63,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_a_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
 							"            \"value\":\"uuid\"",
 							"        }",
 							"    ];",
@@ -131,7 +113,7 @@
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_check_response_polled(vars);",
+							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 2: Get BIG-IP A Discovery Status\", \"Step 3: Discover BIG-IP B on iWorkflow\");",
 							""
 						]
@@ -139,7 +121,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_a_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -171,7 +153,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_b_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
 							"            \"value\":\"uuid\"",
 							"        }",
 							"    ];",
@@ -222,7 +204,7 @@
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_check_response_polled(vars);",
+							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 4: Get BIG-IP B Discovery Status\", \"Step 5: Create a Local Connector\");",
 							""
 						]
@@ -230,7 +212,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_b_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -262,7 +244,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_connector_uuid\",",
+							"            \"name\":\"_rt_iwf_connector_uuid\",",
 							"            \"value\":\"connectorId\"",
 							"        }",
 							"    ];",
@@ -291,7 +273,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"BIG-IP A/B Connector\",\n    \"description\":\"Local Connector for the BIG-IP A/B Cluster\",\n    \"parameters\":[],\n    \"deviceReferences\": [\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_a_uuid}}\"},\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_b_uuid}}\"}\n    ],\n    \"timezone\": \"America/Chicago\",\n  \"ntpServers\": [\n      \"192.168.2.1\"\n    ],\n    \"dnsServerAddresses\": [\n      \"192.168.0.1\",\n      \"4.2.2.2\",\n      \"8.8.8.8\"\n    ],\n    \"dnsSuffixes\": [\n      \"f5se.local\",\n      \"f5.com\"\n    ]   \n}"
+					"raw": "{\n    \"name\":\"BIG-IP A/B Connector\",\n    \"description\":\"Local Connector for the BIG-IP A/B Cluster\",\n    \"parameters\":[],\n    \"deviceReferences\": [\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"},\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"}\n    ],\n    \"timezone\": \"America/Chicago\",\n  \"ntpServers\": [\n      \"192.168.2.1\"\n    ],\n    \"dnsServerAddresses\": [\n      \"192.168.0.1\",\n      \"4.2.2.2\",\n      \"8.8.8.8\"\n    ],\n    \"dnsSuffixes\": [\n      \"f5se.local\",\n      \"f5.com\"\n    ]   \n}"
 				},
 				"description": ""
 			},
@@ -307,7 +289,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_license_pool_uuid\",",
+							"            \"name\":\"_rt_iwf_license_pool_uuid\",",
 							"            \"value\":\"uuid\",",
 							"            \"itemindex\": 0",
 							"        }",
@@ -353,7 +335,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_a_node_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_a_node_uuid\",",
 							"            \"value\":\"nodeID\"",
 							"        }",
 							"    ];",
@@ -366,7 +348,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}/nodes",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
 				"method": "POST",
 				"header": [
 					{
@@ -382,7 +364,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_a_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"bigip-a.f5se.local\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_a_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_a_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.21\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },\n    {\n      \"localAddress\":\"172.16.0.21\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.21\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }\n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_a_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_a_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_a_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_a_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.21\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },\n    {\n      \"localAddress\":\"172.16.0.21\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.21\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }\n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
 				},
 				"description": ""
 			},
@@ -398,21 +380,21 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_a_task_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_a_task_uuid\",",
 							"            \"value\":\"currentConfigDeviceTaskReference\",",
 							"            \"function\": function(json) { return json.link.split('/').pop() }",
 							"        }",
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_populate_env_vars_polled(vars);",
+							"f5_populate_env_vars(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 8: Get BIG-IP A Node Config Status\",\"Step 9: Get BIG-IP A Task Status\");"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}/nodes/{{iwf_bigip_a_node_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_a_node_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -454,7 +436,7 @@
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_check_response_polled(vars);",
+							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 9: Get BIG-IP A Task Status\", \"Step 10: Add BIG-IP B Node to Local Connector\");",
 							""
 						]
@@ -462,7 +444,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{iwf_bigip_a_task_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_a_task_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -494,7 +476,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_b_node_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_b_node_uuid\",",
 							"            \"value\":\"nodeID\"",
 							"        }",
 							"    ];",
@@ -507,7 +489,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}/nodes",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
 				"method": "POST",
 				"header": [
 					{
@@ -523,7 +505,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_b_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"bigip-b.f5se.local\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_b_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_b_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.22\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },    \n    {\n      \"localAddress\":\"172.16.0.22\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.22\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }       \n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_b_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_b_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_b_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_b_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.22\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },    \n    {\n      \"localAddress\":\"172.16.0.22\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.22\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }       \n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
 				},
 				"description": ""
 			},
@@ -539,21 +521,21 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_b_task_uuid\",",
+							"            \"name\":\"_rt_iwf_bigip_b_task_uuid\",",
 							"            \"value\":\"currentConfigDeviceTaskReference\",",
 							"            \"function\": function(json) { return json.link.split('/').pop() }",
 							"        }",
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_populate_env_vars_polled(vars);",
+							"f5_populate_env_vars(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 11: Get BIG-IP B Node Config Status\",\"Step 12: Get BIG-IP B Task Status\");"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}/nodes/{{iwf_bigip_b_node_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_b_node_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -595,7 +577,7 @@
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_check_response_polled(vars);",
+							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 12: Get BIG-IP B Task Status\", \"Step 13: Create Cluster Between BIG-IP A & B\");",
 							""
 						]
@@ -603,7 +585,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{iwf_bigip_b_task_uuid}}",
+				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_b_task_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -635,7 +617,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_cluster_task_uuid\",",
+							"            \"name\":\"_rt_iwf_cluster_task_uuid\",",
 							"            \"value\":\"id\"",
 							"        }",
 							"    ];",
@@ -664,7 +646,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"input\":{\n    \"devices\":[\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_a_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.21\",\n        \"failoverIP\":\"192.168.5.21\"\n      },\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_b_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.22\",\n        \"failoverIP\":\"192.168.5.22\",\n        \"adminName\":\"admin\",\n        \"adminPassword\":\"admin\"\n      }\n    ],\n    \"floatingIPs\": [\n    {\n          \"name\": \"Internal-Float\",\n          \"address\": \"10.0.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"Internal\"\n      },\n      {\n          \"name\": \"External-Float\",\n          \"address\": \"172.16.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"External\"\n      },\n      {\n          \"name\": \"HA-Float\",\n          \"address\": \"192.168.5.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"HA\"\n      }\n    ],    \n    \"syncFailoverGroupName\":\"HA\",\n    \"autoSync\":true,\n    \"saveOnAutoSync\":true\n  },\n  \"name\":\"HA\",\n  \"generation\":0,\n  \"lastUpdateMicros\":0\n}\n"
+					"raw": "{\n  \"input\":{\n    \"devices\":[\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.21\",\n        \"failoverIP\":\"192.168.5.21\"\n      },\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.22\",\n        \"failoverIP\":\"192.168.5.22\",\n        \"adminName\":\"admin\",\n        \"adminPassword\":\"admin\"\n      }\n    ],\n    \"floatingIPs\": [\n    {\n          \"name\": \"Internal-Float\",\n          \"address\": \"10.0.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"Internal\"\n      },\n      {\n          \"name\": \"External-Float\",\n          \"address\": \"172.16.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"External\"\n      },\n      {\n          \"name\": \"HA-Float\",\n          \"address\": \"192.168.5.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"HA\"\n      }\n    ],    \n    \"syncFailoverGroupName\":\"HA\",\n    \"autoSync\":true,\n    \"saveOnAutoSync\":true\n  },\n  \"name\":\"HA\",\n  \"generation\":0,\n  \"lastUpdateMicros\":0\n}\n"
 				},
 				"description": ""
 			},
@@ -690,7 +672,7 @@
 							"    ];",
 							"",
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"f5_check_response_polled(vars);",
+							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Step 14: Get Cluster Task Status\", \"Step 15: Populate BIG-IP A REST Proxy Base URI\");",
 							""
 						]
@@ -698,7 +680,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices/{{iwf_cluster_task_uuid}}",
+				"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices/{{_rt_iwf_cluster_task_uuid}}",
 				"method": "GET",
 				"header": [
 					{
@@ -730,7 +712,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_a_restproxy_uri\",",
+							"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
 							"            \"value\":\"uuid\",",
 							"            \"itemindex\": 0,",
 							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
@@ -777,7 +759,7 @@
 						"exec": [
 							"var vars = [",
 							"        { ",
-							"            \"name\":\"iwf_bigip_b_restproxy_uri\",",
+							"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
 							"            \"value\":\"uuid\",",
 							"            \"itemindex\": 0,",
 							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
@@ -825,7 +807,7 @@
 							"var vars = [",
 							"    {",
 							"        \"name\":\"hostname\",",
-							"        \"value\":\"bigip-a.f5se.local\"",
+							"        \"value\":environment[\"bigip_a_hostname\"]",
 							"    }",
 							"    ];",
 							"",
@@ -837,7 +819,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/{{iwf_bigip_a_restproxy_uri}}/mgmt/tm/sys/global-settings/",
+				"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_a_restproxy_uri}}/mgmt/tm/sys/global-settings/",
 				"method": "GET",
 				"header": [
 					{
@@ -870,7 +852,7 @@
 							"var vars = [",
 							"    {",
 							"        \"name\":\"hostname\",",
-							"        \"value\":\"bigip-b.f5se.local\"",
+							"        \"value\":environment[\"bigip_b_hostname\"]",
 							"    }",
 							"    ];",
 							"",
@@ -884,7 +866,7 @@
 				}
 			],
 			"request": {
-				"url": "https://{{iwf_mgmt}}/{{iwf_bigip_b_restproxy_uri}}/mgmt/tm/sys/global-settings/",
+				"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_b_restproxy_uri}}/mgmt/tm/sys/global-settings/",
 				"method": "GET",
 				"header": [
 					{
