@@ -17,7 +17,7 @@
 						"exec": [
 							"var vars = [",
 							"    {",
-							"        \"name\":\"content\",",
+							"        \"name\":\"data\",",
 							"        \"value\":\"10\"",
 							"    }",
 							"    ];",
@@ -25,30 +25,19 @@
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"",
 							"f5_check_response(vars);",
-							"f5_poll_until_all_tests_pass(\"1\", \"2\");",
+							"f5_poll_until_all_tests_pass(\"2\");",
 							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://192.168.2.21/mgmt/shared/echo",
+				"url": "https://echo.getpostman.com/post",
 				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"content\":\"{{_f5_poll_iterator}}\"\n}"
+					"raw": "{{_f5_poll_iterator}}"
 				},
 				"description": "Wait for attribute state to be ACTIVE"
 			},
@@ -62,29 +51,62 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"postman.setNextRequest();"
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"f5_check_response();",
+							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://192.168.2.21/mgmt/shared/echo",
+				"url": "https://echo.getpostman.com/get",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
 						"value": "application/json",
 						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
 					}
 				],
 				"body": {
 					"mode": "formdata",
 					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var vars = [",
+							"    {",
+							"        \"name\":\"data\",",
+							"        \"value\":\"100\"",
+							"    }",
+							"    ];",
+							"",
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
+							"f5_check_response(vars);",
+							"f5_poll_until_all_tests_pass(null);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://echo.getpostman.com/post",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{_f5_poll_iterator}}"
 				},
 				"description": ""
 			},
@@ -99,15 +121,7 @@
 						"type": "text/javascript",
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
-							"",
-							"f5_debug(\"_f5_poll_curr=\" + globals._f5_poll_curr)",
-							"",
-							"if(f5_check_response_code()) {",
-							"    postman.setNextRequest(globals._f5_poll_curr);",
-							"} else {",
-							"    postman.setNextRequest(null);",
-							"}",
-							"postman.setGlobalVariable(\"_f5_poll_curr\", \"\");",
+							"f5_poll_next();",
 							""
 						]
 					}

@@ -1,31 +1,32 @@
 function f5_populate_env_vars(vars) {
-    if(parseInt(postman.getGlobalVariable("f5_enable_polled_mode")) === 1) {
-        f5_populate_env_vars_polled(vars);
-    } else {
-        f5_populate_env_vars_nonpolled(vars);
-    }
-}
+    var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"));
+    var pre = "";
+    if (poll) { var pre = "polled_"; }
 
-function f5_populate_env_vars_nonpolled(vars) {
     if(!f5_check_response_code()) {
         f5_debug("response code bad, next is null");
-        postman.setNextRequest(null);
+        if(!poll) {
+            postman.setNextRequest(null);
+        }
         return;
     }
 
     var json = JSON.parse(responseBody);
     for (var i = 0; i < vars.length; i++) {
-        var test_name = 'populate_' + vars[i].name + '_variable';
+        var test_name = pre + 'populate_' + vars[i].name + '_variable';
         if (vars[i].itemindex >= 0) {
             jsontemp = json.items[vars[i].itemindex];
         } else {
             jsontemp = json;
         }
-        tests[vars[i].value + '_attribute_present'] = 0;
-        tests[test_name] = 0;
+
+        if (!poll) {
+            tests[vars[i].value + '_attribute_present'] = 0;
+            tests[test_name] = 0;
+        }
 
         if (vars[i].value in jsontemp) {
-            tests[vars[i].value + '_attribute_present'] = 1;
+            tests[pre + vars[i].value + '_attribute_present'] = 1;
             if ("function" in vars[i]) {
                 postman.setEnvironmentVariable(vars[i].name, vars[i].function(jsontemp[vars[i].value]));
             } else {
@@ -33,52 +34,26 @@ function f5_populate_env_vars_nonpolled(vars) {
             }
             tests[test_name] = 1;
         } else {
-            postman.setNextRequest(null);    
-        }
-    }
-    return;
-}
-
-function f5_populate_env_vars_polled(vars) {
-    if(!f5_check_response_code()) {
-        f5_debug("response code bad, next is null");
-        postman.setNextRequest(null);
-        return;
-    }
-
-    var json = JSON.parse(responseBody);
-    for (var i = 0; i < vars.length; i++) {
-        var test_name = 'polled_populate_' + vars[i].name + '_variable';
-        if (vars[i].itemindex >= 0) {
-            jsontemp = json.items[vars[i].itemindex];
-        } else {
-            jsontemp = json;
-        }
-        
-        if (vars[i].value in jsontemp) {
-            tests['polled_' + vars[i].value + '_attribute_present_pass'] = 1;
-            if ("function" in vars[i]) {
-                postman.setEnvironmentVariable(vars[i].name, vars[i].function(jsontemp[vars[i].value]));
+            if (poll) {
+                tests[pre + vars[i].value + '_attribute_present_fail'] = 1;
             } else {
-                postman.setEnvironmentVariable(vars[i].name, jsontemp[vars[i].value]);
+                postman.setNextRequest(null);    
             }
-            tests[test_name] = 1;
-        } else {
-            tests['polled_' + vars[i].value + '_attribute_present_fail'] = 1;
         }
     }
     return;
 }
 
 function f5_check_response(vars) {
-    if(parseInt(postman.getGlobalVariable("f5_enable_polled_mode")) === 1) {
-        f5_check_response_polled(vars);
-    } else {
-        f5_check_response_nonpolled(vars);
-    }
-}
+    var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"));
+    var pre = "";
+    if (poll) { var pre = "polled_"; }
 
-function f5_check_response_nonpolled(vars) {
+    if(vars === undefined) {
+        f5_check_response_code();
+        return;
+    }
+
     if (!f5_check_response_code()) {
         f5_debug("response code bad, next is null");
         postman.setNextRequest(null);
@@ -88,53 +63,45 @@ function f5_check_response_nonpolled(vars) {
     var json = JSON.parse(responseBody);
     
     for (var i = 0; i < vars.length; i++) {
-        var test_name = vars[i].name + '_is_' + vars[i].value;
+        var test_name = pre + vars[i].name + '_is_' + vars[i].value;
         tests[vars[i].name + '_val_' + json[vars[i].name]] = 1;
         
-        tests[test_name] = 0;
+        if(!poll) {
+            tests[test_name] = 0;
+        }
+
         if ("function" in vars[i]) {
-            tests[test_name] = vars[i].function(json[vars[i].name]);
+            if (poll) {
+                if (vars[i].function(json[vars[i].name])) {
+                    tests[test_name] = tests[test_name + '_pass'] = 1;
+                } else {
+                    tests[test_name + '_fail'] = 1;
+                }
+            } else {
+                tests[test_name] = vars[i].function(json[vars[i].name]);
+            }
         } else {
-            if (json[vars[i].name] == vars[i].value) {
-                tests[test_name] = 1;
+            if (poll) {
+                if (json[vars[i].name] == vars[i].value) {
+                    tests[test_name] = tests[test_name + '_pass'] = 1;
+                } else {
+                    tests[test_name + '_fail'] = 1;
+                }
+            } else {
+                if (json[vars[i].name] == vars[i].value) {
+                    tests[test_name] = 1;
+                }
             }
         }
     }
     return;
 }
 
-function f5_check_response_polled(vars) {
-    if (!f5_check_response_code()) {
-        f5_debug("response code bad, next is null");
-        postman.setNextRequest(null);
-        return;
+function f5_poll_until_all_tests_pass(next, curr) {
+    if (curr === undefined) {
+        curr = request.name;
     }
-    
-    var json = JSON.parse(responseBody);
-    
-    for (var i = 0; i < vars.length; i++) {
-        var test_name = vars[i].name + '_is_' + vars[i].value;
-        var poll_test_name = 'polled_' + test_name;
-        tests[vars[i].name + '_val_' + json[vars[i].name]] = 1;
-        
-        if ("function" in vars[i]) {
-            if (vars[i].function(json[vars[i].name])) {
-                tests[test_name] = tests[poll_test_name + '_pass'] = 1;
-            } else {
-                tests[poll_test_name + '_fail'] = 1;
-            }
-        } else {
-            if (json[vars[i].name] == vars[i].value) {
-                tests[test_name] = tests[poll_test_name + '_pass'] = 1;
-            } else {
-                tests[poll_test_name + '_fail'] = 1;
-            }
-        }
-    }
-    return;
-}
 
-function f5_poll_until_all_tests_pass(curr, next) {
     f5_debug("curr=" + curr);
     f5_debug("next=" + next);
     f5_debug("_f5_poll_max_tries=" + postman.getGlobalVariable("_f5_poll_max_tries"));
@@ -193,24 +160,34 @@ function f5_check_response_code(mode) {
         "PATCH":[200,202],
         "DELETE":[200,202,204]
     };
+    var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"));
+    var pre = "";
+    if (poll) { var pre = "polled_"; }
 
-    if(mode !== undefined) {
+    if (mode !== undefined) {
         f5_debug("got mode, adding 404 to GET okCodes");
         okCodes.GET.push(404);  
     }
 
-    tests["response_code_" + responseCode.code + "_ok"] = 0;
+    if (!poll) {
+        tests["response_code_" + responseCode.code + "_ok"] = 0;
+    }
+
     if (request.method in okCodes && okCodes[request.method].indexOf(responseCode.code) > -1) { 
         f5_debug("response code in okCodes, return 1"); 
-        tests["response_code_" + responseCode.code + "_ok"] = 1;
+        tests[pre + "response_code_" + responseCode.code + "_ok"] = 1;
         return 1;
     }
     if (responseCode.code >= 200 && responseCode.code < 300) { 
         f5_debug("response code was 2xx, return 2");
-        tests["response_code_" + responseCode.code + "_ok"] = 2;
+        tests[pre + "response_code_" + responseCode.code + "_ok"] = 2;
         return 2;
     }
     
+    if(poll) { 
+        tests[pre + "response_code_" + responseCode.code + "_fail"] = 1; 
+    }
+
     f5_debug("response code bad, return 0");
     return 0;
 }
@@ -230,6 +207,17 @@ function f5_clear_runtime_vars() {
         }
     }
     tests["cleared_runtime_env_vars"] = 1;
+}
+
+function f5_poll_next() {
+    f5_debug("_f5_poll_curr=" + globals._f5_poll_curr)
+
+    if(f5_check_response_code()) {
+        postman.setNextRequest(globals._f5_poll_curr);
+    } else {
+        postman.setNextRequest(null);
+    }
+    postman.setGlobalVariable("_f5_poll_curr", "");
 }
 
 function f5_sleep (time) {
