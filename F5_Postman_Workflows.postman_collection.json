@@ -1,0 +1,1220 @@
+{
+	"variables": [],
+	"info": {
+		"name": "F5_Postman_Workflows",
+		"_postman_id": "0c150182-0b26-51a3-074f-96ac2ea75547",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Examples",
+			"description": "",
+			"item": [
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_debug('in _F5_POLL_DELAY')"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Install",
+			"description": "",
+			"item": [
+				{
+					"name": "Install f5-postman-workflows",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var json = JSON.parse(responseBody);",
+									"",
+									"if (json.compiledCode.length > 0 && json.errors === undefined) {",
+									"    postman.setGlobalVariable('_f5_blah', json.compiledCode);",
+									"    tests['Install Successful'] = 1;",
+									"} else {",
+									"    tests['Install Failed'] = 0;",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/f5_postman_test_functions.js?token=AMb4cqbElUnjuZ3pFTIWbNUzb3xeAiSJks5YWes1wA%3D%3D&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_test_functions' global variable"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests",
+			"description": "This folder contains the test framework.  The items in this collection have builtin test scripts that exercise the functions provided by the extensions.\n\nEach test implements a test state check as the last step of the Postman test script.  To determine actual success/failure of the test the '[Tester] All Tests Passed' test item should be examined.  Both positive and negative tests are performed so it is normal for some tests to fail, however, the above noted test item inidicates ultimate success of failure.\n\nThe test names are structured as follows:\n\n[normal|polled] [test name]\n\nnormal indicates a test run in normal mode\npolled indicates a test run in polled mode\n\n--------------------------\nThe following code is used to determine the final test state and set the 'all_tests_passed' test item accordingly:\n\nf5_test_check(test_state)\n\n-------------------------\nThe following code can be used to quickly generate the test_state object based on the current tests that have run (string dumped to console):\n\nf5_test_state_generate()\n",
+			"item": [
+				{
+					"name": "[normal] 200 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=200', 1]",
+									"\t];",
+									"",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/200",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] 200 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=200 [PASS]', 1]",
+									"\t];",
+									"",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/200",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] 204 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=204', 1]",
+									"\t];",
+									"",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/204",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] 204 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=204 [PASS]', 1]",
+									"\t];",
+									"\t",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/204",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] 404 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=404', 0]",
+									"\t];",
+									"",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/404",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] 404 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=404 [FAIL]', 1]",
+									"\t];",
+									"",
+									"",
+									"f5_check_response_code();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/404",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] 404 Response Code Override",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=404', 1]",
+									"\t];",
+									"",
+									"f5_check_response_code(1);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/404",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] 404 Response Code Override",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=404 [PASS]', 1]",
+									"\t];",
+									"",
+									"f5_check_response_code(1);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/404",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] 500 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=500', 0]",
+									"\t];",
+									"",
+									"f5_check_response_code(1);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/500",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] 500 Response Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=500 [FAIL]', 1]",
+									"\t];",
+									"\t",
+									"f5_check_response_code(1);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/500",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 1 - Req 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"//f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
+									"",
+									"var vars = [",
+									"        { \"name\":\"data\", \"value\":\"5\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data=5 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data=5 [PASS]', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response(vars);",
+									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 1 - Req 2\");",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 1 - Req 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=200 [PASS]', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 1 - Req 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"",
+									"var vars = [",
+									"        { \"name\":\"data\", \"value\":\"100\" }",
+									"    ];",
+									"",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data=6 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data=100 [FAIL]', 1],",
+									"\t\t['[Poller] Max Tries Reached', 0],",
+									"\t];",
+									"\t",
+									"f5_check_response(vars);",
+									"f5_poll_until_all_tests_pass('[polled] Poller Test 2 - Req 1');",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 2 - Req 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"//f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
+									"",
+									"var vars = [",
+									"        { \"name\":\"data\", \"value\":\"5\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data=5 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data=10 [PASS]', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response(vars);",
+									"",
+									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 2 - Req 2\");",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"1\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 2 - Req 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][GET Response Code]=200 [PASS]', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 2 - Req 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"",
+									"var vars = [",
+									"        { \"name\":\"data\", \"value\":\"100\" }",
+									"    ];",
+									"",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data=6 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data=100 [FAIL]', 1],",
+									"\t\t['[Poller] Max Tries Reached', 0],",
+									"\t];",
+									"\t",
+									"f5_check_response(vars);",
+									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Exercise check_response()",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var custom_check_function_fail = function(json) { return 0 };",
+									"var custom_check_function_pass = function(json) { return 1 };",
+									"var custom_check_function_simple = function(json) { return 'data' in json };",
+									"var custom_check_function_advanced = function(json) { ",
+									"    return ('data' in json.json && ",
+									"            'foo' in json.json &&",
+									"            json.json.data.length === 3 &&",
+									"            json.json.foo === 'bar');",
+									"};",
+									"",
+									"var check_vars = [",
+									"        { \"name\":\"data\",                \"value\":custom_check_function_simple },",
+									"        { \"name\":\"json_advanced_check\", \"value\":custom_check_function_advanced },",
+									"        { \"name\":\"url\",                 \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"name\":\"form\",                \"value\":custom_check_function_pass },",
+									"        { \"name\":\"args\",                \"value\":custom_check_function_fail },",
+									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
+									"",
+									"    ];",
+									"    ",
+									"var test_state = [",
+									"\t\t['[Cleared Runtime Env Vars]', 1],",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data={\"data\":[1,2,3],\"foo\":\"bar\"} [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data=[custom function] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] json_advanced_check=[custom function] [PASS]', 1],",
+									"\t\t['[Polled][Current Value] url=https://echo.getpostman.com/post [PASS]', 1],",
+									"\t\t['[Polled][Check Value] url=https://echo.getpostman.com/post [PASS]', 1],",
+									"\t\t['[Polled][Current Value] form={} [PASS]', 1],",
+									"\t\t['[Polled][Check Value] form=[custom function] [PASS]', 1],",
+									"\t\t['[Polled][Current Value] args={} [PASS]', 1],",
+									"\t\t['[Polled][Check Value] args=[custom function] [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] i_dont_exist=this_should_fail [FAIL]', 1],",
+									"\t];",
+									"        ",
+									"f5_check_response(check_vars);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"0\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Exercise populate_env_vars()",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"",
+									"var custom_populate_function_undef = function(json) { return undefined };",
+									"var custom_populate_function_simple = function(json) { return json.json.foo };",
+									"var custom_populate_function_advanced = function(json) {",
+									"    if('data' in json.json && json.json.data.length === 3) {",
+									"        return json.json.data[json.json.data.length - 1];",
+									"    }",
+									"};",
+									"var custom_populate_function_gethostname = function(json) {",
+									"    var matches = json.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
+									"    return matches && matches[1];",
+									"};",
+									"",
+									"var populate_vars = [",
+									"        { \"name\":\"_rt_test_populate_advfunc_var\",    \"value\":custom_populate_function_advanced },",
+									"        { \"name\":\"_rt_test_populate_simplefunc_var\", \"value\":custom_populate_function_simple },",
+									"        { \"name\":\"_rt_test_populate_undeffunc_var\",  \"value\":custom_populate_function_undef },",
+									"        { \"name\":\"_rt_test_populate_url_var\",        \"value\":\"url\" },",
+									"        { \"name\":\"_rt_test_populate_hostname_var\",   \"value\":custom_populate_function_gethostname },",
+									"        { \"name\":\"_rt_test_populate_nonexist_var\",   \"value\":\"i_dont_exist\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Cleared Runtime Env Vars]', 1],",
+									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_advfunc_var=3 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_simplefunc_var=bar [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_undeffunc_var [FAIL]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_url_var=https://echo.getpostman.com/post [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_hostname_var=echo.getpostman.com [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_test_populate_nonexist_var [FAIL]', 1],",
+									"\t\t['[Tester] All Env Vars Correct', 1],",
+									"\t];",
+									"",
+									"var var_state = [",
+									"        ['_rt_test_populate_advfunc_var', '3'],",
+									"        ['_rt_test_populate_simplefunc_var', 'bar'],",
+									"        ['_rt_test_populate_undeffunc_var', ''],",
+									"        ['_rt_test_populate_url_var', 'https://echo.getpostman.com/post'],",
+									"        ['_rt_test_populate_hostname_var', 'echo.getpostman.com']",
+									"    ];    ",
+									"        ",
+									"f5_populate_env_vars(populate_vars);",
+									"",
+									"tests['[Tester] All Env Vars Correct'] = 1;",
+									"for (var i in var_state) {",
+									"    if(environment[var_state[i][0]] !== var_state[i][1]) {",
+									"        f5_debug('fail ' + var_state[i][0]);",
+									"        tests['[Tester] All Env Vars Correct'] = 0;",
+									"    }",
+									"}",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] Exercise check_response()",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var custom_check_function_fail = function(json) { return 0 };",
+									"var custom_check_function_pass = function(json) { return 1 };",
+									"var custom_check_function_simple = function(json) { return 'data' in json };",
+									"var custom_check_function_advanced = function(json) { ",
+									"    return ('data' in json.json && ",
+									"            'foo' in json.json &&",
+									"            json.json.data.length === 3 &&",
+									"            json.json.foo === 'bar');",
+									"};",
+									"",
+									"var check_vars = [",
+									"        { \"name\":\"data\",                \"value\":custom_check_function_simple },",
+									"        { \"name\":\"json_advanced_check\", \"value\":custom_check_function_advanced },",
+									"        { \"name\":\"url\",                 \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"name\":\"form\",                \"value\":custom_check_function_pass },",
+									"        { \"name\":\"args\",                \"value\":custom_check_function_fail },",
+									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
+									"",
+									"    ];",
+									"    ",
+									"var test_state = [",
+									"\t\t['[Cleared Runtime Env Vars]', 1],",
+									"\t\t['[POST Response Code]=200', 1],",
+									"\t\t['[Current Value] data={\"data\":[1,2,3],\"foo\":\"bar\"}', 1],",
+									"\t\t['[Check Value] data=[custom function]', 1],",
+									"\t\t['[Check Value] json_advanced_check=[custom function]', 1],",
+									"\t\t['[Current Value] url=https://echo.getpostman.com/post', 1],",
+									"\t\t['[Check Value] url=https://echo.getpostman.com/post', true],",
+									"\t\t['[Current Value] form={}', 1],",
+									"\t\t['[Check Value] form=[custom function]', 1],",
+									"\t\t['[Current Value] args={}', 1],",
+									"\t\t['[Check Value] args=[custom function]', 0],",
+									"\t\t['[Check Value] i_dont_exist=this_should_fail', false],",
+									"\t];",
+									"        ",
+									"f5_check_response(check_vars);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[normal] Exercise populate_env_vars()",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_clear_runtime_vars();",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"",
+									"var custom_populate_function_undef = function(json) { return undefined };",
+									"var custom_populate_function_simple = function(json) { return json.json.foo };",
+									"var custom_populate_function_advanced = function(json) {",
+									"    if('data' in json.json && json.json.data.length === 3) {",
+									"        return json.json.data[json.json.data.length - 1];",
+									"    }",
+									"};",
+									"var custom_populate_function_gethostname = function(json) {",
+									"    var matches = json.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
+									"    return matches && matches[1];",
+									"}",
+									"var populate_vars = [",
+									"        { \"name\":\"_rt_test_populate_advfunc_var\",    \"value\":custom_populate_function_advanced },",
+									"        { \"name\":\"_rt_test_populate_simplefunc_var\", \"value\":custom_populate_function_simple },",
+									"        { \"name\":\"_rt_test_populate_undeffunc_var\",  \"value\":custom_populate_function_undef },",
+									"        { \"name\":\"_rt_test_populate_url_var\",        \"value\":\"url\" },",
+									"        { \"name\":\"_rt_test_populate_hostname_var\",   \"value\":custom_populate_function_gethostname },",
+									"        { \"name\":\"_rt_test_populate_nonexist_var\",   \"value\":\"i_dont_exist\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Cleared Runtime Env Vars]', 1],",
+									"\t\t['[POST Response Code]=200', 1],",
+									"\t\t['[Populate Variable] _rt_test_populate_advfunc_var=3', 1],",
+									"\t\t['[Populate Variable] _rt_test_populate_simplefunc_var=bar', 1],",
+									"\t\t['[Populate Variable] _rt_test_populate_undeffunc_var', 0],",
+									"\t\t['[Populate Variable] _rt_test_populate_url_var=https://echo.getpostman.com/post', 1],",
+									"\t\t['[Populate Variable] _rt_test_populate_hostname_var=echo.getpostman.com', 1],",
+									"\t\t['[Populate Variable] _rt_test_populate_nonexist_var', 0],",
+									"\t\t['[Tester] All Env Vars Correct', 1],",
+									"\t];",
+									"",
+									"var var_state = [",
+									"        ['_rt_test_populate_advfunc_var', '3'],",
+									"        ['_rt_test_populate_simplefunc_var', 'bar'],",
+									"        ['_rt_test_populate_undeffunc_var', ''],",
+									"        ['_rt_test_populate_url_var', 'https://echo.getpostman.com/post'],",
+									"        ['_rt_test_populate_hostname_var', 'echo.getpostman.com']",
+									"    ];    ",
+									"        ",
+									"f5_populate_env_vars(populate_vars);",
+									"",
+									"tests['[Tester] All Env Vars Correct'] = 1;",
+									"for (var i in var_state) {",
+									"    if(environment[var_state[i][0]] !== var_state[i][1]) {",
+									"        f5_debug('fail ' + var_state[i][0])",
+									"        tests['[Tester] All Env Vars Correct'] = 0;",
+									"    }",
+									"}",
+									"",
+									"f5_test_state_generate()",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"console.log('in _F5_POLL_DELAY')"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
