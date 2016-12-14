@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "F5_Postman_Workflows",
-		"_postman_id": "0c150182-0b26-51a3-074f-96ac2ea75547",
+		"_postman_id": "bed163d1-246f-3927-8480-0e8c2b3c0132",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -55,17 +55,38 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Install f5-postman-workflows",
+					"name": "Install/Upgrade f5-postman-workflows",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
 								"exec": [
+									"var fresh_install = false;",
+									"var global_defaults = [",
+									"        [\"_f5_debug\"              ,\"1\"],    ",
+									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
+									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
+									"        [\"_f5_poll_wait\"          ,\"5\"],",
+									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
+									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
+									"        [\"_f5_poll_iterator\"      ,\"1\"],",
+									"        [\"_f5_poll_curr\"          ,\"\"],",
+									"    ];",
+									"    ",
 									"var json = JSON.parse(responseBody);",
 									"",
 									"if (json.compiledCode.length > 0 && json.errors === undefined) {",
-									"    postman.setGlobalVariable('_f5_blah', json.compiledCode);",
+									"    for(var i = 0; i < global_defaults.length; i++) {",
+									"        if(!(global_defaults[i][0] in globals) || fresh_install) {",
+									"            console.log(\"INSTALL: global: \" + global_defaults[i][0] + \"=\" + global_defaults[i][1]);",
+									"            postman.setGlobalVariable(global_defaults[i][0], global_defaults[i][1]);",
+									"        }",
+									"    }",
+									"    postman.setGlobalVariable('_f5_workflow_functions', json.compiledCode);",
+									"    console.log(\"INSTALL: set _f5_workflow_functions\");",
+									"    ",
 									"    tests['Install Successful'] = 1;",
 									"} else {",
 									"    tests['Install Failed'] = 0;",
@@ -89,7 +110,126 @@
 							"mode": "urlencoded",
 							"urlencoded": []
 						},
-						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable"
+						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
+					},
+					"response": []
+				},
+				{
+					"name": "Factory Default Install f5-postman-workflows",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var fresh_install = true;",
+									"var global_defaults = [",
+									"        [\"_f5_debug\"              ,\"1\"],    ",
+									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
+									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
+									"        [\"_f5_poll_wait\"          ,\"5\"],",
+									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
+									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
+									"        [\"_f5_poll_iterator\"      ,\"1\"],",
+									"        [\"_f5_poll_curr\"          ,\"\"],",
+									"    ];",
+									"    ",
+									"var json = JSON.parse(responseBody);",
+									"",
+									"if (json.compiledCode.length > 0 && json.errors === undefined) {",
+									"    for(var i = 0; i < global_defaults.length; i++) {",
+									"        if(!(global_defaults[i][0] in globals) || fresh_install) {",
+									"            console.log(\"INSTALL: global: \" + global_defaults[i][0] + \"=\" + global_defaults[i][1]);",
+									"            postman.setGlobalVariable(global_defaults[i][0], global_defaults[i][1]);",
+									"        }",
+									"    }",
+									"    postman.setGlobalVariable('_f5_workflow_functions', json.compiledCode);",
+									"    console.log(\"INSTALL: set _f5_workflow_functions\");",
+									"    ",
+									"    tests['Install Successful'] = 1;",
+									"} else {",
+									"    tests['Install Failed'] = 0;",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/f5_postman_test_functions.js?token=AMb4cqbElUnjuZ3pFTIWbNUzb3xeAiSJks5YWes1wA%3D%3D&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
+					},
+					"response": []
+				},
+				{
+					"name": "Uninstall f5-postman-workflows",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Uninstall Successful'] = 1;",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var global_defaults = [",
+									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
+									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
+									"        [\"_f5_poll_wait\"          ,\"5\"],",
+									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
+									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
+									"        [\"_f5_poll_iterator\"      ,\"1\"],",
+									"        [\"_f5_poll_curr\"          ,\"1\"],",
+									"        [\"_f5_debug\"              ,\"1\"]   ",
+									"    ];",
+									"",
+									"postman.clearGlobalVariable('_f5_workflow_functions');",
+									"console.log(\"UNINSTALL: unset _f5_workflow_functions\");",
+									"    ",
+									"for(var i = 0; i < global_defaults.length; i++) {",
+									"    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);",
+									"    postman.clearGlobalVariable(global_defaults[i][0]);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"description": "This request will remove the package from your system."
 					},
 					"response": []
 				}
