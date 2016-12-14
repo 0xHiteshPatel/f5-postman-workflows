@@ -15,7 +15,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -62,7 +62,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -107,7 +107,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -153,7 +153,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -200,7 +200,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -247,7 +247,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -293,7 +293,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -339,7 +339,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -385,7 +385,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -437,7 +437,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -483,7 +483,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -535,7 +535,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -586,7 +586,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -637,7 +637,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -683,7 +683,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -734,7 +734,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -780,7 +780,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"        { ",
@@ -826,7 +826,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -872,7 +872,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
 							"var vars = [",
 							"    {",
@@ -920,7 +920,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"f5_poll_next();",
 							""
 						]

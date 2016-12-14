@@ -19,7 +19,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_poll_next();",
 									""
 								]
@@ -30,7 +30,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_debug('in _F5_POLL_DELAY')"
 								]
 							}
@@ -89,7 +89,7 @@
 							"mode": "urlencoded",
 							"urlencoded": []
 						},
-						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_test_functions' global variable"
+						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable"
 					},
 					"response": []
 				}
@@ -107,7 +107,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -151,7 +151,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -195,7 +195,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -239,7 +239,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -283,7 +283,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -327,7 +327,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -372,7 +372,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -416,7 +416,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -460,7 +460,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -504,7 +504,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -548,7 +548,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"//f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -607,7 +607,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][GET Response Code]=200 [PASS]', 1],",
@@ -647,7 +647,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var vars = [",
 									"        { \"name\":\"data\", \"value\":\"100\" }",
@@ -691,7 +691,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"//f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -749,7 +749,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][GET Response Code]=200 [PASS]', 1],",
@@ -789,7 +789,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var vars = [",
 									"        { \"name\":\"data\", \"value\":\"100\" }",
@@ -833,7 +833,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -922,7 +922,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
@@ -1015,7 +1015,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -1094,7 +1094,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
 									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
@@ -1186,7 +1186,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_poll_next();",
 									""
 								]

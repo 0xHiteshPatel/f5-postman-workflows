@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h2>Introduction</h2><p><strong>This is a community based project.  As such F5 Networks does not provide any
+offical support for this project</strong></p>
+<p>Github: https://github.com/0xHiteshPatel/f5-post-workflows/
+Language: JavaScript
+License: Apache</p>
+<p>This extension is intended to be used with <a href="https://getpostman.com">Postman</a>.
+The purpose of this extension is to implement common functions
+that simplify building <a href="https://www.getpostman.com/docs/collections">Collections</a>
+that implement complex workflows.  The extension provides the base functions
+to help with:</p>
+<ul>
+<li>Population of <a href="https://www.getpostman.com/docs/environments">Environment</a> variables</li>
+<li><a href="https://www.getpostman.com/docs/writing_tests">Testing</a> of response data</li>
+<li>Implementation of a time-delay based polling mechanism</li>
+</ul>
+<p>Workflows implemented with this framework can be run via:</p>
+<ul>
+<li><a href="https://www.getpostman.com/docs/requests">Postman</a></li>
+<li><a href="https://www.getpostman.com/docs/running_collections">Postman Collection Runner</a></li>
+<li><a href="https://www.getpostman.com/docs/newman_intro">Newman CLI</a></li>
+</ul>
+<h2>Installation</h2><p>To install the extension:</p>
+<ol>
+<li>Open Postman</li>
+<li>Click the 'Import' button</li>
+<li>Select 'Import from Link'</li>
+<li>Enter <code>https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/F5_Postman_Workflows.postman_collection.json</code> in the field</li>
+<li>Click the 'Import' button</li>
+<li>Navigate to your Postman <a href="https://www.getpostman.com/docs/collections">Collections</a></li>
+<li>Expand the 'F5_Postman_Workflows' collection</li>
+<li>Expand the 'Install' folder</li>
+<li>Click the 'Install/Upgrade f5-postman-workflows' items</li>
+<li>Click the 'Send' button</li>
+<li>Verify the installation was successful by:<ol>
+<li>Examine the response tests and ensure the 'Install Successful' test passed</li>
+<li>Examine your Postman Global Environment and look for a _f5_workflow_functions item populated with JavaScript code</li>
+</ol>
+</li>
+</ol>
+<h2>Usage</h2><p>Please see the items in 'Examples' and 'Tests' folders of the collection
+installed above for detailed examples of how to use the framework.</p>
+<p>The following global environment variables can be used for configuration:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_f5_debug</td>
+<td>Boolean</td>
+<td>Enable/disable debug output.</td>
+</tr>
+<tr>
+<td>_f5_enabled_polled_mode</td>
+<td>Boolean</td>
+<td>Enable/disable polled mode.  Will mark all tests as successful.  Pass/fail is state is shown in test name text.</td>
+</tr>
+<tr>
+<td>_f5_poll_max_tries</td>
+<td>Number</td>
+<td>Max number of polls.</td>
+</tr>
+<tr>
+<td>_f5_poll_wait</td>
+<td>Number</td>
+<td>Time in seconds to wait between polls.</td>
+</tr>
+<tr>
+<td>_f5_poll_useinternal</td>
+<td>Boolean</td>
+<td>Use the internal while() loop to sleep <strong>WARNING: this will block the thread</strong></td>
+</tr>
+<tr>
+<td>_f5_poll_apiurl</td>
+<td>String</td>
+<td>The URL for an API endpoint that implements a delay.</td>
+</tr>
+<tr>
+<td>_f5_poll_bypass_timeout</td>
+<td>Boolean</td>
+<td>Don't exit if a max_tries is reached</td>
+</tr>
+</tbody>
+</table>
+<h2>Developers</h2><h3>Build</h3><p>To help load and test changes locally a node script is included to auto-generate
+an importable global environment file to Postman:</p>
+<pre class="prettyprint source"><code>$ node gen_postman_global.js</code></pre><h3>Docs</h3><p>Additionally docs are generated using <code>jsdoc</code> with the command:</p>
+<pre class="prettyprint source"><code>$ jsdoc f5-post-workflows.js README.md -d docs -c jsdoc_conf.json</code></pre><h3>Tests</h3><p>The F5_Postman_Workflows collection includes a test framework under the 'Tests'
+folder.  Tests should be run manually, with Collection Runner and Newman before
+submitted a pull request.  Test output should be included with any pull requests.</p></article>
+    </section>
+
+
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>f5-postman-workflows.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Implement framework to create workflows with Postman collections</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Hitesh Patel, F5 Networks</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#f5_all_tests_passed">f5_all_tests_passed</a></li><li><a href="global.html#f5_check_response">f5_check_response</a></li><li><a href="global.html#f5_check_response_code">f5_check_response_code</a></li><li><a href="global.html#f5_clear_runtime_vars">f5_clear_runtime_vars</a></li><li><a href="global.html#f5_debug">f5_debug</a></li><li><a href="global.html#f5_poll_next">f5_poll_next</a></li><li><a href="global.html#f5_poll_until_all_tests_pass">f5_poll_until_all_tests_pass</a></li><li><a href="global.html#f5_populate_env_vars">f5_populate_env_vars</a></li><li><a href="global.html#f5_set_test_result">f5_set_test_result</a></li><li><a href="global.html#f5_sleep">f5_sleep</a></li><li><a href="global.html#f5_test_check">f5_test_check</a></li><li><a href="global.html#f5_test_state_generate">f5_test_state_generate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Dec 14 2016 17:31:15 GMT-0600 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

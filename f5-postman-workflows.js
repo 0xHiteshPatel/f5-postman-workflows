@@ -2,58 +2,18 @@
  * @file Implement framework to create workflows with Postman collections
  * @author Hitesh Patel, F5 Networks
  * @version 1.0
- *
- * To use these functions you should:
- *  1) Minify this file
- *  2) Take the resulting string and populate the _f5_test_functions global var
- *     in Postman
- *  3) Add 'eval(postman.getGlobalVariable("_f5_test_functions"));' to the test
- *     script in your request
- *
- * A node script is include to auto-generate an importable global environment
- * file to Postman:
- *  $ node gen_postman_global.js
- *
- * The following global environment variables can be used for configuration:
- *
- *  _f5_debug {1|0}               - Enable/disable debug output
- *  _f5_enabled_polled_mode {1|0} - Enable/disable polled mode.  Will mark all
- *                                  tests as successful.  Pass/fail is state is
- *                                  shown in test name text.
- *  _f5_poll_max_tries {Integer}  - The max number of polls
- *  _f5_poll_wait {Integer}       - The time in seconds to wait between polls
- *  _f5_poll_useinternal {1|0}    - Use the internal while() loop to sleep
- *                                  (WARNING: this will block the thread)
- *  _f5_poll_apiurl {String}      - The URL for an API endpoint that implements
- *                                  a delay
- *
- * f5_populate_env_vars JSON param schema
- * @typedef  {Array}      f5_populate_env_vars.vars - JSON schema
- *  @property {Object}
- *   @property {String}   name      - Name of the environment variable to
- *                                    populate
- *   @property {String|Function} value - 1) Name of the response JSON attribute
- *                                       2) function(json) {} that returns value
- *                                          or undefined
- * f5_check_response JSON param schema
- * @typedef  {Array}      f5_check_response.vars - JSON schema
- *  @property {Object}
- *   @property {String}   name     - Name of the JSON attribute to use for
- *                                   comparison
- *   @property {String|Function} value - 1) Value that {name} should be
- *                                       2) function(json) {} for
- *                                          customization.  Should return
- *                                          boolean indicating pass/fail.
  */
 
 /**
- *
  * @function f5_populate_env_vars
- * @param {f5_populate_env_vars.vars} vars
- * @returns null
+ * @param {Object[]} vars - An array of env variables to populate
+ * @param {String} vars[].name - Name of the env variable to populate
+ * @param {String|Function} vars[].value - Name of attribute in response JSON
+ *                                         -OR- a function(json) {} that returns
+ *                                         the value or undefined.
+ * @returns {Undefined}
  * @desc Populate Postman environment variables from a JSON formatted response.
  * Boolean test items are populated as follows:
- *
  */
 function f5_populate_env_vars(vars) {
     var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10);
@@ -100,12 +60,14 @@ function f5_populate_env_vars(vars) {
 }
 
 /**
- *
  * @function f5_check_response
- * @param {f5_check_response.vars} vars
- * @returns null
+ * @param {Object[]} vars - An array of env variables to populate
+ * @param {String} vars[].name - Name of the env variable to populate
+ * @param {String|Function} vars[].value - Name of attribute in response JSON
+ *                                         -OR- a function(json) {} that returns
+ *                                         the value or undefined.
+ * @returns {Undefined}
  * @desc Check HTTP response code and JSON response body.
- *
  */
 function f5_check_response(vars) {
     var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10);
@@ -149,13 +111,12 @@ function f5_check_response(vars) {
 }
 
 /**
- *
  * @function f5_poll_until_all_tests_pass
  * @param {String} next  - The Item in the Postman Collection to execute once
  *                         all tests pass
  * @param {String} curr  - [Optional] The name of the current Item.  Normally
  *                         auto-populated with current Item name
- * @returns null
+ * @returns {Undefined}
  * @desc Implements a polling mechanism in Postman/Collection Runner/Newman.
  *
  * The following Postman global environment variables are used for config:
@@ -179,7 +140,6 @@ function f5_check_response(vars) {
  * If _f5_poll_max_tries is reached then '[Poller] Max Tries Reached' test will
  * be marked as FAIL.  If _f5_poll_bypass_timeout is NOT set the next request
  * will be set to NULL to stop execution, otherwise execution will continue.
- *
  */
 function f5_poll_until_all_tests_pass(next, curr) {
     if (curr === undefined) {
@@ -193,7 +153,7 @@ function f5_poll_until_all_tests_pass(next, curr) {
     f5_debug("_f5_poll_iterator=" +
         postman.getGlobalVariable("_f5_poll_iterator"));
 
-    if (f5_all_tests_passed() === 1) {
+    if (f5_all_tests_passed() === true) {
         f5_debug("tests passed, next is '" + next + "'");
         postman.setGlobalVariable("_f5_poll_iterator", "1");
         postman.setNextRequest(next);
@@ -228,47 +188,39 @@ function f5_poll_until_all_tests_pass(next, curr) {
             postman.setNextRequest("_F5_POLL_DELAY");
         }
     }
+    return;
 }
 
 /**
- *
  * @function f5_all_tests_passed
  * @returns {Boolean}
  * @desc Iterates thru the Postman tests[] array and determines if all specified
  * tests have failed or passed.  The function will account for both polled and
  * non-polled requests
- *
  */
 function f5_all_tests_passed() {
     for (var test in tests) {
         if(test.startsWith("[Polled]") && test.endsWith("[FAIL]")) {
             f5_debug("polled test '" + test + "' not passed, return 0");
-            return 0;
+            return false;
         }
         if(tests[test] === 0) {
             f5_debug("test '" + test + "' not passed, return 0");
-            return 0;
+            return false;
         }
     }
     f5_debug("all passed, return 1");
-    return 1;
+    return true;
 }
 
 /**
- *
  * @function f5_check_response_code
- * @param {Integer} mode - If defined a '404' response code will be added to the
- *                         okCodes for a HTTP GET
- * @returns {Integer} - 1 if response code is in okCodes[{http.method}], 2 if
- *                      response code is 2xx, 0 if other
+ * @param {Number} mode - If defined a '404' response code will be added to the
+ *                        okCodes for a HTTP GET
+ * @returns {Number} - 1 if response code is in okCodes[{http.method}], 2 if
+ *                     response code is 2xx, 0 if other
  * @desc Checks the response code of the request and determines success based on
  * the HTTP method and the valid reponse codes in the okCodes object.
- *
- * Polled Mode (all tests marked passing, poller throws error):
- *  polled_response_code_{code}_[pass|fail]: Indicates pass/fail of test
- * Non-polled Mode:
- *  response_code_{code}_[pass|fail]: Indicates pass/fail of test
- *
  */
 function f5_check_response_code(mode) {
     okCodes = {
@@ -277,6 +229,16 @@ function f5_check_response_code(mode) {
         "PUT":[200,202],
         "PATCH":[200,202],
         "DELETE":[200,202,204]
+    };
+
+    /**
+     * Enum for return values
+     * @enum {Number}
+     */
+    ret = {
+        FAIL: 0,
+        SUCCESS_METHOD: 1,
+        SUCCESS_2XX: 2
     };
 
     if (mode !== undefined) {
@@ -290,32 +252,31 @@ function f5_check_response_code(mode) {
         okCodes[request.method].indexOf(responseCode.code) > -1) {
         f5_debug("response code in okCodes, return 1");
         f5_set_test_result(test_name, 1, responseCode.code);
-        return 1;
+        return ret.SUCCESS_METHOD;
     }
 
     if (responseCode.code >= 200 && responseCode.code < 300) {
         f5_debug("response code was 2xx, return 2");
         f5_set_test_result(test_name, 1, responseCode.code);
-        return 2;
+        return ret.SUCCESS_2XX;
     }
 
     f5_set_test_result(test_name, 0, responseCode.code);
     f5_debug("response code bad, return 0");
-    return 0;
+    return ret.FAIL;
 }
 
 /**
- *
  * @function f5_set_test_result
  * @param {String} name - Base name of the test
  * @param {Boolean} result - True result of the test
  * @param {String} value - The value to convey in the test name
+ * @returns {Undefined}
  * @desc Builds and populates the tests[] object with a test result.  When
  * running in non-polled mode the true test result will be set for the test.
  * When running in polled mode the test result with be conveyed as part of the
  * test name (PASS|FAIL) and the test will be marked successful to allow poller
  * to work correctly.
- *
  */
 function f5_set_test_result(name, result, value) {
     if(value !== undefined) {
@@ -337,30 +298,29 @@ function f5_set_test_result(name, result, value) {
     } else {
         tests["[Polled]" + test_name + " [FAIL]"] = 1;
     }
+    return;
 }
 
 /**
- *
  * @function f5_debug
  * @param {String} msg - The message to log
- * @desc Prepends the function name and dumps the message to
- * console.log().  The Postman global variable '_f5_debug' is used to toggle
- * debug output.
- *
+ * @returns {Undefined}
+ * @desc Prepends the function name and dumps the message to console.log().  The
+ * Postman global variable '_f5_debug' is used to toggle debug output.
  */
 function f5_debug(msg) {
     if(postman.getGlobalVariable("_f5_debug") == "1") {
         console.log('[' + arguments.callee.caller.name + '] ' + msg);
     }
+    return;
 }
 
 /**
- *
  * @function f5_clear_runtime_vars
+ * @returns {Undefined}
  * @desc Sets any Postman env variables with names starting
  * with '_rt_' to a blank value.  The 'cleared_runtime_env_vars' test is set
  * to provide feedback
- *
  */
 function f5_clear_runtime_vars() {
     var envKeys = Object.keys(environment);
@@ -371,14 +331,14 @@ function f5_clear_runtime_vars() {
         }
     }
     tests["[Cleared Runtime Env Vars]"] = 1;
+    return;
 }
 
 /**
- *
  * @function f5_poll_next
+ * @returns {Undefined}
  * @desc This function is called from the '_F5_POLL_DELAY' item to retry the
  * entry item for a polled request.
- *
  */
 function f5_poll_next() {
     f5_debug("_f5_poll_curr=" + globals._f5_poll_curr)
@@ -389,29 +349,27 @@ function f5_poll_next() {
         postman.setNextRequest(null);
     }
     postman.setGlobalVariable("_f5_poll_curr", "");
+    return;
 }
 
 /**
- *
  * @function f5_sleep
+ * @param {Number} time - The time to sleep in milliseconds
+ * @returns {Undefined}
  * @desc Implements a thread-blocking sleep.
- * @param {Integer} time - The time to sleep in milliseconds
- *
  */
 function f5_sleep (time) {
     f5_debug("sleeping for " + time);
     var now = new Date().getTime();
     while(new Date().getTime() < now + time){ }
+    return;
 }
 
 /**
- *
  * @function f5_test_check
+ * @param {Array.<Array.<{test_name:String},{state:Boolean}>>} test_state - Array of desired test end states
+ * @returns {undefined}
  * @desc Checks the current set of tests[] against a reference set
- * @param {Array} test_state
- *  @param {String} test name
- *  @param {Boolean} desired end state
- *
  */
 function f5_test_check(test_state) {
     for (var i in test_state) {
@@ -424,14 +382,14 @@ function f5_test_check(test_state) {
         }
     }
     f5_set_test_result('[Tester] All Tests Passed', 1, undefined);
+    return;
 }
 
 /**
- *
  * @function f5_test_state_generate
+ * @returns {Undefined}
  * @desc A helper function that generates a final test state array and dumps
  * the text to the console
- *
  */
 function f5_test_state_generate() {
     var state_gen = "var test_state = [\\n"
@@ -440,5 +398,6 @@ function f5_test_state_generate() {
     }
     state_gen += "\\t];\\n";
     console.log(state_gen);
+    return;
 }
 

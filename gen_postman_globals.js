@@ -14,13 +14,13 @@ var onReadTmplFile = function(err, data) {
 	var code = result.code;
 	code = result.code.replace(/\"/g, '\\"');
 
-	out = data.replace('{{f5_test_functions}}', code);
+	out = data.replace('{{f5_workflow_functions}}', code);
 	//console.log(code);
 	//console.log(out);
 	fs.writeFileSync('globals.postman_globals.json', out);
 };
 
-var result = UglifyJS.minify('f5_postman_test_functions.js', {
+var result = UglifyJS.minify('f5-postman-workflows.js', {
     mangle: true,
     compress: true
 });
