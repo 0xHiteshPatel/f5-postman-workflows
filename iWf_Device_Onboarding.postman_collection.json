@@ -15,6 +15,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"stage\",",
@@ -22,7 +24,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_clear_runtime_vars();",
 							"f5_check_response(vars);",
 							""
@@ -61,6 +62,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
@@ -68,7 +71,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);"
 						]
 					}
@@ -105,6 +107,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
@@ -112,7 +116,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -150,6 +153,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"state\",",
@@ -157,7 +162,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Discovery Status\");",
 							""
@@ -196,6 +200,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"state\",",
@@ -203,7 +209,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Create a Local Connector\");",
 							""
@@ -242,6 +247,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_connector_uuid\",",
@@ -249,7 +256,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -287,15 +293,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_license_pool_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -333,6 +339,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_node_uuid\",",
@@ -340,7 +348,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -378,15 +385,21 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_task_uuid\",",
-							"            \"value\":\"currentConfigDeviceTaskReference\",",
-							"            \"function\": function(json) { return json.link.split('/').pop() }",
+							"            \"value\":function(json) { ",
+							"                if('currentConfigDeviceTaskReference' in json) {",
+							"                    return json.currentConfigDeviceTaskReference.link.split('/').pop();",
+							"                } else {",
+							"                    return undefined;",
+							"                }",
+							"            }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							"f5_poll_until_all_tests_pass(\"Add BIG-IP B Node to Local Connector\");"
 						]
@@ -424,6 +437,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_node_uuid\",",
@@ -431,7 +446,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -469,15 +483,21 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_task_uuid\",",
-							"            \"value\":\"currentConfigDeviceTaskReference\",",
-							"            \"function\": function(json) { return json.link.split('/').pop() }",
+							"            \"value\":function(json) { ",
+							"                if('currentConfigDeviceTaskReference' in json) {",
+							"                    return json.currentConfigDeviceTaskReference.link.split('/').pop();",
+							"                } else {",
+							"                    return undefined;",
+							"                }",
+							"            }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP A Task Status\");"
 						]
@@ -515,6 +535,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"status\",",
@@ -526,7 +548,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
 							""
@@ -565,6 +586,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"status\",",
@@ -576,7 +599,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
 							""
@@ -615,6 +637,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_cluster_task_uuid\",",
@@ -622,7 +646,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -660,6 +683,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"status\",",
@@ -671,7 +696,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
 							""
@@ -710,16 +734,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0,",
-							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
+							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -757,16 +780,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0,",
-							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
+							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -804,6 +826,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"hostname\",",
@@ -811,7 +835,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -849,6 +872,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"hostname\",",
@@ -856,7 +881,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"",
 							"postman.setNextRequest(null);",

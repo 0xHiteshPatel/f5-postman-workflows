@@ -15,6 +15,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"stage\",",
@@ -22,7 +24,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_clear_runtime_vars();",
 							"f5_check_response(vars);",
 							""
@@ -61,15 +62,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_connector_uuid\",",
-							"            \"value\":\"connectorId\",",
-							"            \"itemindex\":0",
+							"            \"value\":function(json) { return json.items[0].connectorId }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -107,15 +108,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\":0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);"
 						]
 					}
@@ -152,15 +153,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\":0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);"
 						]
 					}
@@ -197,16 +198,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0,",
-							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
+							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -244,16 +244,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0,",
-							"            \"function\": function(val) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + val + \"/rest-proxy/\" }",
+							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -291,15 +290,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_license_pool_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -337,15 +336,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_license_bigip_a_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -378,15 +377,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_license_bigip_b_uuid\",",
-							"            \"value\":\"uuid\",",
-							"            \"itemindex\": 0",
+							"            \"value\":function(json) { return json.items[0].uuid }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);",
 							""
 						]
@@ -419,15 +418,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"deviceReferences\",",
-							"        \"value\":\"length_0\",",
-							"        \"function\":function(json) { if(json.length === 0) { return 1; } return 0; }",
+							"        \"value\":function(json) { if(json.deviceReferences.length === 0){ return 1 } return 0 }",
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -465,6 +464,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"uuid\",",
@@ -472,7 +473,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -510,6 +510,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"uuid\",",
@@ -517,7 +519,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -555,15 +556,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"commandResult\",",
-							"            \"value\":\"mcp_state_ok\",",
-							"            \"function\": function(json) { return(json.includes('running') && json.includes('full-config-load-succeed')); }",
+							"            \"value\":function(json) { return(json.commandResult.includes('running') && json.commandResult.includes('full-config-load-succeed')); }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\");"
 						]
@@ -601,15 +602,15 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"commandResult\",",
-							"            \"value\":\"mcp_state_ok\",",
-							"            \"function\": function(json) { return(json.includes('running') && json.includes('full-config-load-succeed')); }",
+							"            \"value\":function(json) { return(json.commandResult.includes('running') && json.commandResult.includes('full-config-load-succeed')); }",
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\");"
 						]
@@ -647,6 +648,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_reset_uuid\",",
@@ -654,7 +657,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);"
 						]
 					}
@@ -691,6 +693,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_reset_uuid\",",
@@ -698,7 +702,6 @@
 							"        }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_populate_env_vars(vars);"
 						]
 					}
@@ -735,6 +738,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"status\",",
@@ -746,7 +751,6 @@
 							"    }    ",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Save BIG-IP A Config\");",
 							""
@@ -785,6 +789,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"command\",",
@@ -792,7 +798,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -830,6 +835,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"status\",",
@@ -841,7 +848,6 @@
 							"    }    ",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"f5_poll_until_all_tests_pass(\"Save BIG-IP B Config\");"
 						]
@@ -879,6 +885,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"command\",",
@@ -886,7 +894,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -924,6 +931,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"uuid\",",
@@ -931,7 +940,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -969,6 +977,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"uuid\",",
@@ -976,7 +986,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							""
 						]
@@ -1014,6 +1023,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
+							"",
 							"var vars = [",
 							"    {",
 							"        \"name\":\"connectorId\",",
@@ -1021,7 +1032,6 @@
 							"    }",
 							"    ];",
 							"",
-							"eval(postman.getGlobalVariable(\"_f5_test_functions\"));",
 							"f5_check_response(vars);",
 							"postman.setNextRequest(null);"
 						]
