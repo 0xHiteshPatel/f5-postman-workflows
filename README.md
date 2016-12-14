@@ -3,9 +3,9 @@
 **This is a community based project.  As such F5 Networks does not provide any
 offical support for this project**
 
-Github: https://github.com/0xHiteshPatel/f5-post-workflows/
-Language: JavaScript
-License: Apache
+- Github: https://github.com/0xHiteshPatel/f5-post-workflows/
+- Language: JavaScript
+- License: Apache
 
 This extension is intended to be used with [Postman](https://getpostman.com).
 The purpose of this extension is to implement common functions
