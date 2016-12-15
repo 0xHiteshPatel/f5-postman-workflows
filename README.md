@@ -3,7 +3,7 @@
 **This is a community based project.  As such F5 Networks does not provide any
 offical support for this project**
 
-- Github: https://github.com/0xHiteshPatel/f5-post-workflows/
+- Github: https://github.com/0xHiteshPatel/f5-postman-workflows/
 - Language: JavaScript
 - License: Apache
 
