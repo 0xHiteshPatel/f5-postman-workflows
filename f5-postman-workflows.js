@@ -117,20 +117,17 @@ function f5_check_response(vars) {
  * @param {String} curr  - [Optional] The name of the current Item.  Normally
  *                         auto-populated with current Item name
  * @returns {Undefined}
+ * @property {Number} _f5_poll_max_tries - The max number of polls
+ * @property {Number} _f5_poll_wait -The time in seconds to wait between polls
+ * @property {Boolean} _f5_poll_useinternal - Use the internal while() loop to
+ *           sleep (WARNING: this will block the thread)
+ * @property {String} _f5_poll_apiurl - The URL for an API endpoint that
+ *           implements a delay
+ * @property {Boolean} _f5_poll_bypass_timeout - Bypass a poller timeout and
+ *           continue instead of exit
+ * @property {Number} _f5_poll_interator - The current iterator value
+ * @property {String} _f5_poll_curr - Name of the current Item in the Collection
  * @desc Implements a polling mechanism in Postman/Collection Runner/Newman.
- *
- * The following Postman global environment variables are used for config:
- *  _f5_poll_max_tries:   The max number of polls
- *  _f5_poll_wait:        The time in seconds to wait between polls
- *  _f5_poll_useinternal: Use the internal while() loop to sleep (WARNING: this
- *                        will block the thread)
- *  _f5_poll_apiurl:      The URL for an API endpoint that implements a delay
- *  _f5_poll_bypass_timeout: Bypass a poller timeout and continue instead of exit
- *
- * The following Postman global environment variables are used for runtime
- * execution:
- *  _f5_poll_interator: The current iterator value
- *  _f5_poll_curr:      Name of the current Item in the Postman Collection
  *
  * When using the external delay mechanism (_f5_poll_apiurl) this function
  * expects a Item in the Collection named '_F5_POLL_DELAY'.  This Item will be
@@ -217,8 +214,7 @@ function f5_all_tests_passed() {
  * @function f5_check_response_code
  * @param {Number} mode - If defined a '404' response code will be added to the
  *                        okCodes for a HTTP GET
- * @returns {Number} - 1 if response code is in okCodes[{http.method}], 2 if
- *                     response code is 2xx, 0 if other
+ * @returns {Number} - 1 if response code is in okCodes[{http.method}], 2 if response code is 2xx, 0 if other
  * @desc Checks the response code of the request and determines success based on
  * the HTTP method and the valid reponse codes in the okCodes object.
  */

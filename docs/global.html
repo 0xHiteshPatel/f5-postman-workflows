@@ -154,7 +154,7 @@ non-polled requests</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line194">line 194</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -531,7 +531,7 @@ the HTTP method and the valid reponse codes in the okCodes object.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line216">line 216</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line213">line 213</a>
     </li></ul></dd>
     
 
@@ -559,7 +559,7 @@ the HTTP method and the valid reponse codes in the okCodes object.</p>
         
 <div class="param-desc">
     <ul>
-<li>1 if response code is in okCodes[{http.method}], 2 if<pre class="prettyprint source"><code>              response code is 2xx, 0 if other</code></pre></li>
+<li>1 if response code is in okCodes[{http.method}], 2 if response code is 2xx, 0 if other</li>
 </ul>
 </div>
 
@@ -639,7 +639,7 @@ to provide feedback</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line318">line 318</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -789,7 +789,7 @@ Postman global variable '_f5_debug' is used to toggle debug output.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line304">line 304</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line300">line 300</a>
     </li></ul></dd>
     
 
@@ -890,7 +890,7 @@ entry item for a polled request.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line337">line 337</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line333">line 333</a>
     </li></ul></dd>
     
 
@@ -947,17 +947,6 @@ entry item for a polled request.</p>
 
 <div class="description">
     <p>Implements a polling mechanism in Postman/Collection Runner/Newman.</p>
-<p>The following Postman global environment variables are used for config:
- _f5_poll_max_tries:   The max number of polls
- _f5_poll_wait:        The time in seconds to wait between polls
- _f5_poll_useinternal: Use the internal while() loop to sleep (WARNING: this
-                       will block the thread)
- _f5_poll_apiurl:      The URL for an API endpoint that implements a delay
- _f5_poll_bypass_timeout: Bypass a poller timeout and continue instead of exit</p>
-<p>The following Postman global environment variables are used for runtime
-execution:
- _f5_poll_interator: The current iterator value
- _f5_poll_curr:      Name of the current Item in the Postman Collection</p>
 <p>When using the external delay mechanism (_f5_poll_apiurl) this function
 expects a Item in the Collection named '_F5_POLL_DELAY'.  This Item will be
 shimmed into the execution flow and that Item will them callback into
@@ -1049,6 +1038,199 @@ will be set to NULL to stop execution, otherwise execution will continue.</p>
 </table>
 
 
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_max_tries</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The max number of polls</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_wait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The time in seconds to wait between polls</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_useinternal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Use the internal while() loop to
+          sleep (WARNING: this will block the thread)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_apiurl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The URL for an API endpoint that
+          implements a delay</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_bypass_timeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Bypass a poller timeout and
+          continue instead of exit</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_interator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The current iterator value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_f5_poll_curr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Name of the current Item in the Collection</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1508,7 +1690,7 @@ to work correctly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line269">line 269</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1657,7 +1839,7 @@ to work correctly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line355">line 355</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line351">line 351</a>
     </li></ul></dd>
     
 
@@ -1806,7 +1988,7 @@ to work correctly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line368">line 368</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line364">line 364</a>
     </li></ul></dd>
     
 
@@ -1907,7 +2089,7 @@ the text to the console</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line388">line 388</a>
+        <a href="f5-postman-workflows.js.html">f5-postman-workflows.js</a>, <a href="f5-postman-workflows.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -1973,7 +2155,7 @@ the text to the console</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Dec 14 2016 17:31:15 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Dec 14 2016 22:24:28 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
