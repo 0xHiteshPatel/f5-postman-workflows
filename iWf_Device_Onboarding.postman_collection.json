@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_Device_Onboarding",
-		"_postman_id": "8c650b6e-49ff-88fe-7c01-f08b4e63c0d3",
+		"_postman_id": "a6749bd5-cec7-2676-e9b3-b9db8b25efbe",
 		"description": "v1.0\n\nThis workflow can be used to create an Active/Standby Cluster between two BIG-IP devices using the iWorkflow Device Onboarding API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -17,15 +17,15 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"        { ",
-							"            \"name\":\"stage\",",
+							"            \"path\":\"stage\",",
 							"            \"value\":\"STARTED\"",
 							"        }",
 							"    ];",
 							"",
 							"f5_clear_runtime_vars();",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							""
 						]
 					}
@@ -46,10 +46,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -64,14 +61,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
 							"            \"value\":\"uuid\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);"
+							"f5_populate_env_vars(populate_vars);"
 						]
 					}
 				}
@@ -109,14 +106,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
 							"            \"value\":\"uuid\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -155,14 +152,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"state\",",
+							"        \"path\":\"state\",",
 							"        \"value\":\"ACTIVE\"",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Discovery Status\");",
 							""
 						]
@@ -184,10 +181,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for attribute state to be ACTIVE"
 			},
 			"response": []
@@ -202,14 +196,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"state\",",
+							"        \"path\":\"state\",",
 							"        \"value\":\"ACTIVE\"",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"f5_poll_until_all_tests_pass(\"Create a Local Connector\");",
 							""
 						]
@@ -231,10 +225,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for attribute state to be ACTIVE"
 			},
 			"response": []
@@ -249,14 +240,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_connector_uuid\",",
 							"            \"value\":\"connectorId\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -295,14 +286,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_license_pool_uuid\",",
-							"            \"value\":function(json) { return json.items[0].uuid }",
+							"            \"value\":\"items.0.uuid\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -341,14 +332,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_node_uuid\",",
 							"            \"value\":\"nodeID\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -387,12 +378,12 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_task_uuid\",",
-							"            \"value\":function(json) { ",
-							"                if('currentConfigDeviceTaskReference' in json) {",
-							"                    return json.currentConfigDeviceTaskReference.link.split('/').pop();",
+							"            \"value\":function(resp) { ",
+							"                if('currentConfigDeviceTaskReference' in resp) {",
+							"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
 							"                } else {",
 							"                    return undefined;",
 							"                }",
@@ -400,7 +391,7 @@
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							"f5_poll_until_all_tests_pass(\"Add BIG-IP B Node to Local Connector\");"
 						]
 					}
@@ -421,10 +412,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
 			},
 			"response": []
@@ -439,14 +427,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_node_uuid\",",
 							"            \"value\":\"nodeID\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -485,12 +473,12 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_task_uuid\",",
-							"            \"value\":function(json) { ",
-							"                if('currentConfigDeviceTaskReference' in json) {",
-							"                    return json.currentConfigDeviceTaskReference.link.split('/').pop();",
+							"            \"value\":function(resp) { ",
+							"                if('currentConfigDeviceTaskReference' in resp) {",
+							"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
 							"                } else {",
 							"                    return undefined;",
 							"                }",
@@ -498,7 +486,7 @@
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP A Task Status\");"
 						]
 					}
@@ -519,10 +507,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
 			},
 			"response": []
@@ -537,18 +522,18 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"status\",",
+							"        \"path\":\"status\",",
 							"        \"value\":\"FINISHED\"",
 							"    },",
 							"    {",
-							"        \"name\":\"currentStep\",",
+							"        \"path\":\"currentStep\",",
 							"        \"value\":\"SUCCESS\"",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
 							""
 						]
@@ -570,10 +555,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
 			},
 			"response": []
@@ -588,18 +570,18 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"status\",",
+							"        \"path\":\"status\",",
 							"        \"value\":\"FINISHED\"",
 							"    },",
 							"    {",
-							"        \"name\":\"currentStep\",",
+							"        \"path\":\"currentStep\",",
 							"        \"value\":\"SUCCESS\"",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
 							""
 						]
@@ -621,10 +603,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
 			},
 			"response": []
@@ -639,14 +618,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_cluster_task_uuid\",",
 							"            \"value\":\"id\"",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -685,18 +664,18 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"status\",",
+							"        \"path\":\"status\",",
 							"        \"value\":\"FINISHED\"",
 							"    },",
 							"    {",
-							"        \"name\":\"nextStep\",",
+							"        \"path\":\"nextStep\",",
 							"        \"value\":\"SUCCESS\"",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
 							""
 						]
@@ -718,10 +697,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -736,14 +712,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
 							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -764,10 +740,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -782,14 +755,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var populate_vars = [",
 							"        { ",
 							"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
 							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
 							"        }",
 							"    ];",
 							"",
-							"f5_populate_env_vars(vars);",
+							"f5_populate_env_vars(populate_vars);",
 							""
 						]
 					}
@@ -810,10 +783,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -828,14 +798,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"hostname\",",
+							"        \"path\":\"hostname\",",
 							"        \"value\":environment[\"bigip_a_hostname\"]",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							""
 						]
 					}
@@ -856,10 +826,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -874,14 +841,14 @@
 						"exec": [
 							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 							"",
-							"var vars = [",
+							"var check_vals = [",
 							"    {",
-							"        \"name\":\"hostname\",",
+							"        \"path\":\"hostname\",",
 							"        \"value\":environment[\"bigip_b_hostname\"]",
 							"    }",
 							"    ];",
 							"",
-							"f5_check_response(vars);",
+							"f5_check_response(check_vals);",
 							"",
 							"postman.setNextRequest(null);",
 							""
@@ -904,10 +871,7 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -931,10 +895,7 @@
 				"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
