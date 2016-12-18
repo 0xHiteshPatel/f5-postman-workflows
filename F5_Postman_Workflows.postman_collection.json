@@ -131,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "20d74115-b2d0-4c4f-a1ba-217d962812f9",
+							"id": "736843f4-bde0-4578-ab74-d7aff84a759e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -337,7 +337,7 @@
 					},
 					"response": [
 						{
-							"id": "5080ae8c-0f08-48e1-b482-161e878e198f",
+							"id": "21787932-6c30-4bec-8eec-ff7f49b35d4e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -570,7 +570,7 @@
 					},
 					"response": [
 						{
-							"id": "e68d6e18-2e54-43f1-9d1d-2c94c15b7181",
+							"id": "820bcec2-9286-40a0-a5c4-54dbfecc3bad",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "565d4d72-a9ea-440b-80fb-9e0d7e813587",
+							"id": "89e5c6da-a61a-4a48-b9fd-c7a9a622eeb2",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1007,7 +1007,7 @@
 					},
 					"response": [
 						{
-							"id": "73269b83-beee-4f24-8d16-fbd8963a9aef",
+							"id": "bacb6ad8-c3d8-48d1-8734-62dc809337e8",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1207,7 +1207,7 @@
 					},
 					"response": [
 						{
-							"id": "92d38aa8-84f8-480c-8ad3-e14ed91a9cb5",
+							"id": "ad768994-5859-4043-af61-6475f083befa",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1444,7 +1444,7 @@
 					},
 					"response": [
 						{
-							"id": "79ccac0f-6e76-4516-96e4-32bb22613360",
+							"id": "e79e42af-f334-4e7c-b7a4-e9c74fdb75ad",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1683,7 +1683,7 @@
 					},
 					"response": [
 						{
-							"id": "32d0d218-fccd-4c84-b7fe-c2325f6e35f8",
+							"id": "b2a2774a-faa7-4a8f-ba3b-945058fa59dc",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1890,7 +1890,7 @@
 					},
 					"response": [
 						{
-							"id": "880f1fb8-3b88-4186-9627-d2e9f251f134",
+							"id": "3305d28f-724f-49f4-88b8-8e91eb300fea",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -2038,7 +2038,7 @@
 					},
 					"response": [
 						{
-							"id": "d66fff23-7780-4785-9371-024cc5031727",
+							"id": "1f9fae25-747f-4fb4-8b62-6f729a851be8",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -3173,7 +3173,7 @@
 									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
 									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
 									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
-									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3212,9 +3212,9 @@
 									"\t\t['[Polled][Check Value] always_pass == [custom function] [PASS]', 1],",
 									"\t\t['[Polled][Check Value] always_fail == [custom function] [FAIL]', 1],",
 									"\t\t['[Polled][Check Value] custom_advanced == [custom function] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] i_dont_exist == this_should_fail [FAIL]', 1],",
 									"\t];",
-									"",
-									"",
+									"\t",
 									"f5_check_response(check_vals);",
 									"",
 									"f5_test_state_generate();",
@@ -3414,7 +3414,7 @@
 									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
 									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
 									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
-									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3453,8 +3453,8 @@
 									"\t\t['[Check Value] always_pass == [custom function]', 1],",
 									"\t\t['[Check Value] always_fail == [custom function]', 0],",
 									"\t\t['[Check Value] custom_advanced == [custom function]', 1],",
+									"\t\t['[Check Value] i_dont_exist == this_should_fail', false],",
 									"\t];",
-									"",
 									"",
 									"f5_check_response(check_vals);",
 									"",
