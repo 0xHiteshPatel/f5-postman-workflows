@@ -28,7 +28,18 @@
 									"f5_check_response(vars);",
 									"",
 									"// Clear all environment variables that start with the string '_rt_'",
-									"f5_clear_runtime_vars();",
+									"f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Disable polled mode",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
 									""
 								]
 							}
@@ -49,10 +60,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": "Example to show how to properly intialize an environment before other items are executed.\n"
 					},
 					"response": []
@@ -76,7 +84,7 @@
 									"// attribute named 'data'.  f5_populate_env_vars() will check the",
 									"// reponse and populate an environment variable with the data",
 									"//",
-									"// The vars[] Array contains JSON objects with the following schema:",
+									"// The populate_vars[] Array contains JSON objects with the following schema:",
 									"//",
 									"//  { ",
 									"//    \"name\":<name_of_variable>,",
@@ -86,15 +94,15 @@
 									"// It is recommended that runtime variable names that do not need",
 									"// to persist are prepended with '_rt_' (runtime) so they can be ",
 									"// cleaned up by the f5_clear_runtime_vars() function",
-									"var vars = [",
+									"var populate_vars = [",
 									"        { ",
-									"            \"name\":\"_rt_my_variable_name\",",
-									"            \"value\":\"data\"",
+									"            \"name\":\"_rt_url\",",
+									"            \"value\":\"url\"",
 									"        }",
 									"    ];",
 									"    ",
 									"// Populate the variables",
-									"f5_populate_env_vars(vars);",
+									"f5_populate_env_vars(populate_vars);",
 									""
 								]
 							}
@@ -108,17 +116,22 @@
 								"key": "Authorization",
 								"value": "Basic YWRtaW46YWRtaW4=",
 								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "THIS_IS_A_TEST"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": "This example shows how to populate a single environment variable from a sample JSON response.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate variables you can review."
 					},
 					"response": [
 						{
-							"id": "c91aad83-be63-47bb-bf85-3d06d7481395",
+							"id": "20d74115-b2d0-4c4f-a1ba-217d962812f9",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -129,11 +142,17 @@
 										"value": "Basic YWRtaW46YWRtaW4=",
 										"enabled": true,
 										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"disabled": false
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "THIS_IS_A_TEST"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -145,85 +164,85 @@
 									"key": "Access-Control-Allow-Credentials",
 									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": ""
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
 								},
 								{
 									"key": "Access-Control-Allow-Headers",
 									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": ""
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
 								},
 								{
 									"key": "Access-Control-Allow-Methods",
 									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": ""
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": ""
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
 								},
 								{
 									"key": "Access-Control-Expose-Headers",
 									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": ""
+									"description": "Lets a server whitelist headers that browsers are allowed to access."
 								},
 								{
 									"key": "Connection",
 									"value": "keep-alive",
 									"name": "Connection",
-									"description": ""
+									"description": "Options that are desired for the connection"
 								},
 								{
 									"key": "Content-Encoding",
 									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": ""
+									"description": "The type of encoding used on the data."
 								},
 								{
 									"key": "Content-Length",
-									"value": "368",
+									"value": "464",
 									"name": "Content-Length",
-									"description": ""
+									"description": "The length of the response body in octets (8-bit bytes)"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": ""
+									"description": "The mime type of this content"
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:11:53 GMT",
+									"value": "Sun, 18 Dec 2016 07:59:14 GMT",
 									"name": "Date",
-									"description": ""
+									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1fe-yE/JGcxfFPnCx/PcliUxTw\"",
+									"value": "W/\"383-mEvcP2WyMxYKNIpP33dVgQ\"",
 									"name": "ETag",
-									"description": ""
+									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
 								{
 									"key": "Server",
 									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": ""
+									"description": "A name for the server"
 								},
 								{
 									"key": "Vary",
 									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": ""
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
 								},
 								{
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AKP8SXixFFouPvarXBb3jil3-9fvpih2h.gNgQHGMFp3nmz2WQwa2DEyMc5nJoSf9hNTNvDesQTr0; Path=/; HttpOnly",
+									"value": "sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": ""
+									"description": "an HTTP cookie"
 								}
 							],
 							"cookie": [
@@ -233,12 +252,12 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3AKP8SXixFFouPvarXBb3jil3-9fvpih2h.gNgQHGMFp3nmz2WQwa2DEyMc5nJoSf9hNTNvDesQTr0",
+									"value": "s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 222,
-							"body": "{\"args\":{},\"data\":\"THIS_IS_A_TEST\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"14\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3AYyOvszfwHxa0-JOP6uaSBSukgQ2dGnnZ.KrX3OzAeaKtVdXiP7A5fRYlCAlJZxJgqLVC%2B2D0eJyU\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 82,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AA27CqaLHwT863gQq40R7DZItQ4g5Pf2x.O7t9uo%2BW39UMi%2FLzJU2jyg1%2BDhElRbyXn%2BphOWJSzCI\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -253,22 +272,43 @@
 									"// Include the f5-postman-workflows functions",
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
-									"// Since vars[] is an array we can populate multiple variables ",
+									"// Since populate_vars[] is an array we can populate multiple variables ",
 									"// from the response",
-									"var vars = [",
+									"var populate_vars = [",
+									"        // We are using the dot-notation format to specify the full path to ",
+									"        // the attribute we want to use.  The relevant portion of the ",
+									"        // response JSON is:",
+									"        //",
+									"        // { ",
+									"        //   \"json\": {",
+									"        //      \"foo\":\"bar\"",
+									"        //   }",
+									"        // }",
 									"        { ",
-									"            \"name\":\"_rt_my_variable_name_1\",",
-									"            \"value\":\"data\"",
+									"            \"name\":\"_rt_foo\",",
+									"            \"value\":\"json.foo\"",
 									"        },",
+									"        // You can also use the dot-notation to specify the index of an array.",
+									"        // The relevant portion of the response JSON is:",
+									"        //",
+									"        // {",
+									"        //   \"json\": {",
+									"        //      \"array\": [",
+									"        //          \"one\",   (index: 0)",
+									"        //          \"two\",   (index: 1)",
+									"        //          \"three\"  (index: 2)",
+									"        //       ]",
+									"        //   }",
+									"        // }",
 									"        { ",
-									"            \"name\":\"_rt_my_variable_name_2\",",
-									"            \"value\":\"url\"",
+									"            \"name\":\"_rt_array[2]\",",
+									"            \"value\":\"json.array.2\"",
 									"        }",
 									"    ",
 									"    ];",
 									"",
 									"// Populate the variables",
-									"f5_populate_env_vars(vars);",
+									"f5_populate_env_vars(populate_vars);",
 									""
 								]
 							}
@@ -282,17 +322,22 @@
 								"key": "Authorization",
 								"value": "Basic YWRtaW46YWRtaW4=",
 								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "THIS_IS_A_TEST"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": "This example shows how to populate multiple environment variables from a sample JSON response.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate variables you can review."
 					},
 					"response": [
 						{
-							"id": "de5da9f5-0f96-4a8a-8d8f-1b525cc4457f",
+							"id": "5080ae8c-0f08-48e1-b482-161e878e198f",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -303,11 +348,17 @@
 										"value": "Basic YWRtaW46YWRtaW4=",
 										"enabled": true,
 										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"disabled": false
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "THIS_IS_A_TEST"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -319,85 +370,85 @@
 									"key": "Access-Control-Allow-Credentials",
 									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": ""
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
 								},
 								{
 									"key": "Access-Control-Allow-Headers",
 									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": ""
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
 								},
 								{
 									"key": "Access-Control-Allow-Methods",
 									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": ""
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": ""
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
 								},
 								{
 									"key": "Access-Control-Expose-Headers",
 									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": ""
+									"description": "Lets a server whitelist headers that browsers are allowed to access."
 								},
 								{
 									"key": "Connection",
 									"value": "keep-alive",
 									"name": "Connection",
-									"description": ""
+									"description": "Options that are desired for the connection"
 								},
 								{
 									"key": "Content-Encoding",
 									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": ""
+									"description": "The type of encoding used on the data."
 								},
 								{
 									"key": "Content-Length",
-									"value": "368",
+									"value": "459",
 									"name": "Content-Length",
-									"description": ""
+									"description": "The length of the response body in octets (8-bit bytes)"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": ""
+									"description": "The mime type of this content"
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:11:53 GMT",
+									"value": "Sun, 18 Dec 2016 07:59:30 GMT",
 									"name": "Date",
-									"description": ""
+									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1fe-yE/JGcxfFPnCx/PcliUxTw\"",
+									"value": "W/\"37d-UosNRNm00FGi553MY5PqJw\"",
 									"name": "ETag",
-									"description": ""
+									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
 								{
 									"key": "Server",
 									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": ""
+									"description": "A name for the server"
 								},
 								{
 									"key": "Vary",
 									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": ""
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
 								},
 								{
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AKP8SXixFFouPvarXBb3jil3-9fvpih2h.gNgQHGMFp3nmz2WQwa2DEyMc5nJoSf9hNTNvDesQTr0; Path=/; HttpOnly",
+									"value": "sails.sid=s%3AIcwFxHC2svGIMLkJ2mGfKhUNFMLszzBH.VCw9nEV4DAGzAH1MSoreIIaKwcEAogGmzJZKX5g5qhM; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": ""
+									"description": "an HTTP cookie"
 								}
 							],
 							"cookie": [
@@ -407,12 +458,240 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3AKP8SXixFFouPvarXBb3jil3-9fvpih2h.gNgQHGMFp3nmz2WQwa2DEyMc5nJoSf9hNTNvDesQTr0",
+									"value": "s%3AIcwFxHC2svGIMLkJ2mGfKhUNFMLszzBH.VCw9nEV4DAGzAH1MSoreIIaKwcEAogGmzJZKX5g5qhM",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 222,
-							"body": "{\"args\":{},\"data\":\"THIS_IS_A_TEST\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"14\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3AYyOvszfwHxa0-JOP6uaSBSukgQ2dGnnZ.KrX3OzAeaKtVdXiP7A5fRYlCAlJZxJgqLVC%2B2D0eJyU\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 102,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+						}
+					]
+				},
+				{
+					"name": "Populate Environment Variables using Search Functions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Include the f5-postman-workflows functions",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"// When reviewing this example be sure to send the request and have",
+									"// the reponse body below for reference",
+									"var populate_vars = [",
+									"        // This example will call the f5_get_property_by_value function to search",
+									"        // for the first occurence of a property/attribute with a VALUE of 'name_1'.",
+									"        // Once a match is found the value of the 'uuid' attribute in the same JSON",
+									"        // scope will be returned.  In this example the env variable will be populated ",
+									"        // with a value of '1111-2222-3333'",
+									"        { ",
+									"            \"name\":\"_rt_name_1_uuid\",",
+									"            \"value\":f5_get_property_by_value,",
+									"            \"args\":[\"name_1\",\"uuid\"]",
+									"        },",
+									"        // This example will call the f5_get_first_property_value function to search",
+									"        // for the first occurence of a property/attribute and return it's value.",
+									"        // In this example the env variable will be populated with a value of 'bar'",
+									"        { ",
+									"            \"name\":\"_rt_foo\",",
+									"            \"value\":f5_get_first_property_value,",
+									"            \"args\":[\"foo\"]",
+									"        },",
+									"        // This example will call the f5_get_path_by_value function to search for the",
+									"        // first occurence of a property/attribute the a VALUE that matches 'name_3'.",
+									"        // The path to that property/attribute will then be returned in a dot-notation",
+									"        // string.  In this example the env variable will be populated with a value",
+									"        // of 'data.items.2.name'.  The framework includes extends the f5_get_by_string",
+									"        // function.  This function can consume a dot-notation path string and return ",
+									"        // the associated value from the JSON object.  An example of this is included ",
+									"        // below.",
+									"        { ",
+									"            \"name\":\"_rt_name_3_path\",",
+									"            \"value\":f5_get_path_by_value,",
+									"            \"args\":[\"name_3\"]",
+									"        },",
+									"        // This example will call f5_get_first_property_value and search for a",
+									"        // non-existant property/attribute.  The function will return undefined ",
+									"        // resulting in the env var being empty and marking the associated test",
+									"        // as FAIL. ",
+									"        { ",
+									"            \"name\":\"_rt_no_exist\",",
+									"            \"value\":f5_get_first_property_value,",
+									"            \"args\":[\"this_does_not_exist\"]",
+									"        },        ",
+									"    ];",
+									"",
+									"// Populate the variables",
+									"f5_populate_env_vars(populate_vars);",
+									"",
+									"// We will use the path populated by f5_get_path_by_value above to",
+									"// get the full object related to 'name_3'",
+									"var obj = f5_get_by_string(environment._rt_var_search3);",
+									"console.log(JSON.stringify(obj));",
+									"",
+									"// The f5_get_by_string function can also go backwards in the path",
+									"// a return objects up the hierarchy by providing a second argument",
+									"//",
+									"// Specifying '1' as the second parameter gets the parent",
+									"var parent_obj = f5_get_by_string(environment._rt_var_search3, 1);",
+									"console.log(JSON.stringify(parent_obj));",
+									"",
+									"// Specifying '2' as the second parameter gets the grandparent",
+									"var grandparent_obj = f5_get_by_string(environment._rt_var_search3, 2);",
+									"console.log(JSON.stringify(grandparent_obj));",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+						},
+						"description": "This example shows how to populate a environment variables from a sample JSON response using search functions bundled with the framework.\n\nThis functionality is useful when you would like to extract data from complex object definitions in the return JSON schema.  \n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate variables you can review."
+					},
+					"response": [
+						{
+							"id": "e68d6e18-2e54-43f1-9d1d-2c94c15b7181",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://echo.getpostman.com/post",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic YWRtaW46YWRtaW4=",
+										"enabled": true,
+										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "",
+									"name": "Access-Control-Allow-Credentials",
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "",
+									"name": "Access-Control-Allow-Headers",
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "",
+									"name": "Access-Control-Allow-Methods",
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "",
+									"name": "Access-Control-Allow-Origin",
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "",
+									"name": "Access-Control-Expose-Headers",
+									"description": "Lets a server whitelist headers that browsers are allowed to access."
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Length",
+									"value": "461",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Dec 2016 07:54:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37f-tnnJJNd1rhOa3MSdmglL2A\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.10.1",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Vary",
+									"value": "X-HTTP-Method-Override, Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"httpOnly": true,
+									"domain": "echo.getpostman.com",
+									"path": "/",
+									"secure": false,
+									"value": "s%3AWi_v8okrYrWjjBXegaH5TKlyMIkPBltR.XrXUqb5%2BpJDVQISNY0g5KF12XpMjry%2BEE8a2Hvmi8oc",
+									"key": "sails.sid"
+								}
+							],
+							"responseTime": 282,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AWi_v8okrYrWjjBXegaH5TKlyMIkPBltR.XrXUqb5%2BpJDVQISNY0g5KF12XpMjry%2BEE8a2Hvmi8oc\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -434,37 +713,64 @@
 									"",
 									"// This function always returns undefined.  Returning undefined",
 									"// will result in the associated test item being marked as FAIL",
-									"var custom_populate_function_undef = function(json) { return undefined };",
+									"var custom_undef = function(resp) { return undefined };",
 									"",
-									"// This function returns the 'json.foo' attribute",
-									"var custom_populate_function_simple = function(json) { return json.json.foo };",
+									"// This function returns the 'data.foo' attribute",
+									"var custom_simple = function(resp) { return resp.data.foo };",
 									"",
-									"// This function checks the length of the array json.data[] and",
+									"// This function checks the length of the array data.array[] and",
 									"// returns the last element",
-									"var custom_populate_function_advanced = function(json) {",
-									"    if('data' in json.json && json.json.data.length === 3) {",
-									"        return json.json.data[json.json.data.length - 1];",
+									"var custom_advanced = function(resp, length) {",
+									"    console.log(length);",
+									"    console.log(resp.data.array.length);",
+									"    if('array' in resp.data && resp.data.array.length == length) {",
+									"        return resp.data.array.pop();",
 									"    }",
 									"};",
 									"",
 									"// This function extracts the hostname from a URL",
-									"var custom_populate_function_gethostname = function(json) {",
-									"    var matches = json.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
+									"var custom_gethostname = function(resp) {",
+									"    var matches = resp.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
 									"    return matches && matches[1];",
 									"}",
 									"",
-									"// The vars[] array can use variable names that are function definitions",
+									"// The populate_vars[] array can use variable names that are function definitions",
 									"// as the value attribute",
-									"var vars = [",
-									"        { \"name\":\"_rt_my_var_advanced\",\"value\":custom_populate_function_advanced },",
-									"        { \"name\":\"_rt_my_var_simple\",  \"value\":custom_populate_function_simple },",
-									"        { \"name\":\"_rt_my_var_undef\",   \"value\":custom_populate_function_undef },",
-									"        { \"name\":\"_rt_my_var_url\",     \"value\":\"url\" },",
-									"        { \"name\":\"_rt_my_var_hostname\",\"value\":custom_populate_function_gethostname }",
+									"var populate_vars = [",
+									"        // We will call the custom_simple() function defined above.  The",
+									"        // return value of the function will populate the '_rt_simple' ",
+									"        // environment variable",
+									"        { ",
+									"            \"name\":\"_rt_simple\",",
+									"            \"value\":custom_simple",
+									"        },",
+									"        // We will call the custom_undef() function defined above. Since",
+									"        // this function always returns undefined no value will be populated",
+									"        // in the environment variable and the associated test will always FAIL",
+									"        {",
+									"            \"name\":\"_rt_undef\",",
+									"            \"value\":custom_undef",
+									"        },",
+									"        // We will call the custom_gethostname() function defined above.  The",
+									"        // return value of the function will populate the '_rt_hostname' ",
+									"        // environment variable",
+									"        {",
+									"            \"name\":\"_rt_hostname\",",
+									"            \"value\":custom_gethostname",
+									"        },",
+									"        // We will call the custom_advanced() function defined above.  In this",
+									"        // case our custom function takes an additional argument 'length'.  We",
+									"        // specify the value of the argument in the args[] array so it is passed",
+									"        // to our function",
+									"        {",
+									"            \"name\":\"_rt_advanced\",",
+									"            \"value\":custom_advanced,",
+									"            \"args\":[3]",
+									"        },",
 									"    ];",
 									"",
 									"// Populate the variables",
-									"f5_populate_env_vars(vars);",
+									"f5_populate_env_vars(populate_vars);",
 									""
 								]
 							}
@@ -487,13 +793,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
-						"description": "This example shows how to populate a environment variables from a sample JSON response using a custom function in JavaScript.  \n\nThis functionality is useful when you would like to extract data from complex object definitions in the return JSON schema.  Additionally, manipulation of the data can be performed before the variable is populated.\n\nThe function definition is:\n```\nvar my_function = function(json) {\n  ...\n  return x || undefined;\n}\n```\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate variables you can review."
+						"description": "This example shows how to populate a environment variables from a sample JSON response using a custom function in JavaScript.  \n\nThis functionality is useful when you would like to extract data from complex object definitions in the return JSON schema.  Additionally, manipulation of the data can be performed before the variable is populated.\n\nThe function definition is:\n```\nvar my_function = function(resp, arguments...) {\n  ...\n  return x || undefined;\n}\n```\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate variables you can review."
 					},
 					"response": [
 						{
-							"id": "933d1344-e7d4-478b-8f32-d8904fe1cf2a",
+							"id": "565d4d72-a9ea-440b-80fb-9e0d7e813587",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -515,7 +821,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -567,7 +873,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "372",
+									"value": "461",
 									"name": "Content-Length",
 									"description": "The length of the response body in octets (8-bit bytes)"
 								},
@@ -579,13 +885,13 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:34:36 GMT",
+									"value": "Sun, 18 Dec 2016 08:31:15 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"226-QDBM7WgjUXJLXHaaiHIm0A\"",
+									"value": "W/\"37b-F1FQ+d6aV1Axo272gw9Yxg\"",
 									"name": "ETag",
 									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
@@ -603,7 +909,7 @@
 								},
 								{
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AEvRekIxVtk6YYvKDGwPwjNCRhVi4SpTb.DGkA3ctrgCAph6vexCN2qwf2IRjCzcYEGbfh8cFAU9g; Path=/; HttpOnly",
+									"value": "sails.sid=s%3Ape4JgsFaJ3eoPb8Cz-_xqM7g-Sh8JmP9.iZUT1IO3tw3TcnVbcLTnhf8Gcs4A9IER1C9%2BVzCRy2s; Path=/; HttpOnly",
 									"name": "set-cookie",
 									"description": "an HTTP cookie"
 								}
@@ -615,12 +921,12 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3AEvRekIxVtk6YYvKDGwPwjNCRhVi4SpTb.DGkA3ctrgCAph6vexCN2qwf2IRjCzcYEGbfh8cFAU9g",
+									"value": "s%3Ape4JgsFaJ3eoPb8Cz-_xqM7g-Sh8JmP9.iZUT1IO3tw3TcnVbcLTnhf8Gcs4A9IER1C9%2BVzCRy2s",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 380,
-							"body": "{\"args\":{},\"data\":{\"data\":[1,2,3],\"foo\":\"bar\"},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"33\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3APC9Ki5XhcyrgOu8ey-vXEsq7ak3Fpgxf.jf68tlmQJehNKAd0uv9dnePx8fiJMVT9D71yPVikPPY\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"data\":[1,2,3],\"foo\":\"bar\"},\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 1076,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AJVuIHEavewqM54iER83DCs9IhX5UZLl2.RYlu0UzDCSPNLMJCjn25N4dZVP0SEc5VofQJFXWozZk\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -639,30 +945,40 @@
 									"// function examines data from the response and populates test",
 									"// results that indicate success or failure.",
 									"//",
-									"// In this request we POSTed the JSON object:",
-									"//",
-									"// { ",
-									"//   \"data\":[1,2,3],",
-									"//   \"foo\":bar",
-									"// }",
+									"// In this request we POSTed a JSON object.  You can review ",
+									"// the object by clicking the 'Body' button in the request ",
+									"// portion of the Postman window",
 									"//",
 									"// The remote service will echo that object in a JSON response",
-									"// attribute named 'json'.  f5_check_reponse() will check the",
-									"// reponse and populate an environment variable with the data",
+									"// attribute named 'json'.  f5_check_reponse() will:",
+									"//   1) Check the HTTP response code for validity",
+									"//   2) Populate test items according to the array below",
 									"//",
-									"// The vars[] Array contains JSON objects with the following schema:",
+									"// The check_vals[] Array contains JSON objects with the following schema:",
 									"//",
 									"//  { ",
-									"//    \"name\":<JSON attribute name>,",
-									"//    \"value\":<value to check for>",
+									"//    \"path\":<JSON attribute path in dot-notation>,",
+									"//    \"value\":<value to check for>,",
+									"//    \"test\":{true|false},",
+									"//    \"op\":\"{ === | !== | == | != | < | > | <= | >= | incl | notincl | regex }\"",
 									"//  }",
 									"//",
-									"var vars = [",
-									"        { \"name\":\"url\", \"value\":\"https://echo.getpostman.com/post\" }",
+									"// The default 'op' is '=='.  The string comparison mappings are:",
+									"//      includes: String.includes(<includes>)",
+									"//   notincludes: !String.includes(<notincludes>)",
+									"//         regex: String.match(<regex>)",
+									"//",
+									"// We will cover examples of using the 'op' argument later",
+									"//",
+									"var check_vals = [",
+									"        {",
+									"            \"path\":\"url\",",
+									"            \"value\":\"https://echo.getpostman.com/post\"",
+									"        }",
 									"    ];",
 									"",
-									"// Run the check",
-									"f5_check_response(vars);",
+									"// Run the checks",
+									"f5_check_response(check_vals);",
 									""
 								]
 							}
@@ -685,13 +1001,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": "This example will show how to check the value of a single attribute in the reponse JSON.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review."
 					},
 					"response": [
 						{
-							"id": "09e7f21a-440b-4fdc-93e0-70d221dcba35",
+							"id": "73269b83-beee-4f24-8d16-fbd8963a9aef",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -713,7 +1029,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -765,7 +1081,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "373",
+									"value": "460",
 									"name": "Content-Length",
 									"description": "The length of the response body in octets (8-bit bytes)"
 								},
@@ -777,13 +1093,13 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:45:55 GMT",
+									"value": "Sun, 18 Dec 2016 08:45:47 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"226-TYkoU6os5RLXREIy5/WWLQ\"",
+									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\"",
 									"name": "ETag",
 									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
@@ -807,12 +1123,12 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3AEvRekIxVtk6YYvKDGwPwjNCRhVi4SpTb.DGkA3ctrgCAph6vexCN2qwf2IRjCzcYEGbfh8cFAU9g",
+									"value": "s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 296,
-							"body": "{\"args\":{},\"data\":{\"data\":[1,2,3],\"foo\":\"bar\"},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"33\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AEvRekIxVtk6YYvKDGwPwjNCRhVi4SpTb.DGkA3ctrgCAph6vexCN2qwf2IRjCzcYEGbfh8cFAU9g\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"data\":[1,2,3],\"foo\":\"bar\"},\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 94,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -827,15 +1143,42 @@
 									"// Include the f5-postman-workflows functions",
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
-									"// Since vars[] is an array we can check multiple variables ",
+									"// Since check_vars[] is an array we can check multiple variables ",
 									"// from the response",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"THIS_IS_A_TEST\" },",
-									"        { \"name\":\"url\", \"value\":\"https://echo.getpostman.com/post\" }",
+									"var check_vals = [",
+									"        // We are using the dot-notation format to specify the full path to ",
+									"        // the attribute we want to check.  The relevant portion of the ",
+									"        // response JSON is:",
+									"        //",
+									"        // { ",
+									"        //   \"data\": {",
+									"        //      \"foo\":\"bar\"",
+									"        //   }",
+									"        // }",
+									"        { ",
+									"            \"path\":\"data.foo\", ",
+									"            \"value\":\"bar\" ",
+									"        },",
+									"        // You can also use the dot-notation to specify the index of an array.",
+									"        // The relevant portion of the response JSON is:",
+									"        //",
+									"        // {",
+									"        //   \"data\": {",
+									"        //      \"array\": [",
+									"        //          \"one\",   (index: 0)",
+									"        //          \"two\",   (index: 1)",
+									"        //          \"three\"  (index: 2)",
+									"        //       ]",
+									"        //   }",
+									"        // }",
+									"        {",
+									"            \"path\":\"data.array.2\",",
+									"            \"value\": \"three\"",
+									"        }",
 									"    ];",
 									"",
 									"// Run the check",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									""
 								]
 							}
@@ -849,17 +1192,22 @@
 								"key": "Authorization",
 								"value": "Basic YWRtaW46YWRtaW4=",
 								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "THIS_IS_A_TEST"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
-						"description": "This example will show how to check the value of multiple attributes in the reponse JSON.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review."
+						"description": "This example will show how to check the value of multiple attributes in the reponse JSON.\n\nIt will also introduce the dot-notation format for the JSON path.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review."
 					},
 					"response": [
 						{
-							"id": "70a78b35-6556-4d2c-a4f3-b9afcf528d2b",
+							"id": "92d38aa8-84f8-480c-8ad3-e14ed91a9cb5",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -870,11 +1218,18 @@
 										"value": "Basic YWRtaW46YWRtaW4=",
 										"enabled": true,
 										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content",
+										"disabled": false
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "THIS_IS_A_TEST"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -926,7 +1281,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "367",
+									"value": "460",
 									"name": "Content-Length",
 									"description": "The length of the response body in octets (8-bit bytes)"
 								},
@@ -938,13 +1293,250 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:49:09 GMT",
+									"value": "Sun, 18 Dec 2016 08:46:27 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"200-n96cOwzeh6Q1t3DbFFX0wA\"",
+									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.10.1",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Vary",
+									"value": "X-HTTP-Method-Override, Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "set-cookie",
+									"value": "sails.sid=s%3AgZmxNzFqAdDF7xo6AiPld09847yYNVX7.ZYCMLqf5ptdThtqloxk2BzuGmeMX3OLZwa%2BKU03Y5V8; Path=/; HttpOnly",
+									"name": "set-cookie",
+									"description": "an HTTP cookie"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"httpOnly": true,
+									"domain": "echo.getpostman.com",
+									"path": "/",
+									"secure": false,
+									"value": "s%3AgZmxNzFqAdDF7xo6AiPld09847yYNVX7.ZYCMLqf5ptdThtqloxk2BzuGmeMX3OLZwa%2BKU03Y5V8",
+									"key": "sails.sid"
+								}
+							],
+							"responseTime": 88,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+						}
+					]
+				},
+				{
+					"name": "Check Attributes with Various Match Operators",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Include the f5-postman-workflows functions",
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"// Two additional attributes are available to control how ",
+									"// response checks are performed:",
+									"//",
+									"//    \"test\":{true|false},",
+									"//    \"op\":\"{ === | !== | == | != | < | > | <= | >= | incl | notincl | regex }\"",
+									"//",
+									"// The 'test' attribute controls whether a test item is created for ",
+									"// a particular check",
+									"//",
+									"// The 'op' attribute controls the type of match that is performed",
+									"var check_vals = [",
+									"        // We will change the match operation to ",
+									"        //    data.foo != \"bar\"",
+									"        // This check will fail since data.foo == \"bar\"",
+									"        { ",
+									"            \"path\":\"data.foo\",",
+									"            \"value\":\"bar\",",
+									"            \"op\":\"!=\"",
+									"        },",
+									"        // Check to see data.numArray[0] >= 1 (it is)",
+									"        {",
+									"            \"path\":\"data.numArray.0\",",
+									"            \"value\":\"1\",",
+									"            \"op\":\">=\"",
+									"        },",
+									"        // Check to see data.numArray[0] > 1 (it is NOT)",
+									"        {",
+									"            \"path\":\"data.numArray.0\",",
+									"            \"value\":\"1\",",
+									"            \"op\":\">\"",
+									"        },",
+									"        // Check to see data.numArray[1] === \"2\" and don't create a test",
+									"        // result.  This will fail because '===' is a strict typed check",
+									"        //   data.numArray[1] is a Number type",
+									"        //   \"2\" is a String type",
+									"        // Since they are different types this test will always fail",
+									"        {",
+									"            \"path\":\"data.numArray.1\",",
+									"            \"value\":\"2\",",
+									"            \"op\":\"===\",",
+									"            \"test\":false",
+									"        },",
+									"        // Same case as above but done correctly this time.  Notice ",
+									"        // the 'value' is 2 rather than \"2\".  This creates a Number",
+									"        // type for the check value allowing the check to succeed.",
+									"        {",
+									"            \"path\":\"data.numArray.1\",",
+									"            \"value\":2,",
+									"            \"op\":\"===\",",
+									"            \"test\":true",
+									"        },",
+									"        // Check to see if data.foo includes 'ba' as a substring",
+									"        {",
+									"            \"path\":\"data.foo\",",
+									"            \"value\":\"ba\",",
+									"            \"op\":\"incl\"",
+									"        },",
+									"        // Check to see if url matches a regular expression ",
+									"        {",
+									"            \"path\":\"url\",",
+									"            \"value\":\"/^https.*PoSt$/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"// Run the check",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+						},
+						"description": "This example will show how to check the value of multiple attributes in the reponse JSON using match operators other that the default '=='.\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review."
+					},
+					"response": [
+						{
+							"id": "79ccac0f-6e76-4516-96e4-32bb22613360",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://echo.getpostman.com/post",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic YWRtaW46YWRtaW4=",
+										"enabled": true,
+										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "",
+									"name": "Access-Control-Allow-Credentials",
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "",
+									"name": "Access-Control-Allow-Headers",
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "",
+									"name": "Access-Control-Allow-Methods",
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "",
+									"name": "Access-Control-Allow-Origin",
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "",
+									"name": "Access-Control-Expose-Headers",
+									"description": "Lets a server whitelist headers that browsers are allowed to access."
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Length",
+									"value": "460",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Dec 2016 09:23:34 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"381-bLGOR39ulwUFtb70j7wxEw\"",
 									"name": "ETag",
 									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
@@ -968,12 +1560,12 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3Ae7jN5rgvcMYFTX5YMElz691EZ7vT44tG.GfdkgIsvil6laIVr2p%2BAuCcy8mUgY1r%2BFXeXa3NU2gM",
+									"value": "s%3AKe72ow7E3X7o2qxPoURmHLVKfA4_auXH.Ag4oXicDw1cAwXMpd4PTLOcjRIHg1%2FUfKa%2Bns%2BgAS3w",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 287,
-							"body": "{\"args\":{},\"data\":\"THIS_IS_A_TEST\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"14\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3Ae7jN5rgvcMYFTX5YMElz691EZ7vT44tG.GfdkgIsvil6laIVr2p%2BAuCcy8mUgY1r%2BFXeXa3NU2gM\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 89,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AKe72ow7E3X7o2qxPoURmHLVKfA4_auXH.Ag4oXicDw1cAwXMpd4PTLOcjRIHg1%2FUfKa%2Bns%2BgAS3w\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -997,49 +1589,72 @@
 									"",
 									"// This function extracts the hostname from a URL",
 									"",
-									"// The vars[] array can use variable names that are function definitions",
+									"// The check_vals[] array can use variable names that are function definitions",
 									"// as the value attribute",
 									"",
 									"// Define some custom functions to check the data we want",
 									"// The function takes one parameter which includes the full",
 									"// JSON response body.  The function should return 0 to ",
 									"// indicate a failed check or >= 1 to indicate success",
-									"",
-									"",
+									"//",
 									"// This function always returns 0.  Returning 0 will result ",
 									"// in the associated test item being marked as FAIL",
-									"var custom_check_function_fail = function(json) { return 0 };",
+									"var custom_fail = function(resp) { return 0 };",
 									"",
 									"// This function always returns 1.  Returning 1 will result ",
 									"// in the associated test item being marked as PASS",
-									"var custom_check_function_pass = function(json) { return 1 };",
+									"var custom_pass = function(resp) { return 1 };",
 									"",
 									"// This function checks that the attribute 'data' is present",
 									"// in the response JSON",
-									"var custom_check_function_simple = function(json) { return 'data' in json };",
+									"var custom_simple = function(resp) { return 'data' in resp };",
 									"",
 									"// This function checks the following:",
-									"//  - Attribute 'data' is present",
-									"//  - Attribute 'foo' is present",
-									"//  - json.data[] array has 3 elements",
-									"//  - json.foo == \"bar\"",
-									"var custom_check_function_advanced = function(json) { ",
-									"    return ('data' in json.json && ",
-									"            'foo' in json.json &&",
-									"            json.json.data.length === 3 &&",
-									"            json.json.foo === 'bar');",
+									"//  - Attribute 'data.array' is present",
+									"//  - Attribute 'data.foo' is present",
+									"//  - data.array[] array has 3 elements",
+									"//  - data.foo == \"bar\"",
+									"var custom_advanced = function(resp, length) { ",
+									"    return ('array' in resp.data && ",
+									"            'foo' in resp.data &&",
+									"            resp.data.array.length == length &&",
+									"            resp.data.foo === 'bar');",
 									"};",
 									"",
-									"var vars = [",
-									"        { \"name\":\"data\",                \"value\":custom_check_function_simple },",
-									"        { \"name\":\"json_advanced_check\", \"value\":custom_check_function_advanced },",
-									"        { \"name\":\"url\",                 \"value\":\"https://echo.getpostman.com/post\" },",
-									"        { \"name\":\"form\",                \"value\":custom_check_function_pass },",
-									"        { \"name\":\"args\",                \"value\":custom_check_function_fail }",
+									"var check_vals = [",
+									"        // We will call the custom_simple() function defined above.  The",
+									"        // boolean return value will determine whether the associated ",
+									"        // test is marked PASS or FAIL.  The 'path' attribute is used to",
+									"        // provide the test name.",
+									"        {",
+									"            \"path\":\"custom_simple\",",
+									"            \"value\":custom_simple",
+									"        },",
+									"        // Call the custom_pass() function defined above.  This function",
+									"        // always returns 1 resulting in the test always being marked PASS",
+									"        {",
+									"            \"path\":\"always_pass\",",
+									"            \"value\":custom_pass",
+									"        },",
+									"        // Call the custom_fail() function defined above.  This function",
+									"        // always returns 0 resulting in the test always being marked FAIL",
+									"        {",
+									"            \"path\":\"always_fail\",",
+									"            \"value\":custom_fail",
+									"        },",
+									"        // We will call the custom_advanced() function defined above.  In this",
+									"        // case our custom function takes an additional argument 'length'.  We",
+									"        // specify the value of the argument in the args[] array so it is passed",
+									"        // to our function        ",
+									"        {",
+									"            \"path\":\"custom_advanced\",",
+									"            \"value\":custom_advanced,",
+									"            \"args\":[3]",
+									"        },",
 									"    ];",
 									"",
 									"// Run the check",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									""
 								]
 							}
@@ -1062,13 +1677,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
-						"description": "This example will show how to check the value of multiple attributes in the reponse JSON using a custom function in JavaScript.\n\nThis functionality is useful when you would like to\nperform complex check on the returned JSON data.\n\nThe function definition is:\n```\nvar my_function = function(json) {\n  ...\n  return 1 || 0;\n}\n```\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review.\n"
+						"description": "This example will show how to check the value of multiple attributes in the reponse JSON using a custom function in JavaScript.\n\nThis functionality is useful when you would like to\nperform complex check on the returned JSON data.\n\nThe function definition is:\n```\nvar my_function = function(resp) {\n  ...\n  return 1 || 0;\n}\n```\n\nPlease review the Test script comments.  Sending the request will perform the requested actions and populate test results you can review.\n"
 					},
 					"response": [
 						{
-							"id": "6bda4355-1c85-48f2-885a-04502b89cb41",
+							"id": "32d0d218-fccd-4c84-b7fe-c2325f6e35f8",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1079,11 +1694,18 @@
 										"value": "Basic YWRtaW46YWRtaW4=",
 										"enabled": true,
 										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content",
+										"disabled": false
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "THIS_IS_A_TEST"
+									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 								}
 							},
 							"status": "OK",
@@ -1135,7 +1757,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "367",
+									"value": "459",
 									"name": "Content-Length",
 									"description": "The length of the response body in octets (8-bit bytes)"
 								},
@@ -1147,13 +1769,13 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 03:49:09 GMT",
+									"value": "Sun, 18 Dec 2016 08:47:54 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"200-n96cOwzeh6Q1t3DbFFX0wA\"",
+									"value": "W/\"37d-Me7NFbUGeK6wfgQZOosaJg\"",
 									"name": "ETag",
 									"description": "An identifier for a specific version of a resource, often a message digest"
 								},
@@ -1168,6 +1790,12 @@
 									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
 									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "set-cookie",
+									"value": "sails.sid=s%3AzMhymS5FuoTT1fb7K-6DJTTUKwaGaX1n.JceCTn4wrknoF8s9Cue%2FPNcpYsPtRhVGSNbAy85NSRc; Path=/; HttpOnly",
+									"name": "set-cookie",
+									"description": "an HTTP cookie"
 								}
 							],
 							"cookie": [
@@ -1177,12 +1805,12 @@
 									"domain": "echo.getpostman.com",
 									"path": "/",
 									"secure": false,
-									"value": "s%3Ae7jN5rgvcMYFTX5YMElz691EZ7vT44tG.GfdkgIsvil6laIVr2p%2BAuCcy8mUgY1r%2BFXeXa3NU2gM",
+									"value": "s%3AzMhymS5FuoTT1fb7K-6DJTTUKwaGaX1n.JceCTn4wrknoF8s9Cue%2FPNcpYsPtRhVGSNbAy85NSRc",
 									"key": "sails.sid"
 								}
 							],
-							"responseTime": 287,
-							"body": "{\"args\":{},\"data\":\"THIS_IS_A_TEST\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"14\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3Ae7jN5rgvcMYFTX5YMElz691EZ7vT44tG.GfdkgIsvil6laIVr2p%2BAuCcy8mUgY1r%2BFXeXa3NU2gM\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://echo.getpostman.com/post\"}"
+							"responseTime": 90,
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AaRUW-D_49j1P_sljgea5QEFiM5kRtfsm.CTJ2YjxnkJirj%2FIONkAGpeI06NWN6CUPAAvmn0WBGI8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
 						}
 					]
 				},
@@ -1197,6 +1825,38 @@
 									"// Include the f5-postman-workflows functions",
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
+									"// To implement this example we are sending the value of the",
+									"// _f5_poll_iterator variable to the server.  The server then",
+									"// echos this back to us.  The _f5_poll_iterator value is",
+									"// incremented by one each time the request is sent resulting",
+									"// in a running counter.  ",
+									"//",
+									"// We then use the vars[] array below to check for the value",
+									"// of the iterator to be '5'.  The first 4 times the request ",
+									"// is sent this results in a failed test.  As a result the ",
+									"// _F5_POLL_DELAY item in the collection is executed resulting",
+									"// in a delay, then, this request is retried.  Once the iterator",
+									"// reaches \"5\" all the tests pass resulting in use moving to the",
+									"// next item in the workflow.",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"5\" }",
+									"    ];",
+									"",
+									"// Check the response data",
+									"f5_check_response(check_vals);",
+									"",
+									"// Start the poller.  The argument to the function is the NEXT",
+									"// item to execute in the workflow once all tests pass",
+									"f5_poll_until_all_tests_pass(\"Poller Example - Request 2\");",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
 									"// We will enable polled mode by setting the global variable.",
 									"// This is required when running collections via the Collection",
 									"// Runner or Newman.  Toggling this setting to 1 will result",
@@ -1213,40 +1873,6 @@
 									"// Wait for 1 second between polls",
 									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
 									"",
-									"// To implement this example we are sending the value of the",
-									"// _f5_poll_iterator variable to the server.  The server then",
-									"// echos this back to us.  The _f5_poll_iterator value is",
-									"// incremented by one each time the request is sent resulting",
-									"// in a running counter.  ",
-									"//",
-									"// We then use the vars[] array below to check for the value",
-									"// of the iterator to be '5'.  The first 4 times the request ",
-									"// is sent this results in a failed test.  As a result the ",
-									"// _F5_POLL_DELAY item in the collection is executed resulting",
-									"// in a delay, then, this request is retried.  Once the iterator",
-									"// reaches \"5\" all the tests pass resulting in use moving to the",
-									"// next item in the workflow.",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"5\" }",
-									"    ];",
-									"",
-									"// Check the response data",
-									"f5_check_response(vars);",
-									"",
-									"// Start the poller.  The argument to the function is the NEXT",
-									"// item to execute in the workflow once all tests pass",
-									"f5_poll_until_all_tests_pass(\"Poller Example - Request 2\");",
-									""
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
-									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
 									""
 								]
 							}
@@ -1264,7 +1890,7 @@
 					},
 					"response": [
 						{
-							"id": "eb55a4c7-2b4c-430e-92bc-4109449a6627",
+							"id": "880f1fb8-3b88-4186-9627-d2e9f251f134",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1392,7 +2018,7 @@
 									"",
 									"// End of the workflow so we set the next request to null to stop",
 									"// execution",
-									"postman.setNextRequest(null);"
+									"//postman.setNextRequest(null);"
 								]
 							}
 						}
@@ -1407,15 +2033,12 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "9263d6cf-636e-42a1-ab80-23a220ffa42d",
+							"id": "d66fff23-7780-4785-9371-024cc5031727",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -1429,10 +2052,7 @@
 										"disabled": false
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								}
+								"body": {}
 							},
 							"status": "OK",
 							"code": 200,
@@ -1443,79 +2063,79 @@
 									"key": "Access-Control-Allow-Credentials",
 									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"description": ""
 								},
 								{
 									"key": "Access-Control-Allow-Headers",
 									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"description": ""
 								},
 								{
 									"key": "Access-Control-Allow-Methods",
 									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"description": ""
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"description": ""
 								},
 								{
 									"key": "Access-Control-Expose-Headers",
 									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"description": ""
 								},
 								{
 									"key": "Connection",
 									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"description": ""
 								},
 								{
 									"key": "Content-Encoding",
 									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"description": ""
 								},
 								{
 									"key": "Content-Length",
 									"value": "300",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"description": ""
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"description": ""
 								},
 								{
 									"key": "Date",
 									"value": "Thu, 15 Dec 2016 04:18:35 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"description": ""
 								},
 								{
 									"key": "ETag",
 									"value": "W/\"18d-vTErUOawS+zwUx/pAOj0rQ\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"description": ""
 								},
 								{
 									"key": "Server",
 									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"description": ""
 								},
 								{
 									"key": "Vary",
 									"value": "Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"description": ""
 								}
 							],
 							"cookie": [
@@ -1563,10 +2183,7 @@
 						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": "A reference item that implements a delay for the poller.  This item can be copied and modified as needed, however, the Test script must include the following code for the poller to work:\n\n```\neval(postman.getGlobalVariable(\"_f5_workflow_functions\"));\nf5_poll_next();\n```\n"
 					},
 					"response": []
@@ -1629,10 +2246,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
 					},
 					"response": []
@@ -1689,10 +2303,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
 					},
 					"response": []
@@ -1748,10 +2359,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"description": "This request will remove the package from your system."
 					},
 					"response": []
@@ -1762,6 +2370,41 @@
 			"name": "Tests",
 			"description": "This folder contains the test framework.  The items in this collection have builtin test scripts that exercise the functions provided by the extensions.\n\nEach test implements a test state check as the last step of the Postman test script.  To determine actual success/failure of the test the '[Tester] All Tests Passed' test item should be examined.  Both positive and negative tests are performed so it is normal for some tests to fail, however, the above noted test item inidicates ultimate success of failure.\n\nThe test names are structured as follows:\n\n[normal|polled] [test name]\n\nnormal indicates a test run in normal mode\npolled indicates a test run in polled mode\n\n--------------------------\nThe following code is used to determine the final test state and set the 'all_tests_passed' test item accordingly:\n\nf5_test_check(test_state)\n\n-------------------------\nThe following code can be used to quickly generate the test_state object based on the current tests that have run (string dumped to console):\n\nf5_test_state_generate()\n",
 			"item": [
+				{
+					"name": "Test Setup",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/200",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
+						},
+						"description": ""
+					},
+					"response": []
+				},
 				{
 					"name": "[normal] 200 Response Code",
 					"event": [
@@ -2214,21 +2857,17 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"//f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
-									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
-									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
-									"",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"5\" }",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"5\" }",
 									"    ];",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
 									"\t\t['[Polled][Current Value] data=5 [PASS]', 1],",
-									"\t\t['[Polled][Check Value] data=5 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data == 5 [PASS]', 1],",
 									"\t];",
 									"\t",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 1 - Req 2\");",
 									"",
 									"f5_test_state_generate();",
@@ -2245,6 +2884,9 @@
 								"exec": [
 									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
 									""
 								]
 							}
@@ -2294,10 +2936,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -2312,19 +2951,18 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"100\" }",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"100\" }",
 									"    ];",
-									"",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
 									"\t\t['[Polled][Current Value] data=6 [PASS]', 1],",
-									"\t\t['[Polled][Check Value] data=100 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data == 100 [FAIL]', 1],",
 									"\t\t['[Poller] Max Tries Reached', 0],",
-									"\t];",
+									"\t];\t",
 									"\t",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									"f5_poll_until_all_tests_pass('[polled] Poller Test 2 - Req 1');",
 									"",
 									"f5_test_state_generate();",
@@ -2357,21 +2995,17 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"//f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
-									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
-									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
-									"",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"5\" }",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"5\" }",
 									"    ];",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
 									"\t\t['[Polled][Current Value] data=5 [PASS]', 1],",
-									"\t\t['[Polled][Check Value] data=10 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data == 5 [PASS]', 1],",
 									"\t];",
 									"\t",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									"",
 									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 2 - Req 2\");",
 									"",
@@ -2387,6 +3021,10 @@
 								"type": "text/javascript",
 								"exec": [
 									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
+									"",
 									""
 								]
 							}
@@ -2436,10 +3074,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -2454,19 +3089,19 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
-									"var vars = [",
-									"        { \"name\":\"data\", \"value\":\"100\" }",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"100\" }",
 									"    ];",
 									"",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
 									"\t\t['[Polled][Current Value] data=6 [PASS]', 1],",
-									"\t\t['[Polled][Check Value] data=100 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data == 100 [FAIL]', 1],",
 									"\t\t['[Poller] Max Tries Reached', 0],",
 									"\t];",
 									"\t",
-									"f5_check_response(vars);",
+									"f5_check_response(check_vals);",
 									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
 									"",
 									"f5_test_state_generate();",
@@ -2497,46 +3132,90 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
-									"",
-									"var custom_check_function_fail = function(json) { return 0 };",
-									"var custom_check_function_pass = function(json) { return 1 };",
-									"var custom_check_function_simple = function(json) { return 'data' in json };",
-									"var custom_check_function_advanced = function(json) { ",
-									"    return ('data' in json.json && ",
-									"            'foo' in json.json &&",
-									"            json.json.data.length === 3 &&",
-									"            json.json.foo === 'bar');",
+									"var custom_fail = function(resp) { return 0 };",
+									"var custom_pass = function(resp) { return 1 };",
+									"var custom_simple = function(resp) { return 'data' in resp };",
+									"var custom_advanced = function(resp, length) { ",
+									"    return ('array' in resp.data && ",
+									"            'foo' in resp.data &&",
+									"            resp.data.array.length == length &&",
+									"            resp.data.foo === 'bar');",
 									"};",
 									"",
-									"var check_vars = [",
-									"        { \"name\":\"data\",                \"value\":custom_check_function_simple },",
-									"        { \"name\":\"json_advanced_check\", \"value\":custom_check_function_advanced },",
-									"        { \"name\":\"url\",                 \"value\":\"https://echo.getpostman.com/post\" },",
-									"        { \"name\":\"form\",                \"value\":custom_check_function_pass },",
-									"        { \"name\":\"args\",                \"value\":custom_check_function_fail },",
+									"var check_vals = [",
+									"        { \"path\":\"url\",               \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\" },",
+									"        { \"path\":\"data.array.2\",      \"value\": \"three\" },",
+									"        { \"path\":\"data.numArray.1\",   \"value\": \"2\" },",
+									"        { \"path\":\"data.items.1.name\", \"value\":\"name_1\" },",
+									"        { \"path\":\"data.items.1.uuid\", \"value\":\"1111-2222-3333\" },",
+									"        { \"path\":\"data.args.1\",       \"value\":\"does_not_exist\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"!=\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"!=\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"===\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"===\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"!==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"!==\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\">=\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\">\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\"<=\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\"<\" },",
+									"        { \"path\":\"data.numArray.1\",   \"value\":\"2\",   \"op\":\"===\", \"test\":false },",
+									"        { \"path\":\"data.numArray.1\",   \"value\":2,     \"op\":\"===\", \"test\":true },",
+									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"incl\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"notincl\" },",
+									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/i\", \"op\":\"regex\" },",
+									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/\", \"op\":\"regex\" },",
+									"        { \"path\":\"custom_simple\",     \"value\":custom_simple },",
+									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
+									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
+									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
 									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
-									"",
 									"    ];",
 									"    ",
 									"var test_state = [",
-									"\t\t['[Cleared Runtime Env Vars]', 1],",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
-									"\t\t['[Polled][Current Value] data={\"data\":[1,2,3],\"foo\":\"bar\"} [PASS]', 1],",
-									"\t\t['[Polled][Check Value] data=[custom function] [PASS]', 1],",
-									"\t\t['[Polled][Check Value] json_advanced_check=[custom function] [PASS]', 1],",
 									"\t\t['[Polled][Current Value] url=https://echo.getpostman.com/post [PASS]', 1],",
-									"\t\t['[Polled][Check Value] url=https://echo.getpostman.com/post [PASS]', 1],",
-									"\t\t['[Polled][Current Value] form={} [PASS]', 1],",
-									"\t\t['[Polled][Check Value] form=[custom function] [PASS]', 1],",
-									"\t\t['[Polled][Current Value] args={} [PASS]', 1],",
-									"\t\t['[Polled][Check Value] args=[custom function] [FAIL]', 1],",
-									"\t\t['[Polled][Check Value] i_dont_exist=this_should_fail [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] url == https://echo.getpostman.com/post [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.foo=bar [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo == bar [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.array.2=three [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.array.2 == three [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.numArray.1=2 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.1 == 2 [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.items.1.name=name_2 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.items.1.name == name_1 [FAIL]', 1],",
+									"\t\t['[Polled][Current Value] data.items.1.uuid=4444-5555-6666 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.items.1.uuid == 1111-2222-3333 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.args.1 == does_not_exist [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.foo == baz [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.foo != bar [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.foo != baz [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo === bar [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo === baz [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.foo !== bar [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.foo !== baz [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.numArray.0=1 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.0 >= 1 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.0 > 1 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.0 <= 1 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.0 < 1 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray.1 === 2 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo incl ba [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo notincl ba [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] url regex /^https.*PoSt$/i [PASS]', 1],",
+									"\t\t['[Polled][Check Value] url regex /^https.*PoSt$/ [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] custom_simple == [custom function] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] always_pass == [custom function] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] always_fail == [custom function] [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] custom_advanced == [custom function] [PASS]', 1],",
 									"\t];",
-									"        ",
-									"f5_check_response(check_vars);",
+									"",
+									"",
+									"f5_check_response(check_vals);",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);"
@@ -2548,7 +3227,10 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
 									""
 								]
 							}
@@ -2571,7 +3253,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -2586,63 +3268,75 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
-									"",
-									"var custom_populate_function_undef = function(json) { return undefined };",
-									"var custom_populate_function_simple = function(json) { return json.json.foo };",
-									"var custom_populate_function_advanced = function(json) {",
-									"    if('data' in json.json && json.json.data.length === 3) {",
-									"        return json.json.data[json.json.data.length - 1];",
+									"var custom_undef = function(resp) { return undefined };",
+									"var custom_simple = function(resp) { return resp.data.foo };",
+									"var custom_advanced = function(resp, length) {",
+									"    console.log(length);",
+									"    console.log(resp.data.array.length);",
+									"    if('array' in resp.data && resp.data.array.length == length) {",
+									"        return resp.data.array.pop();",
 									"    }",
 									"};",
-									"var custom_populate_function_gethostname = function(json) {",
-									"    var matches = json.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
+									"var custom_gethostname = function(resp) {",
+									"    var matches = resp.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
 									"    return matches && matches[1];",
-									"};",
+									"}",
 									"",
 									"var populate_vars = [",
-									"        { \"name\":\"_rt_test_populate_advfunc_var\",    \"value\":custom_populate_function_advanced },",
-									"        { \"name\":\"_rt_test_populate_simplefunc_var\", \"value\":custom_populate_function_simple },",
-									"        { \"name\":\"_rt_test_populate_undeffunc_var\",  \"value\":custom_populate_function_undef },",
-									"        { \"name\":\"_rt_test_populate_url_var\",        \"value\":\"url\" },",
-									"        { \"name\":\"_rt_test_populate_hostname_var\",   \"value\":custom_populate_function_gethostname },",
-									"        { \"name\":\"_rt_test_populate_nonexist_var\",   \"value\":\"i_dont_exist\" }",
+									"        { \"name\":\"_rt_tpop_url\",        \"value\":\"url\" },",
+									"        { \"name\":\"_rt_tpop_var1\",       \"value\":\"data.array.0\" },",
+									"        { \"name\":\"_rt_tpop_var2\",       \"value\":\"data.numArray.1\" },",
+									"        { \"name\":\"_rt_tpop_var3\",       \"value\":\"data.items.1.name\" },",
+									"        { \"name\":\"_rt_tpop_var4\",       \"value\":\"data.items.1.uuid\" },",
+									"        { \"name\":\"_rt_tpop_var5\",       \"value\":\"args.1\" },",
+									"        { \"name\":\"_rt_tpop_name_1_uuid\",\"value\":f5_get_property_by_value,    \"args\":[\"name_1\",\"uuid\"] },",
+									"        { \"name\":\"_rt_tpop_foo\",        \"value\":f5_get_first_property_value, \"args\":[\"foo\"] },",
+									"        { \"name\":\"_rt_tpop_name_3_path\",\"value\":f5_get_path_by_value,        \"args\":[\"name_3\"] },",
+									"        { \"name\":\"_rt_tpop_no_exist\",   \"value\":f5_get_first_property_value, \"args\":[\"this_does_not_exist\"] },        ",
+									"        { \"name\":\"_rt_tpop_simple\",     \"value\":custom_simple },",
+									"        { \"name\":\"_rt_tpop_undef\",      \"value\":custom_undef },",
+									"        { \"name\":\"_rt_tpop_hostname\",   \"value\":custom_gethostname },",
+									"        { \"name\":\"_rt_tpop_advanced\",   \"value\":custom_advanced,             \"args\":[3] },",
+									"        { \"name\":\"_rt_tpop_noex_var\",   \"value\":\"i_dont_exist\" }",
 									"    ];",
 									"",
 									"var test_state = [",
-									"\t\t['[Cleared Runtime Env Vars]', 1],",
 									"\t\t['[Polled][POST Response Code]=200 [PASS]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_advfunc_var=3 [PASS]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_simplefunc_var=bar [PASS]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_undeffunc_var [FAIL]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_url_var=https://echo.getpostman.com/post [PASS]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_hostname_var=echo.getpostman.com [PASS]', 1],",
-									"\t\t['[Polled][Populate Variable] _rt_test_populate_nonexist_var [FAIL]', 1],",
-									"\t\t['[Tester] All Env Vars Correct', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_url=https://echo.getpostman.com/post [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_var1=one [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_var2=2 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_var3=name_2 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_var4=4444-5555-6666 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_var5= [FAIL]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_name_1_uuid=1111-2222-3333 [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_foo=bar [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_name_3_path=data.items.2.name [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_no_exist= [FAIL]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_simple=bar [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_undef= [FAIL]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_hostname=echo.getpostman.com [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_advanced=three [PASS]', 1],",
+									"\t\t['[Polled][Populate Variable] _rt_tpop_noex_var= [FAIL]', 1],",
 									"\t];",
 									"",
-									"var var_state = [",
-									"        ['_rt_test_populate_advfunc_var', '3'],",
-									"        ['_rt_test_populate_simplefunc_var', 'bar'],",
-									"        ['_rt_test_populate_undeffunc_var', ''],",
-									"        ['_rt_test_populate_url_var', 'https://echo.getpostman.com/post'],",
-									"        ['_rt_test_populate_hostname_var', 'echo.getpostman.com']",
-									"    ];    ",
-									"        ",
 									"f5_populate_env_vars(populate_vars);",
-									"",
-									"tests['[Tester] All Env Vars Correct'] = 1;",
-									"for (var i in var_state) {",
-									"    if(environment[var_state[i][0]] !== var_state[i][1]) {",
-									"        f5_debug('fail ' + var_state[i][0]);",
-									"        tests['[Tester] All Env Vars Correct'] = 0;",
-									"    }",
-									"}",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									""
 								]
 							}
 						}
@@ -2664,7 +3358,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -2679,49 +3373,106 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
-									"",
-									"var custom_check_function_fail = function(json) { return 0 };",
-									"var custom_check_function_pass = function(json) { return 1 };",
-									"var custom_check_function_simple = function(json) { return 'data' in json };",
-									"var custom_check_function_advanced = function(json) { ",
-									"    return ('data' in json.json && ",
-									"            'foo' in json.json &&",
-									"            json.json.data.length === 3 &&",
-									"            json.json.foo === 'bar');",
+									"var custom_fail = function(resp) { return 0 };",
+									"var custom_pass = function(resp) { return 1 };",
+									"var custom_simple = function(resp) { return 'data' in resp };",
+									"var custom_advanced = function(resp, length) { ",
+									"    return ('array' in resp.data && ",
+									"            'foo' in resp.data &&",
+									"            resp.data.array.length == length &&",
+									"            resp.data.foo === 'bar');",
 									"};",
 									"",
-									"var check_vars = [",
-									"        { \"name\":\"data\",                \"value\":custom_check_function_simple },",
-									"        { \"name\":\"json_advanced_check\", \"value\":custom_check_function_advanced },",
-									"        { \"name\":\"url\",                 \"value\":\"https://echo.getpostman.com/post\" },",
-									"        { \"name\":\"form\",                \"value\":custom_check_function_pass },",
-									"        { \"name\":\"args\",                \"value\":custom_check_function_fail },",
+									"var check_vals = [",
+									"        { \"path\":\"url\",               \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\" },",
+									"        { \"path\":\"data.array.2\",      \"value\": \"three\" },",
+									"        { \"path\":\"data.numArray.1\",   \"value\": \"2\" },",
+									"        { \"path\":\"data.items.1.name\", \"value\":\"name_2\" },",
+									"        { \"path\":\"data.items.1.uuid\", \"value\":\"4444-5555-6666\" },",
+									"        { \"path\":\"data.args.1\",       \"value\":\"does_not_exist\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"!=\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"!=\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"===\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"===\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"bar\", \"op\":\"!==\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"baz\", \"op\":\"!==\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\">=\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\">\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\"<=\" },",
+									"        { \"path\":\"data.numArray.0\",   \"value\":\"1\",   \"op\":\"<\" },",
+									"        { \"path\":\"data.numArray.1\",   \"value\":\"2\",   \"op\":\"===\", \"test\":false },",
+									"        { \"path\":\"data.numArray.1\",   \"value\":2,     \"op\":\"===\", \"test\":true },",
+									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"incl\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"notincl\" },",
+									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/i\", \"op\":\"regex\" },",
+									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/\", \"op\":\"regex\" },",
+									"        { \"path\":\"custom_simple\",     \"value\":custom_simple },",
+									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
+									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
+									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
 									"        { \"name\":\"i_dont_exist\",        \"value\":\"this_should_fail\" }",
-									"",
 									"    ];",
 									"    ",
 									"var test_state = [",
-									"\t\t['[Cleared Runtime Env Vars]', 1],",
 									"\t\t['[POST Response Code]=200', 1],",
-									"\t\t['[Current Value] data={\"data\":[1,2,3],\"foo\":\"bar\"}', 1],",
-									"\t\t['[Check Value] data=[custom function]', 1],",
-									"\t\t['[Check Value] json_advanced_check=[custom function]', 1],",
 									"\t\t['[Current Value] url=https://echo.getpostman.com/post', 1],",
-									"\t\t['[Check Value] url=https://echo.getpostman.com/post', true],",
-									"\t\t['[Current Value] form={}', 1],",
-									"\t\t['[Check Value] form=[custom function]', 1],",
-									"\t\t['[Current Value] args={}', 1],",
-									"\t\t['[Check Value] args=[custom function]', 0],",
-									"\t\t['[Check Value] i_dont_exist=this_should_fail', false],",
+									"\t\t['[Check Value] url == https://echo.getpostman.com/post', true],",
+									"\t\t['[Current Value] data.foo=bar', 1],",
+									"\t\t['[Check Value] data.foo == bar', true],",
+									"\t\t['[Current Value] data.array.2=three', 1],",
+									"\t\t['[Check Value] data.array.2 == three', true],",
+									"\t\t['[Current Value] data.numArray.1=2', 1],",
+									"\t\t['[Check Value] data.numArray.1 == 2', true],",
+									"\t\t['[Current Value] data.items.1.name=name_2', 1],",
+									"\t\t['[Check Value] data.items.1.name == name_2', true],",
+									"\t\t['[Current Value] data.items.1.uuid=4444-5555-6666', 1],",
+									"\t\t['[Check Value] data.items.1.uuid == 4444-5555-6666', true],",
+									"\t\t['[Check Value] data.args.1 == does_not_exist', false],",
+									"\t\t['[Check Value] data.foo == baz', false],",
+									"\t\t['[Check Value] data.foo != bar', false],",
+									"\t\t['[Check Value] data.foo != baz', true],",
+									"\t\t['[Check Value] data.foo === bar', true],",
+									"\t\t['[Check Value] data.foo === baz', false],",
+									"\t\t['[Check Value] data.foo !== bar', false],",
+									"\t\t['[Check Value] data.foo !== baz', true],",
+									"\t\t['[Current Value] data.numArray.0=1', 1],",
+									"\t\t['[Check Value] data.numArray.0 >= 1', true],",
+									"\t\t['[Check Value] data.numArray.0 > 1', false],",
+									"\t\t['[Check Value] data.numArray.0 <= 1', true],",
+									"\t\t['[Check Value] data.numArray.0 < 1', false],",
+									"\t\t['[Check Value] data.numArray.1 === 2', true],",
+									"\t\t['[Check Value] data.foo incl ba', true],",
+									"\t\t['[Check Value] data.foo notincl ba', false],",
+									"\t\t['[Check Value] url regex /^https.*PoSt$/i', 1],",
+									"\t\t['[Check Value] url regex /^https.*PoSt$/', 0],",
+									"\t\t['[Check Value] custom_simple == [custom function]', 1],",
+									"\t\t['[Check Value] always_pass == [custom function]', 1],",
+									"\t\t['[Check Value] always_fail == [custom function]', 0],",
+									"\t\t['[Check Value] custom_advanced == [custom function]', 1],",
 									"\t];",
-									"        ",
-									"f5_check_response(check_vars);",
+									"",
+									"",
+									"f5_check_response(check_vals);",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									""
 								]
 							}
 						}
@@ -2743,7 +3494,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -2758,62 +3509,76 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
-									"",
-									"var custom_populate_function_undef = function(json) { return undefined };",
-									"var custom_populate_function_simple = function(json) { return json.json.foo };",
-									"var custom_populate_function_advanced = function(json) {",
-									"    if('data' in json.json && json.json.data.length === 3) {",
-									"        return json.json.data[json.json.data.length - 1];",
+									"var custom_undef = function(resp) { return undefined };",
+									"var custom_simple = function(resp) { return resp.data.foo };",
+									"var custom_advanced = function(resp, length) {",
+									"    console.log(length);",
+									"    console.log(resp.data.array.length);",
+									"    if('array' in resp.data && resp.data.array.length == length) {",
+									"        return resp.data.array.pop();",
 									"    }",
 									"};",
-									"var custom_populate_function_gethostname = function(json) {",
-									"    var matches = json.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
+									"var custom_gethostname = function(resp) {",
+									"    var matches = resp.url.match(/^https?\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);",
 									"    return matches && matches[1];",
 									"}",
+									"",
 									"var populate_vars = [",
-									"        { \"name\":\"_rt_test_populate_advfunc_var\",    \"value\":custom_populate_function_advanced },",
-									"        { \"name\":\"_rt_test_populate_simplefunc_var\", \"value\":custom_populate_function_simple },",
-									"        { \"name\":\"_rt_test_populate_undeffunc_var\",  \"value\":custom_populate_function_undef },",
-									"        { \"name\":\"_rt_test_populate_url_var\",        \"value\":\"url\" },",
-									"        { \"name\":\"_rt_test_populate_hostname_var\",   \"value\":custom_populate_function_gethostname },",
-									"        { \"name\":\"_rt_test_populate_nonexist_var\",   \"value\":\"i_dont_exist\" }",
+									"        { \"name\":\"_rt_tpop_url\",        \"value\":\"url\" },",
+									"        { \"name\":\"_rt_tpop_var1\",       \"value\":\"data.array.0\" },",
+									"        { \"name\":\"_rt_tpop_var2\",       \"value\":\"data.numArray.1\" },",
+									"        { \"name\":\"_rt_tpop_var3\",       \"value\":\"data.items.1.name\" },",
+									"        { \"name\":\"_rt_tpop_var4\",       \"value\":\"data.items.1.uuid\" },",
+									"        { \"name\":\"_rt_tpop_var5\",       \"value\":\"args.1\" },",
+									"        { \"name\":\"_rt_tpop_name_1_uuid\",\"value\":f5_get_property_by_value,    \"args\":[\"name_1\",\"uuid\"] },",
+									"        { \"name\":\"_rt_tpop_foo\",        \"value\":f5_get_first_property_value, \"args\":[\"foo\"] },",
+									"        { \"name\":\"_rt_tpop_name_3_path\",\"value\":f5_get_path_by_value,        \"args\":[\"name_3\"] },",
+									"        { \"name\":\"_rt_tpop_no_exist\",   \"value\":f5_get_first_property_value, \"args\":[\"this_does_not_exist\"] },        ",
+									"        { \"name\":\"_rt_tpop_simple\",     \"value\":custom_simple },",
+									"        { \"name\":\"_rt_tpop_undef\",      \"value\":custom_undef },",
+									"        { \"name\":\"_rt_tpop_hostname\",   \"value\":custom_gethostname },",
+									"        { \"name\":\"_rt_tpop_advanced\",   \"value\":custom_advanced,             \"args\":[3] },",
+									"        { \"name\":\"_rt_tpop_noex_var\",   \"value\":\"i_dont_exist\" }",
 									"    ];",
 									"",
 									"var test_state = [",
-									"\t\t['[Cleared Runtime Env Vars]', 1],",
 									"\t\t['[POST Response Code]=200', 1],",
-									"\t\t['[Populate Variable] _rt_test_populate_advfunc_var=3', 1],",
-									"\t\t['[Populate Variable] _rt_test_populate_simplefunc_var=bar', 1],",
-									"\t\t['[Populate Variable] _rt_test_populate_undeffunc_var', 0],",
-									"\t\t['[Populate Variable] _rt_test_populate_url_var=https://echo.getpostman.com/post', 1],",
-									"\t\t['[Populate Variable] _rt_test_populate_hostname_var=echo.getpostman.com', 1],",
-									"\t\t['[Populate Variable] _rt_test_populate_nonexist_var', 0],",
-									"\t\t['[Tester] All Env Vars Correct', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_url=https://echo.getpostman.com/post', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_var1=one', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_var2=2', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_var3=name_2', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_var4=4444-5555-6666', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_var5=', 0],",
+									"\t\t['[Populate Variable] _rt_tpop_name_1_uuid=1111-2222-3333', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_foo=bar', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_name_3_path=data.items.2.name', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_no_exist=', 0],",
+									"\t\t['[Populate Variable] _rt_tpop_simple=bar', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_undef=', 0],",
+									"\t\t['[Populate Variable] _rt_tpop_hostname=echo.getpostman.com', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_advanced=three', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_noex_var=', 0],",
 									"\t];",
-									"",
-									"var var_state = [",
-									"        ['_rt_test_populate_advfunc_var', '3'],",
-									"        ['_rt_test_populate_simplefunc_var', 'bar'],",
-									"        ['_rt_test_populate_undeffunc_var', ''],",
-									"        ['_rt_test_populate_url_var', 'https://echo.getpostman.com/post'],",
-									"        ['_rt_test_populate_hostname_var', 'echo.getpostman.com']",
-									"    ];    ",
-									"        ",
+									"\t",
 									"f5_populate_env_vars(populate_vars);",
 									"",
-									"tests['[Tester] All Env Vars Correct'] = 1;",
-									"for (var i in var_state) {",
-									"    if(environment[var_state[i][0]] !== var_state[i][1]) {",
-									"        f5_debug('fail ' + var_state[i][0])",
-									"        tests['[Tester] All Env Vars Correct'] = 0;",
-									"    }",
-									"}",
-									"",
-									"f5_test_state_generate()",
+									"f5_test_state_generate();",
 									"f5_test_check(test_state);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
+									"",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									""
 								]
 							}
 						}
@@ -2835,7 +3600,50 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"data\":[1,2,3],\n\t\"foo\":\"bar\"\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Test Cleanup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_clear_runtime_vars(true);",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/status/200",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "THIS_IS_A_TEST"
 						},
 						"description": ""
 					},
@@ -2869,10 +3677,7 @@
 						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"description": ""
 					},
 					"response": []

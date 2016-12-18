@@ -4,6 +4,12 @@
  * @version 1.0
  */
 
+// Global variable to cache JSON data
+var _f5_json;
+
+// Fixups tests[] so we can eval() into pre-request scripts
+tests = typeof tests === 'undefined' ? [] : tests;
+
 /**
  * @function f5_populate_env_vars
  * @param {Object[]} vars - An array of env variables to populate
@@ -26,15 +32,16 @@ function f5_populate_env_vars(vars) {
         return;
     }
 
-    var json = JSON.parse(responseBody);
+    var json = f5_parse_json_resp();
     for (var i = 0; i < vars.length; i++) {
-        var test_name = '[Populate Variable] ' + vars[i].name;
+        var test_name = '[Populate Variable] ' + vars[i].name + "=";
 
         f5_debug("name=" + vars[i].name);
 
         if (typeof vars[i].value === 'function') {
             f5_debug("running custom function");
-            var ret = vars[i].value(json);
+            var args = !('args' in vars[i]) ? [json] : [json].concat(vars[i].args);
+            var ret = vars[i].value.apply(this, args);
 
             if (ret !== undefined) {
                 f5_set_test_result(test_name, 1, ret);
@@ -44,15 +51,20 @@ function f5_populate_env_vars(vars) {
                 f5_set_test_result(test_name, 0, undefined);
                 postman.setEnvironmentVariable(vars[i].name, "");
             }
-        } else if(vars[i].value in json) {
-            f5_debug("found attribute");
-            postman.setEnvironmentVariable(vars[i].name, json[vars[i].value]);
-            f5_set_test_result(test_name, 1, json[vars[i].value]);
         } else {
-            f5_debug("did not find attribute");
-            f5_set_test_result(test_name, 0, undefined);
-            if(!poll && !parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"),10)) {
-                postman.setNextRequest(null);
+            var obj = f5_get_by_string(vars[i].value);
+            f5_debug("obj=" + obj);
+
+            if(obj) {
+                f5_debug("found attribute");
+                postman.setEnvironmentVariable(vars[i].name, obj);
+                f5_set_test_result(test_name, 1, obj);
+            } else {
+                f5_debug("did not find attribute");
+                f5_set_test_result(test_name, 0, undefined);
+                if(!poll && !parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"),10)) {
+                    postman.setNextRequest(null);
+                }
             }
         }
     }
@@ -85,16 +97,29 @@ function f5_check_response(vars) {
         return;
     }
 
-    var json = JSON.parse(responseBody);
+    var json = f5_parse_json_resp();
     for (var i = 0; i < vars.length; i++) {
-        var check_test_name = "[Check Value] " + vars[i].name;
-        if (vars[i].name in json) {
-            f5_set_test_result("[Current Value] " + vars[i].name, 1, json[vars[i].name]);
+        if (typeof vars[i].path === 'undefined' ||
+            typeof vars[i].value === 'undefined') {
+            console.log('f5_check_response: ERROR: element ' + i + ' does not have path and value attributes');
+            continue;
         }
 
+        vars[i].op = typeof vars[i].op === 'undefined' ? '==' : vars[i].op
+        vars[i].test = typeof vars[i].test === 'undefined' ? true : vars[i].test
+
+        var obj = f5_get_by_string(vars[i].path);
+        if (obj) {
+            f5_set_test_result("[Current Value] " + vars[i].path + "=", 1, obj);
+        }
+
+        if(!vars[i].test) { continue; }
+
+        var check_test_name = "[Check Value] "+vars[i].path+" "+vars[i].op+ " ";
         if (typeof vars[i].value === 'function') {
             f5_debug("running custom function");
-            var ret = vars[i].value(json);
+            var args = !('args' in vars[i]) ? [json] : [json].concat(vars[i].args);
+            var ret = vars[i].value.apply(this, args);
 
             if (ret) {
                 f5_set_test_result(check_test_name, 1, '[custom function]');
@@ -103,7 +128,69 @@ function f5_check_response(vars) {
                 f5_set_test_result(check_test_name, 0, '[custom function]');
             }
         } else {
-            var match = (json[vars[i].name] == vars[i].value);
+            var mf = null;
+            f5_debug("op=" + vars[i].op.toLowerCase());
+            switch(vars[i].op.toLowerCase()) {
+                case '===':
+                    mf = function(x,y) { return x === y };
+                    break;
+                case '!==':
+                    mf = function(x,y) { return x !== y };
+                    break;
+                case '==':
+                    mf = function(x,y) { return x == y };
+                    break;
+                case '!=':
+                    mf = function(x,y) { return x != y };
+                    break;
+                case '<':
+                    mf = function(x,y) { return x < y };
+                    break;
+                case '<=':
+                    mf = function(x,y) { return x <= y };
+                    break;
+                case '>':
+                    mf = function(x,y) { return x > y };
+                    break;
+                case '>=':
+                    mf = function(x,y) { return x >= y };
+                    break;
+                case 'incl':
+                    mf = function(x,y) {
+                        if(typeof x === 'string') {
+                            return x.includes(y);
+                        }
+                    };
+                    break;
+                case 'notincl':
+                    mf = function(x,y) {
+                        if(typeof x === 'string') {
+                            return !(x.includes(y));
+                        }
+                    };
+                    break;
+                case 'regex':
+                    mf = function(x,y) {
+                        if(typeof x === 'string') {
+                            re = eval(y);
+                            if(x.search(re) < 0) {
+                                return 0;
+                            }
+                            return 1;
+                        }
+                    };
+                    break;
+                default:
+                    break;
+            }
+
+            if(typeof mf !== 'function') {
+                console.log('Invalid match op "' + vars[i].op + '" specified');
+                return undefined;
+            }
+
+            f5_debug("mf=" + mf)
+            var match = mf(obj, vars[i].value);
             f5_set_test_result(check_test_name, match, vars[i].value);
         }
     }
@@ -242,7 +329,7 @@ function f5_check_response_code(mode) {
         okCodes.GET.push(404);
     }
 
-    var test_name = "[" + request.method + " Response Code]";
+    var test_name = "[" + request.method + " Response Code]=";
 
     if (request.method in okCodes &&
         okCodes[request.method].indexOf(responseCode.code) > -1) {
@@ -279,7 +366,7 @@ function f5_set_test_result(name, result, value) {
         if(typeof value === 'object') {
             value = JSON.stringify(value);
         }
-        test_name = name + '=' + value;
+        test_name = name + value;
     } else {
         test_name = name;
     }
@@ -313,17 +400,24 @@ function f5_debug(msg) {
 
 /**
  * @function f5_clear_runtime_vars
+ * @param {Boolean} del - Delete rather than clear var
  * @returns {Undefined}
  * @desc Sets any Postman env variables with names starting
  * with '_rt_' to a blank value.  The 'cleared_runtime_env_vars' test is set
  * to provide feedback
  */
-function f5_clear_runtime_vars() {
+function f5_clear_runtime_vars(del) {
+    del = typeof del === 'undefined' ? false : del;
+
     var envKeys = Object.keys(environment);
     for(var i = 0; i < envKeys.length; i++) {
         if(envKeys[i].startsWith("_rt_")) {
             f5_debug("clearing env variable: " + envKeys[i]);
-            postman.setEnvironmentVariable(envKeys[i], "");
+            if(del) {
+                postman.clearEnvironmentVariable(envKeys[i], "");
+            } else {
+                postman.setEnvironmentVariable(envKeys[i], "");
+            }
         }
     }
     tests["[Cleared Runtime Env Vars]"] = 1;
@@ -397,3 +491,141 @@ function f5_test_state_generate() {
     return;
 }
 
+/**
+ * @function f5_search_json
+ * @param {Object} json - JSON object to search
+ * @param {String} value - String to match to attribute value
+ * @param {String} attr - Attribute value to return
+ * @param {Number} maxdepth - Max search depth
+ * @param {Array} path - Current search path
+ * @returns {String|Number|Undefined|Null}
+ * @desc A function that recursively searchs a JSON object
+ */
+function f5_search_json(json, value, attr, maxdepth, path) {
+    json = typeof json  === 'undefined' ? {} : json;
+    maxdepth = typeof maxdepth  === 'undefined' ? 15 : maxdepth;
+    path = typeof path === 'undefined' ? [] : path;
+    parenttype = typeof parenttype === 'undefined' ? "" : parenttype;
+    depth = path.length || 0;
+
+    if (!value && !attr) {
+        f5_debug("nothing to search for, return undefined");
+        return undefined;
+    }
+
+    var pre = "[" + depth + "]" + " ".repeat(depth);
+    f5_debug(pre + "path=" + path)
+    if(depth > maxdepth) {
+        f5_debug("hit search depth limit, return null")
+        return null;
+    }
+
+    for(var i in json) {
+        f5_debug(pre + "{" + typeof json[i] + "}" + i + "={" + typeof json[i] + "}" + json[i]);
+
+        //var pathtemp = "['" + i + "']";
+        var pathtemp = i;
+
+        if (typeof json[i] === 'object') {
+            var ret = f5_search_json(json[i], value, attr, maxdepth, path.concat(pathtemp));
+            if(ret) { return(ret); }
+        } else {
+            if((value && attr) && (json[i] === value && attr in json)) {
+                f5_debug(pre + " [MATCH 1] value=" + value + " attr=" + attr + " return=" + json[i]);
+                return json[attr];
+            }
+            if((!value && attr) && attr in json) {
+                f5_debug(pre + " [MATCH 2] attr=" + attr + " return=" + json[i]);
+                return json[attr];
+            }
+            if((value && !attr) && (json[i] === value)) {
+                f5_debug(pre + " [MATCH 3] value=" + value + " return=" + i);
+                path.push(pathtemp);
+                return path.join('.');
+            }
+        }
+    }
+    return undefined;
+}
+
+/**
+ * @function f5_get_property_by_value
+ * @param {Object} json - JSON object to search
+ * @param {String} value - String to match in property values
+ * @param {String} property - Property value to return
+ * @returns {String|Number|Undefined|Null}
+ * @desc Search for the first occurence of {value} in {json} and return the
+ *       value of the {property} within the same JSON scope
+ */
+function f5_get_property_by_value(json, value, property) {
+    return f5_search_json(json, value, property);
+}
+
+/**
+ * @function f5_get_first_property_value
+ * @param {Object} json - JSON object to search
+ * @param {String} property - Property value to return
+ * @returns {String|Number|Undefined|Null}
+ * @desc Search for first occurence of {property} in {json} and return value
+ */
+function f5_get_first_property_value(json, property) {
+    return f5_search_json(json, undefined, property);
+}
+
+/**
+ * @function f5_get_path_by_value
+ * @param {Object} json - JSON object to search
+ * @param {String} value - String to match in property values
+ * @returns {String|Undefined|Null}
+ * @desc Search for first occurence of {value} in {json} and return the path
+ */
+function f5_get_path_by_value(json, value) {
+    return f5_search_json(json, value, undefined);
+}
+
+/**
+ * @function f5_parse_json_resp
+ * @returns {Object}
+ * @desc Safely parse JSON response and cache result in global variable
+ */
+function f5_parse_json_resp() {
+    if(_f5_json === undefined && responseBody) {
+        try {
+            _f5_json = JSON.parse(responseBody);
+            return(_f5_json);
+        } catch(e) {
+            alert(e); // error in the above string (in this case, yes)!
+        }
+    }
+    return(_f5_json);
+}
+
+/**
+ * @function f5_get_by_string
+ * @param {String} s - Dot-notation path string
+ * @param {Number} d - Depth to backup in path (e.g. 1=parent, 2=grandparent)
+ * @returns {Object}
+ * @desc Return JSON object using a dot-notation path string
+ *
+ * Credit to http://stackoverflow.com/a/6491621
+ */
+function f5_get_by_string(s, d) {
+    d = typeof d === 'undefined' ? 0 : d;
+    o = f5_parse_json_resp();
+    if (typeof s !== 'string') {
+        return undefined;
+    }
+    s = s.replace('/\[(\w+)\]/g', '.$1'); // convert indexes to properties
+    s = s.replace('/^\./', '');           // strip a leading dot
+    var a = s.split('.');
+    a = a.splice(0, a.length - d);
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
