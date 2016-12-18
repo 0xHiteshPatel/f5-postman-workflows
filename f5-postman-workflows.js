@@ -180,6 +180,9 @@ function f5_check_response(vars) {
                         }
                     };
                     break;
+                case 'length':
+                    mf = function(x,y) { return x.length == y; };
+                    break;
                 default:
                     break;
             }
