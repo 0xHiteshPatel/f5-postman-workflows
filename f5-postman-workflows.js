@@ -264,10 +264,9 @@ function f5_poll_until_all_tests_pass(next, curr) {
 
     f5_debug("curr=" + curr);
     f5_debug("next=" + next);
-    f5_debug("_f5_poll_max_tries=" +
-        postman.getGlobalVariable("_f5_poll_max_tries"));
-    f5_debug("_f5_poll_iterator=" +
-        postman.getGlobalVariable("_f5_poll_iterator"));
+    var max_tries = postman.getGlobalVariable("_f5_poll_max_tries");
+    var iterator = postman.getGlobalVariable("_f5_poll_iterator");
+    tests['[Poller] Try ' + iterator + ' of ' + max_tries] = 1;
 
     if (f5_all_tests_passed() === true) {
         f5_debug("tests passed, next is '" + next + "'");
