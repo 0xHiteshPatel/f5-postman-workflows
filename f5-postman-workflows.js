@@ -22,6 +22,10 @@ tests = typeof tests === 'undefined' ? [] : tests;
  * Boolean test items are populated as follows:
  */
 function f5_populate_env_vars(vars) {
+    if(!vars) {
+        return undefined;
+    }
+
     var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10);
 
     if(!f5_check_response_code()) {
@@ -160,6 +164,10 @@ function f5_check_response(vars) {
                         if(typeof x === 'string') {
                             return x.includes(y);
                         }
+                        if(Array.isArray(x) && x.indexOf(y) >= 0) {
+                            return 1;
+                        }
+                        return 0;
                     };
                     break;
                 case 'notincl':
@@ -167,6 +175,10 @@ function f5_check_response(vars) {
                         if(typeof x === 'string') {
                             return !(x.includes(y));
                         }
+                        if(Array.isArray(x) && x.indexOf(y) < 0) {
+                            return 1;
+                        }
+                        return 0;
                     };
                     break;
                 case 'regex':
@@ -178,6 +190,7 @@ function f5_check_response(vars) {
                             }
                             return 1;
                         }
+                        return 0;
                     };
                     break;
                 case 'length':
@@ -192,7 +205,8 @@ function f5_check_response(vars) {
                 return undefined;
             }
 
-            f5_debug("mf=" + mf)
+            f5_debug("mf=" + mf);
+            f5_debug("obj=" + obj);
             var match = mf(obj, vars[i].value);
             f5_set_test_result(check_test_name, match, vars[i].value);
         }

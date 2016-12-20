@@ -131,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "736843f4-bde0-4578-ab74-d7aff84a759e",
+							"id": "c61cd991-90c8-4e73-9212-ed7cae3c9051",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -337,7 +337,7 @@
 					},
 					"response": [
 						{
-							"id": "21787932-6c30-4bec-8eec-ff7f49b35d4e",
+							"id": "6a5f284e-99cc-4de9-a748-c7c1cbadf3e6",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -528,18 +528,18 @@
 									"",
 									"// We will use the path populated by f5_get_path_by_value above to",
 									"// get the full object related to 'name_3'",
-									"var obj = f5_get_by_string(environment._rt_var_search3);",
+									"var obj = f5_get_by_string(environment._rt_name_3_path);",
 									"console.log(JSON.stringify(obj));",
 									"",
 									"// The f5_get_by_string function can also go backwards in the path",
 									"// a return objects up the hierarchy by providing a second argument",
 									"//",
 									"// Specifying '1' as the second parameter gets the parent",
-									"var parent_obj = f5_get_by_string(environment._rt_var_search3, 1);",
+									"var parent_obj = f5_get_by_string(environment._rt_name_3_path, 1);",
 									"console.log(JSON.stringify(parent_obj));",
 									"",
 									"// Specifying '2' as the second parameter gets the grandparent",
-									"var grandparent_obj = f5_get_by_string(environment._rt_var_search3, 2);",
+									"var grandparent_obj = f5_get_by_string(environment._rt_name_3_path, 2);",
 									"console.log(JSON.stringify(grandparent_obj));",
 									"",
 									""
@@ -570,7 +570,7 @@
 					},
 					"response": [
 						{
-							"id": "820bcec2-9286-40a0-a5c4-54dbfecc3bad",
+							"id": "72ccf776-2eca-4e6a-ac7a-a7d94592374c",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "89e5c6da-a61a-4a48-b9fd-c7a9a622eeb2",
+							"id": "b6ea9562-9943-488d-9f90-aabdfbd92106",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1007,7 +1007,7 @@
 					},
 					"response": [
 						{
-							"id": "bacb6ad8-c3d8-48d1-8734-62dc809337e8",
+							"id": "d1398021-c0d3-4e5a-9ee9-786d83d49b9e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1207,7 +1207,7 @@
 					},
 					"response": [
 						{
-							"id": "ad768994-5859-4043-af61-6475f083befa",
+							"id": "e6ccdf7a-06b6-47f7-b944-9149b74b18b2",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1353,7 +1353,7 @@
 									"// response checks are performed:",
 									"//",
 									"//    \"test\":{true|false},",
-									"//    \"op\":\"{ === | !== | == | != | < | > | <= | >= | incl | notincl | regex }\"",
+									"//    \"op\":\"{ === | !== | == | != | < | > | <= | >= | incl | notincl | regex | length }\"",
 									"//",
 									"// The 'test' attribute controls whether a test item is created for ",
 									"// a particular check",
@@ -1385,6 +1385,8 @@
 									"        //   data.numArray[1] is a Number type",
 									"        //   \"2\" is a String type",
 									"        // Since they are different types this test will always fail",
+									"        // This example also uses the 'test' attribute to disable auto",
+									"        // creation of a matching test",
 									"        {",
 									"            \"path\":\"data.numArray.1\",",
 									"            \"value\":\"2\",",
@@ -1406,11 +1408,29 @@
 									"            \"value\":\"ba\",",
 									"            \"op\":\"incl\"",
 									"        },",
+									"        // The 'incl' op also works with arrays",
+									"        {",
+									"            \"path\":\"data.array\",",
+									"            \"value\":\"one\",",
+									"            \"op\":\"incl\"",
+									"        },        ",
+									"        // The 'notincl' op inverts the operation",
+									"        {",
+									"            \"path\":\"data.array\",",
+									"            \"value\":\"does_not_exist\",",
+									"            \"op\":\"notincl\"",
+									"        }, ",
 									"        // Check to see if url matches a regular expression ",
 									"        {",
 									"            \"path\":\"url\",",
 									"            \"value\":\"/^https.*PoSt$/i\",",
 									"            \"op\":\"regex\"",
+									"        },",
+									"        // Check the length of an array",
+									"        {",
+									"            \"path\":\"data.numArray\",",
+									"            \"value\":\"3\",",
+									"            \"op\":\"length\"",
 									"        }",
 									"    ];",
 									"",
@@ -1444,7 +1464,7 @@
 					},
 					"response": [
 						{
-							"id": "e79e42af-f334-4e7c-b7a4-e9c74fdb75ad",
+							"id": "341616d4-70fc-4187-be41-e6a213ebb816",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1683,7 +1703,7 @@
 					},
 					"response": [
 						{
-							"id": "b2a2774a-faa7-4a8f-ba3b-945058fa59dc",
+							"id": "95c57d28-d5cf-45a5-b523-2e28125c34f3",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1890,7 +1910,7 @@
 					},
 					"response": [
 						{
-							"id": "3305d28f-724f-49f4-88b8-8e91eb300fea",
+							"id": "55a6ccdc-b3e5-4e2a-971b-b74e90a29c19",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -2038,7 +2058,7 @@
 					},
 					"response": [
 						{
-							"id": "1f9fae25-747f-4fb4-8b62-6f729a851be8",
+							"id": "2d2f294a-a831-42cd-91a9-2058ff8419ad",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -3169,10 +3189,20 @@
 									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"notincl\" },",
 									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/i\", \"op\":\"regex\" },",
 									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/\", \"op\":\"regex\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":\"3\",   \"op\":\"length\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"4\",   \"op\":\"length\" },",
 									"        { \"path\":\"custom_simple\",     \"value\":custom_simple },",
 									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
 									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
 									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
+									"        { \"path\":\"data.array\",        \"value\":\"three\",  \"op\":\"incl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"noexist\",\"op\":\"incl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"three\",  \"op\":\"notincl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"noexist\",\"op\":\"notincl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
 									"    ];",
 									"    ",
@@ -3208,10 +3238,22 @@
 									"\t\t['[Polled][Check Value] data.foo notincl ba [FAIL]', 1],",
 									"\t\t['[Polled][Check Value] url regex /^https.*PoSt$/i [PASS]', 1],",
 									"\t\t['[Polled][Check Value] url regex /^https.*PoSt$/ [FAIL]', 1],",
+									"\t\t['[Polled][Current Value] data.numArray=[1,2,3] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray length 3 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.foo length 4 [FAIL]', 1],",
 									"\t\t['[Polled][Check Value] custom_simple == [custom function] [PASS]', 1],",
 									"\t\t['[Polled][Check Value] always_pass == [custom function] [PASS]', 1],",
 									"\t\t['[Polled][Check Value] always_fail == [custom function] [FAIL]', 1],",
 									"\t\t['[Polled][Check Value] custom_advanced == [custom function] [PASS]', 1],",
+									"\t\t['[Polled][Current Value] data.array=[\"one\",\"two\",\"three\"] [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.array incl three [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.array incl noexist [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.array notincl three [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.array notincl noexist [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray incl 2 [PASS]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray incl 10 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray notincl 2 [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] data.numArray notincl 10 [PASS]', 1],",
 									"\t\t['[Polled][Check Value] i_dont_exist == this_should_fail [FAIL]', 1],",
 									"\t];",
 									"\t",
@@ -3410,10 +3452,20 @@
 									"        { \"path\":\"data.foo\",          \"value\":\"ba\",  \"op\":\"notincl\" },",
 									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/i\", \"op\":\"regex\" },",
 									"        { \"path\":\"url\",               \"value\":\"/^https.*PoSt$/\", \"op\":\"regex\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":\"3\",   \"op\":\"length\" },",
+									"        { \"path\":\"data.foo\",          \"value\":\"4\",   \"op\":\"length\" },",
 									"        { \"path\":\"custom_simple\",     \"value\":custom_simple },",
 									"        { \"path\":\"always_pass\",       \"value\":custom_pass },",
 									"        { \"path\":\"always_fail\",       \"value\":custom_fail },",
 									"        { \"path\":\"custom_advanced\",   \"value\":custom_advanced, \"args\":[3] },",
+									"        { \"path\":\"data.array\",        \"value\":\"three\",  \"op\":\"incl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"noexist\",\"op\":\"incl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"three\",  \"op\":\"notincl\" },",
+									"        { \"path\":\"data.array\",        \"value\":\"noexist\",\"op\":\"notincl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },        ",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
 									"    ];",
 									"    ",
@@ -3449,10 +3501,22 @@
 									"\t\t['[Check Value] data.foo notincl ba', false],",
 									"\t\t['[Check Value] url regex /^https.*PoSt$/i', 1],",
 									"\t\t['[Check Value] url regex /^https.*PoSt$/', 0],",
+									"\t\t['[Current Value] data.numArray=[1,2,3]', 1],",
+									"\t\t['[Check Value] data.numArray length 3', true],",
+									"\t\t['[Check Value] data.foo length 4', false],",
 									"\t\t['[Check Value] custom_simple == [custom function]', 1],",
 									"\t\t['[Check Value] always_pass == [custom function]', 1],",
 									"\t\t['[Check Value] always_fail == [custom function]', 0],",
 									"\t\t['[Check Value] custom_advanced == [custom function]', 1],",
+									"\t\t['[Current Value] data.array=[\"one\",\"two\",\"three\"]', 1],",
+									"\t\t['[Check Value] data.array incl three', 1],",
+									"\t\t['[Check Value] data.array incl noexist', 0],",
+									"\t\t['[Check Value] data.array notincl three', 0],",
+									"\t\t['[Check Value] data.array notincl noexist', 1],",
+									"\t\t['[Check Value] data.numArray incl 2', 1],",
+									"\t\t['[Check Value] data.numArray incl 10', 0],",
+									"\t\t['[Check Value] data.numArray notincl 2', 0],",
+									"\t\t['[Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Check Value] i_dont_exist == this_should_fail', false],",
 									"\t];",
 									"",
