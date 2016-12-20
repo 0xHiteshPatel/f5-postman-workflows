@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "f05edd89-8d6a-4268-8349-713bdb948669",
+							"id": "09d03d82-004b-4320-92df-866961e96338",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -182,7 +182,7 @@
 					},
 					"response": [
 						{
-							"id": "6514452d-3212-437f-bfa9-f0269ce8d061",
+							"id": "80371a59-405c-40bb-902e-f5a41b11f4e6",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -321,7 +321,7 @@
 					},
 					"response": [
 						{
-							"id": "e2389de5-d06f-43a6-946c-80139b0f8e56",
+							"id": "787ba395-eee8-494a-aaea-c44f8902baa9",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -1358,6 +1358,411 @@
 			"name": "99_Cleanup",
 			"description": "",
 			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{f5_token}} variable"
+					},
+					"response": [
+						{
+							"id": "ab14a500-7fdc-4100-9e9b-208d41708fc3",
+							"name": "Example",
+							"originalRequest": {
+								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+								},
+								"description": "Perform authentication and populate the {{f5_token}} variable"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "710",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				},
+				{
+					"name": "Verify Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        {path:\"content\", value:\"Authentication works\"}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "c98be019-7d2c-4ed8-8c81-9ee15184f21c",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-F5-Auth-Token",
+										"value": "{{_rt_iwf_token}}",
+										"description": ""
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+								},
+								"description": ""
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "221",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:27 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 23,
+							"body": "{\"content\":\"Authentication works\",\"stageEnumValues\":[\"CREATED\",\"STARTED\",\"SHUTDOWN\"],\"generation\":2,\"lastUpdateMicros\":1482190407368033,\"kind\":\"shared:echo:echoworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/echo\"}"
+						}
+					]
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        { path:\"token\", value: environment.f5_token },",
+									"        { path:\"timeout\", value: environment.f5_timeout }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"1800\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "c2edf8fd-9cf9-4bf0-a3bf-b6895a507f5f",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "X-F5-Auth-Token",
+										"value": "{{_rt_iwf_token}}",
+										"description": ""
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"timeout\":\"1800\"\n}"
+								},
+								"description": ""
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "529",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:35 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": "Gives the date/time after which the response is considered stale"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": "Custom header"
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"responseTime": 24,
+							"body": "{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":36000,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":2,\"lastUpdateMicros\":1482190414998914,\"expirationMicros\":1482226386668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"}"
+						}
+					]
+				},
 				{
 					"name": "Initialize Environment",
 					"event": [
