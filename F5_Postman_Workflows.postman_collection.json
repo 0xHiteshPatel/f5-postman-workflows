@@ -131,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "c61cd991-90c8-4e73-9212-ed7cae3c9051",
+							"id": "4082bbe1-6786-442c-9a3e-f9f375247ebe",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -337,7 +337,7 @@
 					},
 					"response": [
 						{
-							"id": "6a5f284e-99cc-4de9-a748-c7c1cbadf3e6",
+							"id": "d5235984-a6b9-4e9f-a53f-a1397d72aee0",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -570,7 +570,7 @@
 					},
 					"response": [
 						{
-							"id": "72ccf776-2eca-4e6a-ac7a-a7d94592374c",
+							"id": "9abf03fd-6b54-403f-8c15-32524346bf7c",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "b6ea9562-9943-488d-9f90-aabdfbd92106",
+							"id": "91dffefa-786f-4803-9504-a5092947507e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1007,7 +1007,7 @@
 					},
 					"response": [
 						{
-							"id": "d1398021-c0d3-4e5a-9ee9-786d83d49b9e",
+							"id": "1198daac-2cef-479e-b542-2be9d1a3ffcd",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1207,7 +1207,7 @@
 					},
 					"response": [
 						{
-							"id": "e6ccdf7a-06b6-47f7-b944-9149b74b18b2",
+							"id": "348b18b5-bed9-410f-8267-52b859f11676",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1464,7 +1464,7 @@
 					},
 					"response": [
 						{
-							"id": "341616d4-70fc-4187-be41-e6a213ebb816",
+							"id": "2d4c6127-7e84-4c99-ad45-1d914e30e284",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1703,7 +1703,7 @@
 					},
 					"response": [
 						{
-							"id": "95c57d28-d5cf-45a5-b523-2e28125c34f3",
+							"id": "150b76ba-6b6e-4aab-818e-e186b97bfd5f",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1910,7 +1910,7 @@
 					},
 					"response": [
 						{
-							"id": "55a6ccdc-b3e5-4e2a-971b-b74e90a29c19",
+							"id": "8f934c2c-13ab-44fc-ae05-13867654bea7",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -2058,7 +2058,7 @@
 					},
 					"response": [
 						{
-							"id": "2d2f294a-a831-42cd-91a9-2058ff8419ad",
+							"id": "e5457394-eab5-4381-b5e5-7282fbc9356e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -2214,6 +2214,52 @@
 			"name": "Install",
 			"description": "",
 			"item": [
+				{
+					"name": "Check f5-postman-workflows Version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var installed_ver = \"\";",
+									"if(globals._f5_workflow_functions) {",
+									"    eval(postman.getGlobalVariable('_f5_workflow_functions'));",
+									"    installed_ver = f5_get_version();",
+									"    tests[\"Current Installed Version: \" + installed_ver] = 1;",
+									"} else {",
+									"    tests[\"Current Installed Version: Not Installed\"] = 0;",
+									"}",
+									"",
+									"var current_ver = responseBody;",
+									"current_ver = current_ver.replace(/\\n/g, '');",
+									"tests[\"Latest Available Version: \" + current_ver] = 1;",
+									"",
+									"if(current_ver == installed_ver) {",
+									"    tests[\"Latest Version IS Installed\"] = 1;",
+									"} else {",
+									"    tests[\"Latest Version is NOT Installed\"] = 0;",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/VERSION.md?token=AMb4clsrUn-djietjSvnwHyJBAsZlhrfks5YYfPFwA%3D%3D",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
+					},
+					"response": []
+				},
 				{
 					"name": "Install/Upgrade f5-postman-workflows",
 					"event": [
@@ -2371,7 +2417,7 @@
 					],
 					"request": {
 						"url": "https://echo.getpostman.com/get",
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -3203,7 +3249,8 @@
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"incl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3255,6 +3302,7 @@
 									"\t\t['[Polled][Check Value] data.numArray notincl 2 [FAIL]', 1],",
 									"\t\t['[Polled][Check Value] data.numArray notincl 10 [PASS]', 1],",
 									"\t\t['[Polled][Check Value] i_dont_exist == this_should_fail [FAIL]', 1],",
+									"\t\t['[Polled][Check Value] custom_test_name == this_should_fail [FAIL]', 1]",
 									"\t];",
 									"\t",
 									"f5_check_response(check_vals);",
@@ -3466,7 +3514,8 @@
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"incl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },        ",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }        ",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3518,6 +3567,7 @@
 									"\t\t['[Check Value] data.numArray notincl 2', 0],",
 									"\t\t['[Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Check Value] i_dont_exist == this_should_fail', false],",
+									"\t\t['[Check Value] custom_test_name == this_should_fail', false]\t\t",
 									"\t];",
 									"",
 									"f5_check_response(check_vals);",

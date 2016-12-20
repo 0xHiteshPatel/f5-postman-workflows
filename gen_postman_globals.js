@@ -11,8 +11,7 @@ var onReadTmplFile = function(err, data) {
 	//console.log(data);
 	//console.log(result.code);
 
-	var code = result.code;
-	code = result.code.replace(/\"/g, '\\"');
+	var code = JSON.stringify(result.code);
 
 	out = data.replace('{{f5_workflow_functions}}', code);
 	//console.log(code);
@@ -24,5 +23,8 @@ var result = UglifyJS.minify('f5-postman-workflows.js', {
     mangle: true,
     compress: true
 });
+
+eval(result.code);
+fs.writeFileSync('VERSION.md', f5_get_version() + '\n');
 
 fs.readFile('globals.postman_globals.json.tmpl', 'utf8', onReadTmplFile);

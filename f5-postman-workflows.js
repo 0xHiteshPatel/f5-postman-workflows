@@ -7,8 +7,22 @@
 // Global variable to cache JSON data
 var _f5_json;
 
+// Version info
+var _f5_version = {
+    MAJOR: "1.0",
+    MINOR: "0dev"
+};
+
 // Fixups tests[] so we can eval() into pre-request scripts
 tests = typeof tests === 'undefined' ? [] : tests;
+
+/**
+ * @function f5_get_version
+ * @returns {String}
+ */
+function f5_get_version() {
+    return(_f5_version.MAJOR.toString() + '.' + _f5_version.MINOR.toString());
+}
 
 /**
  * @function f5_populate_env_vars
@@ -111,15 +125,16 @@ function f5_check_response(vars) {
 
         vars[i].op = typeof vars[i].op === 'undefined' ? '==' : vars[i].op
         vars[i].test = typeof vars[i].test === 'undefined' ? true : vars[i].test
+        vars[i].testname = typeof vars[i].testname === 'undefined' ? vars[i].path : vars[i].testname
 
         var obj = f5_get_by_string(vars[i].path);
         if (obj) {
-            f5_set_test_result("[Current Value] " + vars[i].path + "=", 1, obj);
+            f5_set_test_result("[Current Value] " + vars[i].testname + "=", 1, obj);
         }
 
         if(!vars[i].test) { continue; }
 
-        var check_test_name = "[Check Value] "+vars[i].path+" "+vars[i].op+ " ";
+        var check_test_name = "[Check Value] "+vars[i].testname+" "+vars[i].op+ " ";
         if (typeof vars[i].value === 'function') {
             f5_debug("running custom function");
             var args = !('args' in vars[i]) ? [json] : [json].concat(vars[i].args);
@@ -499,11 +514,11 @@ function f5_test_check(test_state) {
  * the text to the console
  */
 function f5_test_state_generate() {
-    var state_gen = "var test_state = [\\n"
+    var state_gen = "var test_state = [\n"
     for (var test in tests) {
-        state_gen += "\\t\\t['" + test + "', " + tests[test] + "],\\n";
+        state_gen += "\t\t['" + test + "', " + tests[test] + "],\n";
     }
-    state_gen += "\\t];\\n";
+    state_gen += "\t];\n";
     console.log(state_gen);
     return;
 }
@@ -632,12 +647,16 @@ function f5_get_by_string(s, d) {
     if (typeof s !== 'string') {
         return undefined;
     }
+
     s = s.replace('/\[(\w+)\]/g', '.$1'); // convert indexes to properties
     s = s.replace('/^\./', '');           // strip a leading dot
-    var a = s.split('.');
+    s = s.replace(/([^\\])\./g, '$1\u000B'); // handle escaped '.'
+    var a = s.split('\u000B');
+    f5_debug("a=" + a)
     a = a.splice(0, a.length - d);
     for (var i = 0, n = a.length; i < n; ++i) {
         var k = a[i];
+        k = k.replace(/\\\./g, '.');
         if (k in o) {
             o = o[k];
         } else {
