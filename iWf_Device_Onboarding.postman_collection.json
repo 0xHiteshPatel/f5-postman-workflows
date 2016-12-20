@@ -2,903 +2,2464 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_Device_Onboarding",
-		"_postman_id": "a6749bd5-cec7-2676-e9b3-b9db8b25efbe",
+		"_postman_id": "f12964a1-e9ec-d4e4-f2c4-5cb8dab0ffc3",
 		"description": "v1.0\n\nThis workflow can be used to create an Active/Standby Cluster between two BIG-IP devices using the iWorkflow Device Onboarding API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Initialize Environment",
-			"event": [
+			"name": "1_Workflow",
+			"description": "",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"        { ",
-							"            \"path\":\"stage\",",
-							"            \"value\":\"STARTED\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_clear_runtime_vars();",
-							"f5_check_response(check_vals);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{f5_token}} variable"
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Discover BIG-IP A on iWorkflow",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
-							"            \"value\":\"uuid\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"address\":\"{{bigip_a_mgmt}}\",\n    \"automaticallyUpdateFramework\":true,\n    \"properties\": {\n        \"isRestProxyEnabled\":true,\n        \"isSoapProxyEnabled\":true, \n        \"isTmshProxyEnabled\":false,\n        \"dmaConfigPathScope\":\"basic\"\n    },\n    \"rootUser\":\"root\",\n    \"rootPassword\":\"{{bigip_root_password}}\",\n    \"userName\":\"admin\",\n    \"password\":\"{{bigip_admin_password}}\"\n}"
+					"response": [
+						{
+							"id": "f05edd89-8d6a-4268-8349-713bdb948669",
+							"name": "Example",
+							"originalRequest": {
+								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+								},
+								"description": "Perform authentication and populate the {{f5_token}} variable"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "710",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Discover BIG-IP B on iWorkflow",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
-							"            \"value\":\"uuid\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Verify Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        {path:\"content\", value:\"Authentication works\"}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"address\":\"{{bigip_b_mgmt}}\",\n    \"automaticallyUpdateFramework\":true,\n    \"properties\": {\n        \"isRestProxyEnabled\":true,\n        \"isSoapProxyEnabled\":true, \n        \"isTmshProxyEnabled\":false,\n        \"dmaConfigPathScope\":\"basic\"\n    },\n    \"rootUser\":\"root\",\n    \"rootPassword\":\"{{bigip_root_password}}\",\n    \"userName\":\"admin\",\n    \"password\":\"{{bigip_admin_password}}\"\n}"
+					"response": [
+						{
+							"id": "6514452d-3212-437f-bfa9-f0269ce8d061",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-F5-Auth-Token",
+										"value": "{{_rt_iwf_token}}",
+										"description": ""
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+								},
+								"description": ""
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "221",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:27 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 23,
+							"body": "{\"content\":\"Authentication works\",\"stageEnumValues\":[\"CREATED\",\"STARTED\",\"SHUTDOWN\"],\"generation\":2,\"lastUpdateMicros\":1482190407368033,\"kind\":\"shared:echo:echoworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/echo\"}"
+						}
+					]
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP A Discovery Status",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"state\",",
-							"        \"value\":\"ACTIVE\"",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Discovery Status\");",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        { path:\"token\", value: environment.f5_token },",
+									"        { path:\"timeout\", value: environment.f5_timeout }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"1800\"\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for attribute state to be ACTIVE"
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP B Discovery Status",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"state\",",
-							"        \"value\":\"ACTIVE\"",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"f5_poll_until_all_tests_pass(\"Create a Local Connector\");",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for attribute state to be ACTIVE"
-			},
-			"response": []
-		},
-		{
-			"name": "Create a Local Connector",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_connector_uuid\",",
-							"            \"value\":\"connectorId\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\":\"BIG-IP A/B Connector\",\n    \"description\":\"Local Connector for the BIG-IP A/B Cluster\",\n    \"parameters\":[],\n    \"deviceReferences\": [\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"},\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"}\n    ],\n    \"timezone\": \"America/Chicago\",\n  \"ntpServers\": [\n      \"192.168.2.1\"\n    ],\n    \"dnsServerAddresses\": [\n      \"192.168.0.1\",\n      \"4.2.2.2\",\n      \"8.8.8.8\"\n    ],\n    \"dnsSuffixes\": [\n      \"f5se.local\",\n      \"f5.com\"\n    ]   \n}"
+					"response": [
+						{
+							"id": "e2389de5-d06f-43a6-946c-80139b0f8e56",
+							"name": "Example",
+							"originalRequest": {
+								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "X-F5-Auth-Token",
+										"value": "{{_rt_iwf_token}}",
+										"description": ""
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"timeout\":\"1800\"\n}"
+								},
+								"description": ""
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "529",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:35 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": "Gives the date/time after which the response is considered stale"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": "Custom header"
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"responseTime": 24,
+							"body": "{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":36000,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":2,\"lastUpdateMicros\":1482190414998914,\"expirationMicros\":1482226386668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"}"
+						}
+					]
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Populate License Pool UUID",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_license_pool_uuid\",",
-							"            \"value\":\"items.0.uuid\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools?$filter=name eq '{{iwf_license_pool_name}}'",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Initialize Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Add BIG-IP A Node to Local Connector",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_a_node_uuid\",",
-							"            \"value\":\"nodeID\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Discover BIG-IP A on iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
+									"            \"value\":\"uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\":\"{{bigip_a_mgmt}}\",\n    \"automaticallyUpdateFramework\":true,\n    \"properties\": {\n        \"isRestProxyEnabled\":true,\n        \"isSoapProxyEnabled\":true, \n        \"isTmshProxyEnabled\":false,\n        \"dmaConfigPathScope\":\"basic\"\n    },\n    \"rootUser\":\"root\",\n    \"rootPassword\":\"{{bigip_root_password}}\",\n    \"userName\":\"admin\",\n    \"password\":\"{{bigip_admin_password}}\"\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_a_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_a_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_a_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_a_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.21\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },\n    {\n      \"localAddress\":\"172.16.0.21\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.21\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }\n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP A Node Config Status",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_a_task_uuid\",",
-							"            \"value\":function(resp) { ",
-							"                if('currentConfigDeviceTaskReference' in resp) {",
-							"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
-							"                } else {",
-							"                    return undefined;",
-							"                }",
-							"            }",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							"f5_poll_until_all_tests_pass(\"Add BIG-IP B Node to Local Connector\");"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_a_node_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Discover BIG-IP B on iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
+									"            \"value\":\"uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\":\"{{bigip_b_mgmt}}\",\n    \"automaticallyUpdateFramework\":true,\n    \"properties\": {\n        \"isRestProxyEnabled\":true,\n        \"isSoapProxyEnabled\":true, \n        \"isTmshProxyEnabled\":false,\n        \"dmaConfigPathScope\":\"basic\"\n    },\n    \"rootUser\":\"root\",\n    \"rootPassword\":\"{{bigip_root_password}}\",\n    \"userName\":\"admin\",\n    \"password\":\"{{bigip_admin_password}}\"\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
-			},
-			"response": []
-		},
-		{
-			"name": "Add BIG-IP B Node to Local Connector",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_b_node_uuid\",",
-							"            \"value\":\"nodeID\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_b_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_b_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_b_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_b_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.22\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },    \n    {\n      \"localAddress\":\"172.16.0.22\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.22\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }       \n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP B Node Config Status",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_b_task_uuid\",",
-							"            \"value\":function(resp) { ",
-							"                if('currentConfigDeviceTaskReference' in resp) {",
-							"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
-							"                } else {",
-							"                    return undefined;",
-							"                }",
-							"            }",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							"f5_poll_until_all_tests_pass(\"Get BIG-IP A Task Status\");"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_b_node_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+					"name": "Get BIG-IP A Discovery Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"state\",",
+									"        \"value\":\"ACTIVE\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Discovery Status\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for attribute state to be ACTIVE"
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP A Task Status",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"status\",",
-							"        \"value\":\"FINISHED\"",
-							"    },",
-							"    {",
-							"        \"path\":\"currentStep\",",
-							"        \"value\":\"SUCCESS\"",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_a_task_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
-			},
-			"response": []
-		},
-		{
-			"name": "Get BIG-IP B Task Status",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"status\",",
-							"        \"value\":\"FINISHED\"",
-							"    },",
-							"    {",
-							"        \"path\":\"currentStep\",",
-							"        \"value\":\"SUCCESS\"",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_b_task_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
-			},
-			"response": []
-		},
-		{
-			"name": "Create Cluster Between BIG-IP A & B",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_cluster_task_uuid\",",
-							"            \"value\":\"id\"",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"input\":{\n    \"devices\":[\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.21\",\n        \"failoverIP\":\"192.168.5.21\"\n      },\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.22\",\n        \"failoverIP\":\"192.168.5.22\",\n        \"adminName\":\"admin\",\n        \"adminPassword\":\"admin\"\n      }\n    ],\n    \"floatingIPs\": [\n    {\n          \"name\": \"Internal-Float\",\n          \"address\": \"10.0.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"Internal\"\n      },\n      {\n          \"name\": \"External-Float\",\n          \"address\": \"172.16.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"External\"\n      },\n      {\n          \"name\": \"HA-Float\",\n          \"address\": \"192.168.5.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"HA\"\n      }\n    ],    \n    \"syncFailoverGroupName\":\"HA\",\n    \"autoSync\":true,\n    \"saveOnAutoSync\":true\n  },\n  \"name\":\"HA\",\n  \"generation\":0,\n  \"lastUpdateMicros\":0\n}\n"
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get Cluster Task Status",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"status\",",
-							"        \"value\":\"FINISHED\"",
-							"    },",
-							"    {",
-							"        \"path\":\"nextStep\",",
-							"        \"value\":\"SUCCESS\"",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices/{{_rt_iwf_cluster_task_uuid}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Get BIG-IP B Discovery Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"state\",",
+									"        \"value\":\"ACTIVE\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Create a Local Connector\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for attribute state to be ACTIVE"
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Local Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_connector_uuid\",",
+									"            \"value\":\"connectorId\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"BIG-IP A/B Connector\",\n    \"description\":\"Local Connector for the BIG-IP A/B Cluster\",\n    \"parameters\":[],\n    \"deviceReferences\": [\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"},\n        {\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"}\n    ],\n    \"timezone\": \"America/Chicago\",\n  \"ntpServers\": [\n      \"192.168.2.1\"\n    ],\n    \"dnsServerAddresses\": [\n      \"192.168.0.1\",\n      \"4.2.2.2\",\n      \"8.8.8.8\"\n    ],\n    \"dnsSuffixes\": [\n      \"f5se.local\",\n      \"f5.com\"\n    ]   \n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Populate BIG-IP A REST Proxy Base URI",
-			"event": [
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
-							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_a_mgmt}}'",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Populate License Pool UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_pool_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools?$filter=name eq '{{iwf_license_pool_name}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Populate BIG-IP B REST Proxy Base URI",
-			"event": [
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var populate_vars = [",
-							"        { ",
-							"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
-							"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
-							"        }",
-							"    ];",
-							"",
-							"f5_populate_env_vars(populate_vars);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_b_mgmt}}'",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Add BIG-IP A Node to Local Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_node_uuid\",",
+									"            \"value\":\"nodeID\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_a_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_a_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_a_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_a_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.21\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },\n    {\n      \"localAddress\":\"172.16.0.21\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.21\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }\n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get sys/global-settings on BIG-IP A using REST Proxy",
-			"event": [
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"hostname\",",
-							"        \"value\":environment[\"bigip_a_hostname\"]",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_a_restproxy_uri}}/mgmt/tm/sys/global-settings/",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Get BIG-IP A Node Config Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_task_uuid\",",
+									"            \"value\":function(resp) { ",
+									"                if('currentConfigDeviceTaskReference' in resp) {",
+									"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
+									"                } else {",
+									"                    return undefined;",
+									"                }",
+									"            }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									"f5_poll_until_all_tests_pass(\"Add BIG-IP B Node to Local Connector\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_a_node_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
+					},
+					"response": []
+				},
+				{
+					"name": "Add BIG-IP B Node to Local Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_node_uuid\",",
+									"            \"value\":\"nodeID\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"state\":\"RUNNING\",\n  \"cloudNodeID\":\"{{bigip_b_mgmt}}\",\n  \"deviceLicenseReference\": {\n    \"link\": \"https://localhost/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}\"\n  },  \n  \"properties\":[\n    {\n      \"id\":\"BIG-IP\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"ToBeConfiguredByiWorkflow\",\n      \"value\":\"true\"\n    },\n    {\n      \"id\":\"DeviceCreatedWithDefaultCredentials\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceHostname\",\n      \"provider\":\"{{bigip_b_hostname}}\"\n    },\n    {\n      \"id\":\"DeviceLeaveRootLoginEnabled\",\n      \"provider\":\"true\"\n    },\n    {\n      \"id\":\"DeviceRootPassword\",\n      \"provider\":\"default\"\n    },    \n    {\n      \"id\":\"DeviceMgmtPassword\",\n      \"provider\":\"admin\"\n    },\n    {\n      \"id\":\"DeviceMgmtUser\",\n      \"provider\":\"admin\"\n    }\n  ],\n  \"ipAddress\":\"{{bigip_b_mgmt}}\",\n  \"networkInterfaces\":[\n    {\n      \"localAddress\":\"{{bigip_b_mgmt}}\",\n      \"subnetAddress\":\"192.168.2.0/24\",\n      \"gatewayAddress\":\"192.168.2.1\"\n    },\n    {\n      \"localAddress\":\"10.0.0.22\",\n      \"subnetAddress\":\"10.0.0.0/24\",\n      \"name\":\"Internal\"\n    },    \n    {\n      \"localAddress\":\"172.16.0.22\",\n      \"subnetAddress\":\"172.16.0.0/24\",\n      \"gatewayAddress\":\"172.16.0.1\",\n      \"name\":\"External\"\n    },\n    {\n      \"localAddress\":\"192.168.5.22\",\n      \"subnetAddress\":\"192.168.0.0/24\",\n      \"name\":\"HA\"\n    }       \n  ],\n  \"deviceDiscoveryInterface\":0,\n  \"isBIGIP\":true\n}"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get sys/global-settings on BIG-IP B using REST Proxy",
-			"event": [
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"",
-							"var check_vals = [",
-							"    {",
-							"        \"path\":\"hostname\",",
-							"        \"value\":environment[\"bigip_b_hostname\"]",
-							"    }",
-							"    ];",
-							"",
-							"f5_check_response(check_vals);",
-							"",
-							"postman.setNextRequest(null);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_b_restproxy_uri}}/mgmt/tm/sys/global-settings/",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+					"name": "Get BIG-IP B Node Config Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_task_uuid\",",
+									"            \"value\":function(resp) { ",
+									"                if('currentConfigDeviceTaskReference' in resp) {",
+									"                    return resp.currentConfigDeviceTaskReference.link.split('/').pop();",
+									"                } else {",
+									"                    return undefined;",
+									"                }",
+									"            }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									"f5_poll_until_all_tests_pass(\"Get BIG-IP A Task Status\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}/nodes/{{_rt_iwf_bigip_b_node_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for 'currentConfigDeviceTaskReference' attribute"
+					},
+					"response": []
+				},
+				{
+					"name": "Get BIG-IP A Task Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"status\",",
+									"        \"value\":\"FINISHED\"",
+									"    },",
+									"    {",
+									"        \"path\":\"currentStep\",",
+									"        \"value\":\"SUCCESS\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_a_task_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
+					},
+					"response": []
+				},
+				{
+					"name": "Get BIG-IP B Task Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"status\",",
+									"        \"value\":\"FINISHED\"",
+									"    },",
+									"    {",
+									"        \"path\":\"currentStep\",",
+									"        \"value\":\"SUCCESS\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/configure-device-node/{{_rt_iwf_bigip_b_task_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for \nstatus: FINISHED\ncurrentStep: SUCCESS"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cluster Between BIG-IP A & B",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_cluster_task_uuid\",",
+									"            \"value\":\"id\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"input\":{\n    \"devices\":[\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.21\",\n        \"failoverIP\":\"192.168.5.21\"\n      },\n      {\n        \"deviceReference\":{\n          \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"\n        },\n        \"configSyncIP\":\"192.168.5.22\",\n        \"failoverIP\":\"192.168.5.22\",\n        \"adminName\":\"admin\",\n        \"adminPassword\":\"admin\"\n      }\n    ],\n    \"floatingIPs\": [\n    {\n          \"name\": \"Internal-Float\",\n          \"address\": \"10.0.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"Internal\"\n      },\n      {\n          \"name\": \"External-Float\",\n          \"address\": \"172.16.0.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"External\"\n      },\n      {\n          \"name\": \"HA-Float\",\n          \"address\": \"192.168.5.23\",\n          \"mask\": \"255.255.255.0\",\n          \"vlanName\": \"HA\"\n      }\n    ],    \n    \"syncFailoverGroupName\":\"HA\",\n    \"autoSync\":true,\n    \"saveOnAutoSync\":true\n  },\n  \"name\":\"HA\",\n  \"generation\":0,\n  \"lastUpdateMicros\":0\n}\n"
+						},
 						"description": ""
 					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46YWRtaW4=",
+					"response": []
+				},
+				{
+					"name": "Get Cluster Task Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"status\",",
+									"        \"value\":\"FINISHED\"",
+									"    },",
+									"    {",
+									"        \"path\":\"nextStep\",",
+									"        \"value\":\"SUCCESS\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/cloud/tasks/configure-ha-devices/{{_rt_iwf_cluster_task_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP A REST Proxy Base URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
+									"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_a_mgmt}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP B REST Proxy Base URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
+									"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_b_mgmt}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cluster Status Using Rest Proxy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"entries.https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/~Common~traffic-group-1:~Common~bigip-a/stats.nestedStats.entries.failoverState.description\",",
+									"        \"value\":\"/(standby|active)/i\",",
+									"        \"op\":\"regex\",",
+									"        \"testname\":\"BIGIP_A_Cluster_Status\"",
+									"    },",
+									"    {",
+									"        \"path\":\"entries.https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/~Common~traffic-group-1:~Common~bigip-b\\\\.f5se\\\\.local/stats.nestedStats.entries.failoverState.description\",",
+									"        \"value\":\"/(standby|active)/i\",",
+									"        \"op\":\"regex\",",
+									"        \"testname\":\"BIGIP_B_Cluster_Status\"",
+									"    }    ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_a_restproxy_uri}}/mgmt/tm/cm/traffic-group/traffic-group-1/stats",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "_F5_POLL_DELAY",
-			"event": [
+			"name": "99_Cleanup",
+			"description": "",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-							"f5_poll_next();",
-							""
-						]
-					}
+					"name": "Initialize Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"stage\",",
+									"            \"value\":\"STARTED\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate Local Connector UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_connector_uuid\",",
+									"            \"value\":\"items.0.connectorId\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP A Device UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices?$filter=hostname eq '{{bigip_a_hostname}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP B Device UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices?$filter=hostname eq '{{bigip_b_hostname}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP A REST Proxy Base URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_restproxy_uri\",",
+									"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_a_mgmt}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP B REST Proxy Base URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_restproxy_uri\",",
+									"            \"value\":function(json) { return \"/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + json.items[0].uuid + \"/rest-proxy/\" }",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/?$filter=address eq '{{bigip_b_mgmt}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate License Pool UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_pool_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools?$filter=name eq '{{iwf_license_pool_name}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP A Granted License UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_bigip_a_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}/members?$filter=deviceReference/link eq 'https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate BIG-IP B Granted License UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_bigip_b_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}/members?$filter=deviceReference/link eq 'https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Disassociate BIG-IPs from Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"deviceReferences\",",
+									"        \"value\":\"0\",",
+									"        \"op\":\"length\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n  \"deviceReferences\":[] \n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke License from BIG-IP A",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"uuid\",",
+									"        \"value\":postman.getEnvironmentVariable(\"_rt_iwf_license_bigip_a_uuid\")",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}/members/{{_rt_iwf_license_bigip_a_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke License from BIG-IP B",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"uuid\",",
+									"        \"value\":postman.getEnvironmentVariable(\"_rt_iwf_license_bigip_b_uuid\")",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}/members/{{_rt_iwf_license_bigip_b_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Check BIG-IP A MCP State is Running",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/running/i\",",
+									"            \"op\":\"regex\"",
+									"        },",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/full-config-load-succeed/i\",",
+									"            \"op\":\"regex\"",
+									"        }        ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_a_restproxy_uri}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'tmsh show sys mcp-state field-fmt'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Check BIG-IP B MCP State is Running",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/running/i\",",
+									"            \"op\":\"regex\"",
+									"        },",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/full-config-load-succeed/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_b_restproxy_uri}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'tmsh show sys mcp-state field-fmt'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Reset BIG-IP A Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_a_reset_uuid\",",
+									"            \"value\":\"id\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/reset-device",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n  \"deviceReference\": \n  { \n    \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}\"\n  }\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Reset BIG-IP B Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_bigip_b_reset_uuid\",",
+									"            \"value\":\"id\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/reset-device",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n  \"deviceReference\": \n  { \n    \"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}\"\n  }\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get BIG-IP A Reset Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"status\",",
+									"        \"value\":\"FINISHED\"",
+									"    },",
+									"    {",
+									"        \"path\":\"currentStep\",",
+									"        \"value\":\"SUCCESS\"",
+									"    }    ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Save BIG-IP A Config\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/reset-device/{{_rt_iwf_bigip_a_reset_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Save BIG-IP A Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"command\",",
+									"        \"value\":\"save\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_a_restproxy_uri}}/mgmt/tm/sys/config",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"save\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get BIG-IP B Reset Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"status\",",
+									"        \"value\":\"FINISHED\"",
+									"    },",
+									"    {",
+									"        \"path\":\"currentStep\",",
+									"        \"value\":\"SUCCESS\"",
+									"    }    ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Save BIG-IP B Config\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tasks/reset-device/{{_rt_iwf_bigip_b_reset_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Save BIG-IP B Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"command\",",
+									"        \"value\":\"save\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{_rt_iwf_bigip_b_restproxy_uri}}/mgmt/tm/sys/config",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"save\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete BIG-IP A from iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"uuid\",",
+									"        \"value\":postman.getEnvironmentVariable(\"_rt_iwf_bigip_a_uuid\")",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_a_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete BIG-IP B from iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"uuid\",",
+									"        \"value\":postman.getEnvironmentVariable(\"_rt_iwf_bigip_b_uuid\")",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{_rt_iwf_bigip_b_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Local Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"connectorId\",",
+									"        \"value\":postman.getEnvironmentVariable(\"_rt_iwf_connector_uuid\")",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"postman.setNextRequest(null);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{_rt_iwf_connector_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+			]
 		}
 	]
 }
