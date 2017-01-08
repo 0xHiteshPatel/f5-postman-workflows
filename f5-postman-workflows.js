@@ -315,7 +315,7 @@ function f5_poll_until_all_tests_pass(next, curr) {
  */
 function f5_all_tests_passed() {
     for (var test in tests) {
-        if(test.startsWith("[Polled]") && test.endsWith("[FAIL]")) {
+        if(test.startsWith("[Polled] [FAIL] ")) {
             f5_debug("polled test '" + test + "' not passed, return 0");
             return false;
         }
@@ -385,6 +385,7 @@ function f5_check_response_code(mode) {
  * @param {String} name - Base name of the test
  * @param {Boolean} result - True result of the test
  * @param {String} value - The value to convey in the test name
+ * @param {Boolean} polloverride - Override test result value in polled tests
  * @returns {Undefined}
  * @desc Builds and populates the tests[] object with a test result.  When
  * running in non-polled mode the true test result will be set for the test.
@@ -392,7 +393,7 @@ function f5_check_response_code(mode) {
  * test name (PASS|FAIL) and the test will be marked successful to allow poller
  * to work correctly.
  */
-function f5_set_test_result(name, result, value) {
+function f5_set_test_result(name, result, value, polloverride) {
     if(value !== undefined) {
         if(typeof value === 'object') {
             value = JSON.stringify(value);
@@ -402,15 +403,17 @@ function f5_set_test_result(name, result, value) {
         test_name = name;
     }
 
+    polloverride = typeof polloverride  === 'undefined' ? false : true;
+
     if(!parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10)) {
         tests[test_name] = result;
         return;
     }
 
     if(result) {
-        tests["[Polled]" + test_name + " [PASS]"] = 1;
+        tests["[Polled] [PASS] " + test_name] = 1;
     } else {
-        tests["[Polled]" + test_name + " [FAIL]"] = 1;
+        tests["[Polled] [FAIL] " + test_name] = polloverride === true ? 0 : 1;
     }
     return;
 }
@@ -495,14 +498,14 @@ function f5_sleep (time) {
 function f5_test_check(test_state) {
     for (var i in test_state) {
         if(tests[test_state[i][0]] !== test_state[i][1]) {
-            f5_set_test_result('[Tester] All Tests Passed', 0, undefined);
+            f5_set_test_result('[Tester] All Tests Passed', 0, undefined, true);
             if(!parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10)) {
                 postman.setNextRequest(null);
             }
             return;
         }
     }
-    f5_set_test_result('[Tester] All Tests Passed', 1, undefined);
+    f5_set_test_result('[Tester] All Tests Passed', 1, undefined, true);
     return;
 }
 

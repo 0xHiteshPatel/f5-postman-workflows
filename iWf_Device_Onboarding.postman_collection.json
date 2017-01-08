@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "09d03d82-004b-4320-92df-866961e96338",
+							"id": "4b914883-4080-4723-ad31-b3118335c43c",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -182,7 +182,7 @@
 					},
 					"response": [
 						{
-							"id": "80371a59-405c-40bb-902e-f5a41b11f4e6",
+							"id": "49b6a88a-f1fa-4e7c-b6ae-c26c99f84635",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -288,8 +288,8 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var check_vars = [",
-									"        { path:\"token\", value: environment.f5_token },",
-									"        { path:\"timeout\", value: environment.f5_timeout }",
+									"        { path:\"token\", value: environment._rt_iwf_token },",
+									"        { path:\"timeout\", value: 1800 }",
 									"    ];",
 									"    ",
 									"f5_check_response(check_vars);",
@@ -321,7 +321,7 @@
 					},
 					"response": [
 						{
-							"id": "787ba395-eee8-494a-aaea-c44f8902baa9",
+							"id": "8b564778-3a2b-45ac-bced-ac4d36df87f6",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -1288,7 +1288,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"f5_check_response();",
-									""
+									"postman.setNextRequest(null);"
 								]
 							}
 						},
@@ -1396,7 +1396,7 @@
 					},
 					"response": [
 						{
-							"id": "ab14a500-7fdc-4100-9e9b-208d41708fc3",
+							"id": "4e68c72f-58a5-4a60-afed-7fa5d288f086",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -1529,7 +1529,7 @@
 					},
 					"response": [
 						{
-							"id": "c98be019-7d2c-4ed8-8c81-9ee15184f21c",
+							"id": "1268a243-bd4c-49eb-9395-4a3809125cbc",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -1635,8 +1635,8 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var check_vars = [",
-									"        { path:\"token\", value: environment.f5_token },",
-									"        { path:\"timeout\", value: environment.f5_timeout }",
+									"        { path:\"token\", value: environment._rt_iwf_token },",
+									"        { path:\"timeout\", value: 1800 }",
 									"    ];",
 									"    ",
 									"f5_check_response(check_vars);",
@@ -1668,7 +1668,7 @@
 					},
 					"response": [
 						{
-							"id": "c2edf8fd-9cf9-4bf0-a3bf-b6895a507f5f",
+							"id": "a9abcbf7-4ad0-4577-b088-2fa6863c9d68",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -2829,10 +2829,7 @@
 								"description": ""
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"description": ""
 					},
 					"response": []

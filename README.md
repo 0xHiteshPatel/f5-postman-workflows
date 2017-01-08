@@ -7,10 +7,10 @@ offical support for this project**
 - Language: JavaScript
 - License: Apache
 
-This extension is intended to be used with [Postman](https://getpostman.com).
-The purpose of this extension is to implement common functions
+This framework is intended to be used with [Postman](https://getpostman.com).
+The purpose of this framework is to implement common functions
 that simplify building [Collections](https://www.getpostman.com/docs/collections)
-that implement complex workflows.  The extension provides the base functions
+that implement complex workflows.  The framework provides the base functions
 to help with:
 
  - Population of [Environment](https://www.getpostman.com/docs/environments) variables
@@ -25,7 +25,7 @@ Workflows implemented with this framework can be run via:
 
 ## Installation
 
-To install the extension:
+To install the framework:
 
  1. Open Postman
  2. Click the 'Import' button
