@@ -66,14 +66,17 @@ The following global environment variables can be used for configuration:
 To help load and test changes locally a node script is included to auto-generate
 an importable global environment file to Postman:
 ```
-$ node gen_postman_global.js
+$ git clone https://github.com/0xHiteshPatel/f5-postman-workflows.git
+$ cd framework
+$ ./build.sh
 ```
 
 ### Docs
 
 Additionally docs are generated using ``jsdoc`` with the command:
 ```
-$ jsdoc f5-post-workflows.js README.md -d docs -c jsdoc_conf.json
+$ cd framework
+$ jsdoc f5-post-workflows.js ../README.md -d docs -c jsdoc_conf.json
 ```
 
 ### Tests
