@@ -10,7 +10,7 @@ var _f5_json;
 // Version info
 var _f5_version = {
     MAJOR: "1.0",
-    MINOR: "0dev"
+    MINOR: "0"
 };
 
 // Fixups tests[] so we can eval() into pre-request scripts
