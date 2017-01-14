@@ -124,11 +124,15 @@ function f5_populate_env_vars(vars) {
  * @param {String|Function} vars[].value - Name of attribute in response JSON
  *                                         -OR- a function(json) {} that returns
  *                                         the value or undefined.
+ * @param {Boolean} test - Create postman tests[] items
  * @returns {Undefined}
  * @desc Check HTTP response code and JSON response body.
  */
-function f5_check_response(vars) {
+function f5_check_response(vars, test) {
+    test = typeof test  === 'undefined' ? true : false;
+
     var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10);
+    var passcount = 0;
 
     if(vars === undefined) {
         f5_check_response_code();
@@ -157,7 +161,8 @@ function f5_check_response(vars) {
 
         var obj = f5_get_by_string(vars[i].path);
         if (obj) {
-            f5_set_test_result("[Current Value] " + vars[i].testname + "=", 1, obj);
+            if(test)
+                f5_set_test_result("[Current Value] " + vars[i].testname + "=", 1, obj);
         }
 
         if(!vars[i].test) { continue; }
@@ -169,41 +174,44 @@ function f5_check_response(vars) {
             var ret = vars[i].value.apply(this, args);
 
             if (ret) {
-                f5_set_test_result(check_test_name, 1, '[custom function]');
+                if(test)
+                    f5_set_test_result(check_test_name, 1, '[custom function]');
+                passcount++;
             }
             else {
-                f5_set_test_result(check_test_name, 0, '[custom function]');
+                if(test)
+                    f5_set_test_result(check_test_name, 0, '[custom function]');
             }
         } else {
-            var mf = null;
+            var tf = null;
             f5_debug("op=" + vars[i].op.toLowerCase());
             switch(vars[i].op.toLowerCase()) {
                 case '===':
-                    mf = function(x,y) { return x === y };
+                    tf = function(x,y) { return x === y };
                     break;
                 case '!==':
-                    mf = function(x,y) { return x !== y };
+                    tf = function(x,y) { return x !== y };
                     break;
                 case '==':
-                    mf = function(x,y) { return x == y };
+                    tf = function(x,y) { return x == y };
                     break;
                 case '!=':
-                    mf = function(x,y) { return x != y };
+                    tf = function(x,y) { return x != y };
                     break;
                 case '&lt;':
-                    mf = function(x,y) { return x &lt; y };
+                    tf = function(x,y) { return x &lt; y };
                     break;
                 case '&lt;=':
-                    mf = function(x,y) { return x &lt;= y };
+                    tf = function(x,y) { return x &lt;= y };
                     break;
                 case '>':
-                    mf = function(x,y) { return x > y };
+                    tf = function(x,y) { return x > y };
                     break;
                 case '>=':
-                    mf = function(x,y) { return x >= y };
+                    tf = function(x,y) { return x >= y };
                     break;
                 case 'incl':
-                    mf = function(x,y) {
+                    tf = function(x,y) {
                         if(typeof x === 'string') {
                             return x.includes(y);
                         }
@@ -214,7 +222,7 @@ function f5_check_response(vars) {
                     };
                     break;
                 case 'notincl':
-                    mf = function(x,y) {
+                    tf = function(x,y) {
                         if(typeof x === 'string') {
                             return !(x.includes(y));
                         }
@@ -225,7 +233,7 @@ function f5_check_response(vars) {
                     };
                     break;
                 case 'regex':
-                    mf = function(x,y) {
+                    tf = function(x,y) {
                         if(typeof x === 'string') {
                             re = eval(y);
                             if(x.search(re) &lt; 0) {
@@ -237,24 +245,38 @@ function f5_check_response(vars) {
                     };
                     break;
                 case 'length':
-                    mf = function(x,y) { return x.length == y; };
+                    tf = function(x,y) { return x.length == y; };
                     break;
                 default:
                     break;
             }
 
-            if(typeof mf !== 'function') {
+            if(typeof tf !== 'function') {
                 console.log('Invalid match op "' + vars[i].op + '" specified');
                 return undefined;
             }
 
-            f5_debug("mf=" + mf);
+            f5_debug("tf=" + tf);
             f5_debug("obj=" + obj);
-            var match = mf(obj, vars[i].value);
-            f5_set_test_result(check_test_name, match, vars[i].value);
+            var match = tf(obj, vars[i].value);
+            if(test) {
+                f5_set_test_result(check_test_name, match, vars[i].value);
+            }
+
+            if(match) {
+                passcount++;
+            }
         }
     }
-    return;
+
+    f5_debug("passcount=" + passcount);
+    f5_debug("varslen=" + vars.length);
+
+    if(!test) {
+        return passcount === vars.length;
+    } else {
+        return;
+    }
 }
 
 /**
@@ -263,6 +285,8 @@ function f5_check_response(vars) {
  *                         all tests pass
  * @param {String} curr  - [Optional] The name of the current Item.  Normally
  *                         auto-populated with current Item name
+ * @param {Object} err - Object to be passed to f5_check_response to test for
+ *                       unrecoverable error conditions.
  * @returns {Undefined}
  * @property {Number} _f5_poll_max_tries - The max number of polls
  * @property {Number} _f5_poll_wait -The time in seconds to wait between polls
@@ -285,13 +309,15 @@ function f5_check_response(vars) {
  * be marked as FAIL.  If _f5_poll_bypass_timeout is NOT set the next request
  * will be set to NULL to stop execution, otherwise execution will continue.
  */
-function f5_poll_until_all_tests_pass(next, curr) {
+function f5_poll_until_all_tests_pass(next, curr, err) {
     if (curr === undefined) {
         curr = request.name;
     }
 
     f5_debug("curr=" + curr);
     f5_debug("next=" + next);
+    f5_debug("err=" + err);
+
     var max_tries = postman.getGlobalVariable("_f5_poll_max_tries");
     var iterator = postman.getGlobalVariable("_f5_poll_iterator");
     tests['[Poller] Try ' + iterator + ' of ' + max_tries] = 1;
@@ -302,16 +328,30 @@ function f5_poll_until_all_tests_pass(next, curr) {
         postman.setNextRequest(next);
         return;
     }
+
     if (parseInt(postman.getGlobalVariable("_f5_poll_iterator"), 10) >=
         parseInt(postman.getGlobalVariable("_f5_poll_max_tries"), 10)) {
         f5_debug("reached max_tries, next is null");
-        tests['[Poller] Max Tries Reached'] = 0;
+        tests['[Poller] [FAIL] Max Tries Reached'] = 0;
         postman.setGlobalVariable("_f5_poll_iterator", "1");
         if (!parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"), 10)){
             postman.setNextRequest(null);
         }
         return;
     }
+
+    if (err !== undefined) {
+        if(f5_check_response(err, false)) {
+            f5_debug("error function returned true, stopping poller");
+            tests['[Poller] [FAIL] Unrecoverable Error'] = 0;
+            postman.setGlobalVariable("_f5_poll_iterator", "1");
+            if (!parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"), 10)){
+                postman.setNextRequest(null);
+            }
+            return;
+        }
+    }
+
     if (parseInt(postman.getGlobalVariable("_f5_poll_iterator"), 10) !=
         parseInt(postman.getGlobalVariable("_f5_poll_max_tries"), 10)) {
         f5_debug("tests NOT passed, trying again");
@@ -429,6 +469,10 @@ function f5_set_test_result(name, result, value, polloverride) {
         test_name = name + value;
     } else {
         test_name = name;
+    }
+
+    if(test_name.length > 500) {
+        test_name = test_name.substring(0,499) + '[truncated]';
     }
 
     polloverride = typeof polloverride  === 'undefined' ? false : true;
@@ -585,7 +629,6 @@ function f5_search_json(json, value, attr, maxdepth, path) {
     for(var i in json) {
         f5_debug(pre + "{" + typeof json[i] + "}" + i + "={" + typeof json[i] + "}" + json[i]);
 
-        //var pathtemp = "['" + i + "']";
         var pathtemp = i;
 
         if (typeof json[i] === 'object') {
@@ -711,7 +754,7 @@ function f5_get_by_string(s, d) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jan 07 2017 23:19:46 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jan 14 2017 01:40:10 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

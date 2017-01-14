@@ -131,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "63a926ce-789b-4fcb-993e-52c908ba4d1c",
+							"id": "43640d79-1317-4b45-aa8d-272c2d482a6f",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -337,7 +337,7 @@
 					},
 					"response": [
 						{
-							"id": "25875937-06ed-4ce8-8d41-f6e6897ef156",
+							"id": "f0b331c3-a9e2-4a64-9d86-42e7625cdb98",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -570,7 +570,7 @@
 					},
 					"response": [
 						{
-							"id": "1e9a7f46-c0ba-4252-a257-fa07ed9ba392",
+							"id": "9fa54de4-4dbc-49ea-92e4-b00d58ad765f",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "694d3fab-3c9a-4cdf-95b6-6aa8a06bab6d",
+							"id": "47e96cb2-10e4-466b-95ad-03beec45d0fd",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1007,7 +1007,7 @@
 					},
 					"response": [
 						{
-							"id": "5c553677-43e4-4c2c-b087-ad57289c601b",
+							"id": "4004186e-e03a-4430-879f-58c3f3979409",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1207,7 +1207,7 @@
 					},
 					"response": [
 						{
-							"id": "dea2c907-f8fa-4a5e-b38b-808dd14c090e",
+							"id": "0b282d75-475a-4c8c-a1ed-85d32fee11a7",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1464,7 +1464,7 @@
 					},
 					"response": [
 						{
-							"id": "3f9ea6bb-9cf6-4509-ac39-791393911874",
+							"id": "7754a9a5-8ffe-4b74-a680-cb4a906a935b",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1703,7 +1703,7 @@
 					},
 					"response": [
 						{
-							"id": "a90e8e8a-c9c0-4f6e-b32d-6ee8735af818",
+							"id": "57fd441f-bfaf-42ef-9fdd-aa1ebadffcaa",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1910,7 +1910,7 @@
 					},
 					"response": [
 						{
-							"id": "ecd0d426-86a4-42a1-8360-9bf2aea11c6c",
+							"id": "71342b64-b25a-4dfc-82de-97ad3acc8d79",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -2058,7 +2058,7 @@
 					},
 					"response": [
 						{
-							"id": "617753e2-2c0c-4e5a-9495-76159f5d529b",
+							"id": "389485af-7332-422f-9da3-ad22e3c8b327",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -3025,7 +3025,7 @@
 									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
 									"\t\t['[Polled] [PASS] [Current Value] data=6', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] data == 100', 1],",
-									"\t\t['[Poller] Max Tries Reached', 0],",
+									"\t\t['[Poller] [FAIL] Max Tries Reached', 0],",
 									"\t];\t",
 									"\t",
 									"f5_check_response(check_vals);",
@@ -3164,11 +3164,11 @@
 									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
 									"\t\t['[Polled] [PASS] [Current Value] data=6', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] data == 100', 1],",
-									"\t\t['[Poller] Max Tries Reached', 0],",
+									"\t\t['[Poller] [FAIL] Max Tries Reached', 0],",
 									"\t];",
 									"\t",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
+									"f5_poll_until_all_tests_pass('[polled] Poller Test 3 - Req 1');",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
@@ -3185,6 +3185,112 @@
 							"mode": "raw",
 							"raw": "{{_f5_poll_iterator}}"
 						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 3 - Req 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"//f5_clear_runtime_vars();",
+									"",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"5\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] data=4', 1],",
+									"\t\t['[Polled] [FAIL] [Check Value] data == 5', 1],",
+									"\t\t['[Poller] Try 4 of 6', 1],",
+									"\t\t['[Poller] [FAIL] Unrecoverable Error', 0],",
+									"\t];",
+									"",
+									"var poll_error = [",
+									"        {",
+									"            \"path\":\"data\",",
+									"            \"value\":\"4\"",
+									"        }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									"",
+									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 3 - Req 2\", undefined, poll_error);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 3 - Req 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled] [PASS] [GET Response Code]=200', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response();",
+									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -3250,7 +3356,8 @@
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" },",
+									"        { \"path\":\"data.long\",          \"value\":\"END\",    \"op\":\"incl\" }",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3303,6 +3410,8 @@
 									"\t\t['[Polled] [PASS] [Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] i_dont_exist == this_should_fail', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] custom_test_name == this_should_fail', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] data.long=01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END[truncated]', 1],",
+									"\t\t['[Polled] [PASS] [Check Value] data.long incl END', 1]\t\t",
 									"\t];",
 									"\t",
 									"f5_check_response(check_vals);",
@@ -3343,7 +3452,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"long\":\"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END3456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -3515,7 +3624,8 @@
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },        ",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }        ",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" },",
+									"        { \"path\":\"data.long\",          \"value\":\"END\",    \"op\":\"incl\" }",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3567,7 +3677,9 @@
 									"\t\t['[Check Value] data.numArray notincl 2', 0],",
 									"\t\t['[Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Check Value] i_dont_exist == this_should_fail', false],",
-									"\t\t['[Check Value] custom_test_name == this_should_fail', false]\t\t",
+									"\t\t['[Check Value] custom_test_name == this_should_fail', false],",
+									"\t\t['[Current Value] data.long=01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END[truncated]', 1],",
+									"\t\t['[Check Value] data.long incl END', true]\t\t",
 									"\t];",
 									"",
 									"f5_check_response(check_vals);",
@@ -3608,7 +3720,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"long\":\"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END3456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\",  \n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
