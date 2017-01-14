@@ -131,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "43640d79-1317-4b45-aa8d-272c2d482a6f",
+							"id": "a4b655fb-aa1d-4764-b227-e9da186b18e2",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -337,7 +337,7 @@
 					},
 					"response": [
 						{
-							"id": "f0b331c3-a9e2-4a64-9d86-42e7625cdb98",
+							"id": "74b922b2-973e-438a-9d3a-d0300bfa00c5",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -570,7 +570,7 @@
 					},
 					"response": [
 						{
-							"id": "9fa54de4-4dbc-49ea-92e4-b00d58ad765f",
+							"id": "b66b607b-c156-4656-991d-39cc09563841",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "47e96cb2-10e4-466b-95ad-03beec45d0fd",
+							"id": "6e75bce7-7bee-474a-bceb-baf8285baf6a",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1007,7 +1007,7 @@
 					},
 					"response": [
 						{
-							"id": "4004186e-e03a-4430-879f-58c3f3979409",
+							"id": "52aa64db-e4fa-498a-9516-fef4e68ab12e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1207,7 +1207,7 @@
 					},
 					"response": [
 						{
-							"id": "0b282d75-475a-4c8c-a1ed-85d32fee11a7",
+							"id": "64fe760f-21c2-4b98-bb75-1df042713272",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1464,7 +1464,7 @@
 					},
 					"response": [
 						{
-							"id": "7754a9a5-8ffe-4b74-a680-cb4a906a935b",
+							"id": "2d60091d-ccd6-4fe3-bed5-f7580586bb3d",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1703,7 +1703,7 @@
 					},
 					"response": [
 						{
-							"id": "57fd441f-bfaf-42ef-9fdd-aa1ebadffcaa",
+							"id": "51994f78-f261-4f1a-a297-03424403c7fd",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1910,7 +1910,7 @@
 					},
 					"response": [
 						{
-							"id": "71342b64-b25a-4dfc-82de-97ad3acc8d79",
+							"id": "80b7646c-037e-46a3-96d7-02146a138b2b",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -2058,7 +2058,7 @@
 					},
 					"response": [
 						{
-							"id": "389485af-7332-422f-9da3-ad22e3c8b327",
+							"id": "e686d52e-0dd9-41d1-b6a5-41c3949a6187",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -2297,13 +2297,27 @@
 									"} else {",
 									"    tests['Install Failed'] = 0;",
 									"}",
-									""
+									"",
+									"if (postman.getGlobalVariable('_f5_framework_branch') == 'master') {",
+									"    postman.clearGlobalVariable('_f5_framework_branch');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if( postman.getGlobalVariable('_f5_framework_branch') === undefined) {",
+									"    postman.setGlobalVariable('_f5_framework_branch', 'master');",
+									"}"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{
@@ -2354,13 +2368,27 @@
 									"} else {",
 									"    tests['Install Failed'] = 0;",
 									"}",
-									""
+									"",
+									"if (postman.getGlobalVariable('_f5_framework_branch') == 'master') {",
+									"    postman.clearGlobalVariable('_f5_framework_branch');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if( postman.getGlobalVariable('_f5_framework_branch') === undefined) {",
+									"    postman.setGlobalVariable('_f5_framework_branch', 'master');",
+									"}"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{

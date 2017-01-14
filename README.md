@@ -57,6 +57,7 @@ The following global environment variables can be used for configuration:
 | _f5_poll_useinternal    | Boolean | Use the internal while() loop to sleep **WARNING: this will block the thread** |
 | _f5_poll_apiurl         | String  | The URL for an API endpoint that implements a delay. |
 | _f5_poll_bypass_timeout | Boolean | Don't exit if a max_tries is reached
+| _f5_framework_branch    | String  | The Github branch to use during install.  Default is 'master'.
 
 
 ## Developers
