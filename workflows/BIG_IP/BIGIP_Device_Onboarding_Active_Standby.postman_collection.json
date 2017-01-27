@@ -1,0 +1,10 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BIGIP_Device_Onboarding_Active_Standby",
+		"_postman_id": "447f3439-b2f8-0f58-2377-c846aaeaec07",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": []
+}
