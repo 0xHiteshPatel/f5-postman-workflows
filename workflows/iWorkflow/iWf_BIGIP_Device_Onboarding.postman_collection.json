@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_BIGIP_Device_Onboarding",
-		"_postman_id": "f12964a1-e9ec-d4e4-f2c4-5cb8dab0ffc3",
+		"_postman_id": "d9d29ee9-3f13-1e23-2825-5749eb58d03c",
 		"description": "v1.0\n\nThis workflow can be used to create an Active/Standby Cluster between two BIG-IP devices using the iWorkflow Device Onboarding API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "e62019a0-3a28-4ed6-b4f5-781b594fc6a9",
+							"id": "67f9e397-0964-4526-82ab-b1c089557d9f",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -182,7 +182,7 @@
 					},
 					"response": [
 						{
-							"id": "4c7ce1c1-b34f-41ed-a3d2-6652ec0db521",
+							"id": "b65af86d-5ed2-4d7d-b74f-44a9e7508d69",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -321,7 +321,7 @@
 					},
 					"response": [
 						{
-							"id": "dd005ceb-559e-4965-93b3-1a52714a8ea3",
+							"id": "74d34366-ddf8-447c-88eb-f6f5ae783662",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -457,7 +457,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -956,8 +959,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
+									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\", error_vals);",
 									""
 								]
 							}
@@ -1007,8 +1017,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
+									"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\", error_vals);",
 									""
 								]
 							}
@@ -1104,8 +1121,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
+									"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\", error_vals);",
 									""
 								]
 							}
@@ -1272,7 +1296,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1320,7 +1347,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1396,7 +1426,7 @@
 					},
 					"response": [
 						{
-							"id": "80009c44-8bf8-4ffd-8d23-42d463c1d2c7",
+							"id": "2437c419-3cec-40b6-86ec-5682a34b5037",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -1529,7 +1559,7 @@
 					},
 					"response": [
 						{
-							"id": "590629c4-4cf0-41ff-a257-98b1b5d6cfc5",
+							"id": "1fdf3a1c-56c5-472c-9cac-9ea91d9236a9",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -1668,7 +1698,7 @@
 					},
 					"response": [
 						{
-							"id": "bfddb2eb-3c25-4c51-b426-150d572c1f03",
+							"id": "342bc563-8fb5-4524-a4ef-c9248f74b7a2",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -1812,7 +1842,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2343,7 +2376,7 @@
 									"        }",
 									"    ];",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\", undefined, error_vals);"
+									"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\", error_vals);"
 								]
 							}
 						}
@@ -2402,7 +2435,7 @@
 									"        }",
 									"    ];",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\", undefined, error_vals);"
+									"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\", error_vals);"
 								]
 							}
 						}
@@ -2843,7 +2876,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []

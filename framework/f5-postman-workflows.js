@@ -255,10 +255,10 @@ function f5_check_response(vars, test) {
  * @function f5_poll_until_all_tests_pass
  * @param {String} next  - The Item in the Postman Collection to execute once
  *                         all tests pass
- * @param {String} curr  - [Optional] The name of the current Item.  Normally
- *                         auto-populated with current Item name
  * @param {Object} err - Object to be passed to f5_check_response to test for
  *                       unrecoverable error conditions.
+ * @param {String} curr  - [Optional] The name of the current Item.  Normally
+ *                         auto-populated with current Item name
  * @returns {Undefined}
  * @property {Number} _f5_poll_max_tries - The max number of polls
  * @property {Number} _f5_poll_wait -The time in seconds to wait between polls
@@ -281,7 +281,7 @@ function f5_check_response(vars, test) {
  * be marked as FAIL.  If _f5_poll_bypass_timeout is NOT set the next request
  * will be set to NULL to stop execution, otherwise execution will continue.
  */
-function f5_poll_until_all_tests_pass(next, curr, err) {
+function f5_poll_until_all_tests_pass(next, err, curr) {
     if (curr === undefined) {
         curr = request.name;
     }

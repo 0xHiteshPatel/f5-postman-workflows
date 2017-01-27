@@ -1,0 +1,307 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BIGIP_Reset_Device",
+		"_postman_id": "75f35aa8-1b11-33d1-8f14-d2b8515a6895",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_Reset_Device",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+					},
+					"response": [
+						{
+							"id": "913b24fd-1796-442c-8c21-3edd9425cf48",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "710",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				},
+				{
+					"name": "Reset Device Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/resetting trust domain/i\",",
+									"            \"op\":\"regex\"",
+									"        }       ",
+									"    ];",
+									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/failed/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Save Device Config\", error_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'tmsh load sys config default'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Save Device Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"command\",",
+									"        \"value\":\"save\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/sys/config",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"save\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
