@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "ae86fa7d-f034-49d9-980e-7551a4f48e28",
+							"id": "0c5c9cd9-d678-4670-b448-ff6fb5904fc0",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
@@ -177,7 +177,7 @@
 					},
 					"response": [
 						{
-							"id": "1ecabed8-fd7f-44e4-98b2-3708cc5e4ef4",
+							"id": "6450b49f-73c6-4a6e-899d-04dd57c36235",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
@@ -1724,7 +1724,7 @@
 						}
 					],
 					"request": {
-						"url": "https://{{bigip_a_mgmt}}/mgmt/tm/cm/device/\\x7eCommon~{{bigip_a_hostname}}",
+						"url": "https://{{bigip_a_mgmt}}/mgmt/tm/cm/device/~Common~{{bigip_a_hostname}}",
 						"method": "PATCH",
 						"header": [
 							{
@@ -1769,7 +1769,7 @@
 						}
 					],
 					"request": {
-						"url": "https://{{bigip_b_mgmt}}/mgmt/tm/cm/device/\\x7eCommon~{{bigip_b_hostname}}",
+						"url": "https://{{bigip_b_mgmt}}/mgmt/tm/cm/device/~Common~{{bigip_b_hostname}}",
 						"method": "PATCH",
 						"header": [
 							{
