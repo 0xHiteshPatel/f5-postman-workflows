@@ -69,7 +69,8 @@ an importable global environment file to Postman:
 ```
 $ git clone https://github.com/0xHiteshPatel/f5-postman-workflows.git
 $ cd framework
-$ ./build.sh
+$ npm install
+$ npm run build
 ```
 
 ### Docs
@@ -77,7 +78,8 @@ $ ./build.sh
 Additionally docs are generated using ``jsdoc`` with the command:
 ```
 $ cd framework
-$ jsdoc f5-post-workflows.js ../README.md -d docs -c jsdoc_conf.json
+$ npm install
+$ npm run doc
 ```
 
 ### Tests
@@ -85,3 +87,10 @@ $ jsdoc f5-post-workflows.js ../README.md -d docs -c jsdoc_conf.json
 The F5_Postman_Workflows collection includes a test framework under the 'Tests'
 folder.  Tests should be run manually, with Collection Runner and Newman before
 submitted a pull request.  Test output should be included with any pull requests.
+
+To run the test framework with newman perform the following:
+```
+$ cd framework
+$ npm test
+```
+

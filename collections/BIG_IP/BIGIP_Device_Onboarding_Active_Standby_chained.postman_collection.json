@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "BIGIP_Device_Onboarding_Active_Standby",
-		"_postman_id": "cf6cdd49-5890-f642-3361-b9ff30e93875",
+		"_postman_id": "96abd4dd-904f-0a21-943a-9c527f01b6c8",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "[BIGIP A] Authenticate and Obtain Token",
+					"name": "[Global] Create Shared JSON Objects",
 					"event": [
 						{
 							"listen": "test",
@@ -21,251 +21,67 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
-									"var populate_vars = [",
-									"        {name:\"_rt_f5_token_a\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
+									"f5_check_response();",
+									"",
+									"// DNS",
+									"postman.setEnvironmentVariable('_rt_dns_servers', JSON.stringify(environment.bigip_dns_servers.split(',')));",
+									"postman.setEnvironmentVariable('_rt_dns_search', JSON.stringify(environment.bigip_dns_search.split(',')));",
+									"",
+									"// NTP",
+									"postman.setEnvironmentVariable('_rt_ntp_servers', JSON.stringify(environment.bigip_ntp_servers.split(',')));",
+									"",
+									"// Syslog",
+									"var syslogTemplate = function(d) {",
+									"    return {",
+									"\t\t\"name\": \"/Common/remotesyslog\" + (d.i + 1)  ,",
+									"\t\t\"host\": d.ip,",
+									"\t\t\"localIp\": \"none\",",
+									"\t\t\"remotePort\": d.port",
+									"    }",
+									"}",
+									"postman.setEnvironmentVariable('_rt_syslog_servers', ",
+									"  JSON.stringify(f5_csv_to_json(environment.bigip_syslog_servers, 514, syslogTemplate)));",
+									"",
+									"console.log(\"dns_servers=\" + environment._rt_dns_servers);",
+									"console.log(\"dns_search=\" + environment._rt_dns_search);",
+									"console.log(\"ntp_servers=\" + environment._rt_ntp_servers);",
+									"console.log(\"syslog_servers=\" + environment._rt_syslog_servers);",
 									""
 								]
 							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token_a}} variable"
-					},
-					"response": [
 						{
-							"id": "0c5c9cd9-d678-4670-b448-ff6fb5904fc0",
-							"name": "Example",
-							"originalRequest": {
-								"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"description": ""
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
-								},
-								"description": "Perform authentication and populate the {{_rt_f5_token_a}} variable"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"description": "",
-									"key": "Cache-Control",
-									"name": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate"
-								},
-								{
-									"description": "",
-									"key": "Connection",
-									"name": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"description": "",
-									"key": "Content-Length",
-									"name": "Content-Length",
-									"value": "710"
-								},
-								{
-									"description": "",
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"description": "",
-									"key": "Date",
-									"name": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
-								},
-								{
-									"description": "",
-									"key": "Expires",
-									"name": "Expires",
-									"value": "-1"
-								},
-								{
-									"description": "",
-									"key": "Pragma",
-									"name": "Pragma",
-									"value": "no-cache"
-								},
-								{
-									"description": "",
-									"key": "Server",
-									"name": "Server",
-									"value": "webd"
-								},
-								{
-									"description": "",
-									"key": "X-Real-IP",
-									"name": "X-Real-IP",
-									"value": "192.168.0.20"
-								},
-								{
-									"description": "",
-									"key": "accept-encoding",
-									"name": "accept-encoding",
-									"value": "gzip, deflate"
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
-				{
-					"name": "[BIGIP B] Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"_rt_f5_token_b\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
+									"console.log(\"env=\" + JSON.stringify(environment, null, 2));"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
+						"url": "https://{{bigip_a_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token_a}}",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token_b}} variable"
+						"description": ""
 					},
-					"response": [
-						{
-							"id": "6450b49f-73c6-4a6e-899d-04dd57c36235",
-							"name": "Example",
-							"originalRequest": {
-								"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"description": ""
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-								},
-								"description": "Perform authentication and populate the {{_rt_f5_token_b}} variable"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"description": "",
-									"key": "Cache-Control",
-									"name": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate"
-								},
-								{
-									"description": "",
-									"key": "Connection",
-									"name": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"description": "",
-									"key": "Content-Length",
-									"name": "Content-Length",
-									"value": "710"
-								},
-								{
-									"description": "",
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"description": "",
-									"key": "Date",
-									"name": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
-								},
-								{
-									"description": "",
-									"key": "Expires",
-									"name": "Expires",
-									"value": "-1"
-								},
-								{
-									"description": "",
-									"key": "Pragma",
-									"name": "Pragma",
-									"value": "no-cache"
-								},
-								{
-									"description": "",
-									"key": "Server",
-									"name": "Server",
-									"value": "webd"
-								},
-								{
-									"description": "",
-									"key": "X-Real-IP",
-									"name": "X-Real-IP",
-									"value": "192.168.0.20"
-								},
-								{
-									"description": "",
-									"key": "accept-encoding",
-									"name": "accept-encoding",
-									"value": "gzip, deflate"
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "[BIGIP A] Check License State",
@@ -276,6 +92,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { ",
@@ -331,6 +149,8 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
+									"f5_enable_poller();",
+									"",
 									"var check_vals = [",
 									"        { ",
 									"            \"path\":\"commandResult\",",
@@ -382,6 +202,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { ",
@@ -436,6 +258,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { ",
@@ -623,7 +447,8 @@
 									"        { ",
 									"            \"path\":\"nameServers\",",
 									"            \"value\":JSON.parse(environment._rt_dns_servers).length,",
-									"            \"op\":\"length\"",
+									"            \"op\":\"length\",",
+									"            \"optional\":true            ",
 									"        },",
 									"        { ",
 									"            \"path\":\"search\",",
@@ -633,16 +458,6 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"postman.setEnvironmentVariable('_rt_dns_servers', JSON.stringify(environment.bigip_dns_servers.split(',')));",
-									"postman.setEnvironmentVariable('_rt_dns_search', JSON.stringify(environment.bigip_dns_search.split(',')));"
 								]
 							}
 						}
@@ -684,7 +499,8 @@
 									"        { ",
 									"            \"path\":\"servers\",",
 									"            \"value\":JSON.parse(environment._rt_ntp_servers).length,",
-									"            \"op\":\"length\"",
+									"            \"op\":\"length\",",
+									"            \"optional\":true            ",
 									"        },",
 									"        { ",
 									"            \"path\":\"timezone\",",
@@ -701,7 +517,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"postman.setEnvironmentVariable('_rt_ntp_servers', JSON.stringify(environment.bigip_ntp_servers.split(',')));",
+									"",
 									""
 								]
 							}
@@ -725,6 +541,53 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"servers\": {{_rt_ntp_servers}},\n  \"timezone\": \"{{bigip_timezone}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": " [BIGIP A] Set System Syslog Servers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"remoteServers\",",
+									"            \"value\":JSON.parse(environment._rt_syslog_servers).length,",
+									"            \"op\":\"length\",",
+									"            \"optional\":true",
+									"        }       ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_a_mgmt}}/mgmt/tm/sys/syslog",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token_a}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"remoteServers\": {{_rt_syslog_servers}}\n}"
 						},
 						"description": ""
 					},
@@ -874,7 +737,8 @@
 									"        { ",
 									"            \"path\":\"nameServers\",",
 									"            \"value\":JSON.parse(environment._rt_dns_servers).length,",
-									"            \"op\":\"length\"",
+									"            \"op\":\"length\",",
+									"            \"optional\":true            ",
 									"        },",
 									"        { ",
 									"            \"path\":\"search\",",
@@ -884,16 +748,6 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"postman.setEnvironmentVariable('_rt_dns_servers', JSON.stringify(environment.bigip_dns_servers.split(',')));",
-									"postman.setEnvironmentVariable('_rt_dns_search', JSON.stringify(environment.bigip_dns_search.split(',')));"
 								]
 							}
 						}
@@ -935,7 +789,8 @@
 									"        { ",
 									"            \"path\":\"servers\",",
 									"            \"value\":JSON.parse(environment._rt_ntp_servers).length,",
-									"            \"op\":\"length\"",
+									"            \"op\":\"length\",",
+									"            \"optional\":true            ",
 									"        },",
 									"        { ",
 									"            \"path\":\"timezone\",",
@@ -944,16 +799,6 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"postman.setEnvironmentVariable('_rt_ntp_servers', JSON.stringify(environment.bigip_ntp_servers.split(',')));",
-									""
 								]
 							}
 						}
@@ -976,6 +821,53 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"servers\": {{_rt_ntp_servers}},\n  \"timezone\": \"{{bigip_timezone}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": " [BIGIP B] Set System Syslog Servers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"remoteServers\",",
+									"            \"value\":JSON.parse(environment._rt_syslog_servers).length,",
+									"            \"op\":\"length\",",
+									"            \"optional\":true            ",
+									"        }       ",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_b_mgmt}}/mgmt/tm/sys/syslog",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token_b}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"remoteServers\": {{_rt_syslog_servers}}\n}"
 						},
 						"description": ""
 					},
@@ -1155,7 +1047,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-Internal\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.10.1/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/Internal\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-Internal\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.10.10/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/Internal\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1200,7 +1092,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-External\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.20.1/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/External\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-External\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.20.10/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/External\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1245,7 +1137,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-HA\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.30.1/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/HA\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-HA\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.30.10/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/HA\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1470,7 +1362,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-Internal\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.10.2/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/Internal\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-Internal\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.10.11/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/Internal\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1515,7 +1407,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-External\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.20.2/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/External\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-External\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.20.11/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/External\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1560,7 +1452,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"name\": \"Self-HA\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.30.2/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/HA\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
+							"raw": "{\n   \"name\": \"Self-HA\",\n   \"partition\": \"Common\",\n   \"address\": \"10.1.30.11/24\",\n   \"floating\": \"disabled\",\n   \"trafficGroup\": \"/Common/traffic-group-local-only\",\n   \"vlan\": \"/Common/HA\",\n   \"allowService\": [\n     \"default\"\n   ]\n}"
 						},
 						"description": ""
 					},
@@ -1740,7 +1632,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"configsyncIp\": \"10.1.30.1\",\n  \"mirrorIp\": \"10.1.30.1\",\n  \"mirrorSecondaryIp\": \"any6\",\n  \"unicastAddress\": [\n    {\n      \"effectiveIp\": \"10.1.30.1\",\n      \"effectivePort\": 1026,\n      \"ip\": \"10.1.30.1\",\n      \"port\": 1026\n    }\n  ]\n}"
+							"raw": "{\n  \"configsyncIp\": \"10.1.30.10\",\n  \"mirrorIp\": \"10.1.30.10\",\n  \"mirrorSecondaryIp\": \"any6\",\n  \"unicastAddress\": [\n    {\n      \"effectiveIp\": \"10.1.30.10\",\n      \"effectivePort\": 1026,\n      \"ip\": \"10.1.30.10\",\n      \"port\": 1026\n    }\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -1785,7 +1677,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"configsyncIp\": \"10.1.30.2\",\n  \"mirrorIp\": \"10.1.30.2\",\n  \"mirrorSecondaryIp\": \"any6\",\n  \"unicastAddress\": [\n    {\n      \"effectiveIp\": \"10.1.30.2\",\n      \"effectivePort\": 1026,\n      \"ip\": \"10.1.30.2\",\n      \"port\": 1026\n    }\n  ]\n}"
+							"raw": "{\n  \"configsyncIp\": \"10.1.30.11\",\n  \"mirrorIp\": \"10.1.30.11\",\n  \"mirrorSecondaryIp\": \"any6\",\n  \"unicastAddress\": [\n    {\n      \"effectiveIp\": \"10.1.30.11\",\n      \"effectivePort\": 1026,\n      \"ip\": \"10.1.30.11\",\n      \"port\": 1026\n    }\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -1837,6 +1729,52 @@
 					"response": []
 				},
 				{
+					"name": "[BIGIP A] Initial Sync of device_trust_group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"options.0.to-group\",",
+									"            \"value\":\"device_trust_group\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_a_mgmt}}/mgmt/tm/cm/config-sync",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token_a}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"command\":\"run\",\n    \"options\":[{\n    \t\"to-group\":\"device_trust_group\",\n    \t\"force-full-load-push\": true\n    }]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "[BIGIP A] Verify Initial Sync Completed",
 					"event": [
 						{
@@ -1845,6 +1783,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { ",
@@ -1988,6 +1928,8 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
+									"f5_enable_poller();",
+									"",
 									"var check_vals = [",
 									"        { ",
 									"            \"path\":\"entries.https://localhost/mgmt/tm/cm/sync-status/0.nestedStats.entries.color.description\",",
@@ -2091,7 +2033,6 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"// https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/\\x7eCommon~traffic-group-1:~Common~bigip-a.f5se.local/stats",
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var cmiBaseUri = \"https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/~Common~traffic-group-1:~Common~\";",
@@ -2212,8 +2153,9 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"// https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/\\x7eCommon~traffic-group-1:~Common~bigip-a.f5se.local/stats",
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var cmiBaseUri = \"https://localhost/mgmt/tm/cm/traffic-group/traffic-group-1/~Common~traffic-group-1:~Common~\";",
 									"var cmiAUri = cmiBaseUri + environment.bigip_a_hostname.replace(/\\./g,'\\\\.') + \"/stats\"",
@@ -2231,6 +2173,7 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"[BIGIP A] Create Internal Floating Self IP\");",
 									""
 								]
 							}
@@ -2314,6 +2257,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { ",

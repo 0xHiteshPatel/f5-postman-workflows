@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "913b24fd-1796-442c-8c21-3edd9425cf48",
+							"id": "549c32bb-2ed0-402e-8f08-3cf42c5da1ab",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -218,6 +218,56 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"command\":\"save\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unlicense Device",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (environment.bigip_remove_license != \"1\") {",
+									"    postman.setNextRequest(\"Cleanup Environment\");",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_f5_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'rm -f /config/bigip.license'\"\n}"
 						},
 						"description": ""
 					},

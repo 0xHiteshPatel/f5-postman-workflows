@@ -1,11 +1,16 @@
+// Minify f5_postman_test_functions.js and generate a Postman
+// global environment variable file.
+
+var fs = require('fs');
+var UglifyJS = require("uglify-js")
+var globals =
 {
-  "id": "485e2c8c-4b0b-f6fa-8ec3-e2e2ea31845f",
-  "name": "Postman Globals",
+  "name": "f5-postman-workflows Globals",
   "values": [
     {
       "key": "_f5_enable_polled_mode",
       "type": "text",
-      "value": "1",
+      "value": "0",
       "enabled": true
     },
     {
@@ -55,15 +60,24 @@
       "type": "text",
       "value": "1",
       "enabled": true
-    },
-    {
-      "key": "_f5_workflow_functions",
-      "type": "text",
-      "value": {{f5_workflow_functions}},
-      "enabled": true
     }
-  ],
-  "_postman_variable_scope": "globals",
-  "_postman_exported_at": "2016-12-04T16:05:14.023Z",
-  "_postman_exported_using": "Postman/4.8.3"
-}
+  ]
+};
+
+var result = UglifyJS.minify('./src/f5-postman-workflows.js', {
+    mangle: true,
+    compress: true
+});
+
+eval(result.code);
+fs.writeFileSync('./VERSION.md', f5_get_version() + '\n');
+
+globals.values.push(
+{
+  "key": "_f5_workflow_functions",
+  "type": "text",
+  "value": result.code,
+  "enabled": true
+});
+
+fs.writeFileSync('f5-postman-workflows.postman_globals.json', JSON.stringify(globals, null, 2));

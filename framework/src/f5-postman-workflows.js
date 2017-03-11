@@ -1,7 +1,7 @@
 /**
  * @file Implement framework to create workflows with Postman collections
  * @author Hitesh Patel, F5 Networks
- * @version 1.0
+ * @version 1.1.0
  */
 
 // Global variable to cache JSON data
@@ -9,8 +9,8 @@ var _f5_json;
 
 // Version info
 var _f5_version = {
-    MAJOR: "1.0",
-    MINOR: "0dev"
+    MAJOR: "1.1",
+    MINOR: "0"
 };
 
 // Fixups tests[] so we can eval() into pre-request scripts
@@ -130,13 +130,16 @@ function f5_check_response(vars, test) {
         vars[i].op = typeof vars[i].op === 'undefined' ? '==' : vars[i].op
         vars[i].test = typeof vars[i].test === 'undefined' ? true : vars[i].test
         vars[i].testname = typeof vars[i].testname === 'undefined' ? vars[i].path : vars[i].testname
+        vars[i].optional = typeof vars[i].optional === 'undefined' ? false : vars[i].optional
 
         var obj = f5_get_by_string(vars[i].path);
+
         if (obj) {
             if(test)
                 f5_set_test_result("[Current Value] " + vars[i].testname + "=", 1, obj);
         }
 
+        if(vars[i].optional && typeof obj === 'undefined') { continue; }
         if(!vars[i].test) { continue; }
 
         var check_test_name = "[Check Value] "+vars[i].testname+" "+vars[i].op+ " ";
@@ -289,6 +292,12 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
     f5_debug("curr=" + curr);
     f5_debug("next=" + next);
     f5_debug("err=" + err);
+    f5_debug("_f5_enable_polled_mode=" + globals._f5_enable_polled_mode);
+
+    // if(parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"), 10) == 0) {
+    //     f5_debug("enabling polled mode");
+    //     postman.setGlobalVariable("_f5_enable_polled_mode", "1");
+    // }
 
     var max_tries = postman.getGlobalVariable("_f5_poll_max_tries");
     var iterator = postman.getGlobalVariable("_f5_poll_iterator");
@@ -297,6 +306,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
     if (f5_all_tests_passed() === true) {
         f5_debug("tests passed, next is '" + next + "'");
         postman.setGlobalVariable("_f5_poll_iterator", "1");
+        postman.setGlobalVariable("_f5_enable_polled_mode", "0");
         postman.setNextRequest(next);
         return;
     }
@@ -306,6 +316,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
         f5_debug("reached max_tries, next is null");
         tests['[Poller] [FAIL] Max Tries Reached'] = 0;
         postman.setGlobalVariable("_f5_poll_iterator", "1");
+        postman.setGlobalVariable("_f5_enable_polled_mode", "0");
         if (!parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"), 10)){
             postman.setNextRequest(null);
         }
@@ -317,6 +328,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
             f5_debug("error function returned true, stopping poller");
             tests['[Poller] [FAIL] Unrecoverable Error'] = 0;
             postman.setGlobalVariable("_f5_poll_iterator", "1");
+            postman.setGlobalVariable("_f5_enable_polled_mode", "0");
             if (!parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"), 10)){
                 postman.setNextRequest(null);
             }
@@ -344,6 +356,28 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
         }
     }
     return;
+}
+
+/**
+ * @function f5_enable_poller
+ * @returns {true}
+ * @desc Enable the poller by setting _f5_enable_polled_mode = 1
+ */
+function f5_enable_poller() {
+    f5_debug("enabling poller");
+    postman.setGlobalVariable("_f5_enable_polled_mode", "1");
+    return true;
+}
+
+/**
+ * @function f5_disable_poller
+ * @returns {false}
+ * @desc Disable the poller by setting _f5_enable_polled_mode = 0
+ */
+function f5_disable_poller() {
+    f5_debug("disabling poller");
+    postman.setGlobalVariable("_f5_enable_polled_mode", "0");
+    return false;
 }
 
 /**
@@ -542,8 +576,8 @@ function f5_sleep (time) {
 function f5_test_check(test_state) {
     for (var i in test_state) {
         if(tests[test_state[i][0]] !== test_state[i][1]) {
-            f5_set_test_result('[Tester] All Tests Passed', 0, undefined, true);
             if(!parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10)) {
+                f5_set_test_result('[Tester] All Tests Passed', 0, undefined, true);
                 postman.setNextRequest(null);
             }
             return;
@@ -710,3 +744,37 @@ function f5_get_by_string(s, d) {
     }
     return o;
 }
+
+/**
+ * @function f5_csv_to_json
+ * @param {String} str - String with comma seperated ip:port tuples
+ * @param {Integer} port - The default L4 port number
+ * @param {Function} template - Function that contains JSON template to populate
+ * @returns {Object}
+ * @desc Convert a CSV string of ip:port IPv4/6 tuples into a JSON object using
+ * a template function
+ */
+function f5_csv_to_json(str, port, template) {
+    str = typeof str === 'undefined' ? "" : str;
+    port = typeof port  === 'undefined' ? 0 : port;
+    template = typeof template === 'undefined' ? function(d){return d;} : template;
+
+    var ret = [];
+    if(str.length == 0) { return(ret); }
+
+    var parts = str.split(',');
+    for(var i = 0; i < parts.length; i++) {
+        var tempIp = parts[i];
+        var tempPort = port;
+        var m =  parts[i].match(/(.*[^:]):(\d{1,5})$/);
+        if(m) {
+            tempPort = m[2];
+            tempIp = m[1];
+            tempIp = tempIp.replace(/\[|\]/g, '');
+        }
+        f5_debug("ip=" + tempIp + " port=" + tempPort);
+        ret.push(template({"i":i, "ip":tempIp,"port":tempPort}));
+    }
+    return(ret);
+};
+
