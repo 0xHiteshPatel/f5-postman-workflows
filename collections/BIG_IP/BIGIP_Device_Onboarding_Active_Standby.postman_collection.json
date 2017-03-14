@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "1_Create_Cluster",
+			"name": "0_Authenticate",
 			"description": "",
 			"item": [
 				{
@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "ee0f89ec-0b42-4fa4-be55-0148caca6b62",
+							"id": "dec0d4a8-5907-4fee-949b-f0a04ebaac91",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
@@ -177,7 +177,7 @@
 					},
 					"response": [
 						{
-							"id": "efa6172e-c7a4-4ac3-b2a7-d1f3d5f52d9d",
+							"id": "3da6456e-ab64-41e4-ab37-4f5c2a9f87b5",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
@@ -266,7 +266,13 @@
 							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "1_Create_Cluster",
+			"description": "",
+			"item": [
 				{
 					"name": "[Global] Create Shared JSON Objects",
 					"event": [

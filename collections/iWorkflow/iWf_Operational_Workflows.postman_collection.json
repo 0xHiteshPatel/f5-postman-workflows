@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_Operational_Workflows",
-		"_postman_id": "6d49b2c3-4e4f-5fbe-2af4-fd0ebb126307",
+		"_postman_id": "3a5039f2-bc08-8dba-0e8d-a8824b76fa9f",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -539,6 +539,159 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"userReferences\": [\n\t\t{\n\t\t\t\"link\": \"https://localhost/mgmt/shared/authz/users/{{iwf_tenant_username}}\"\n\t\t}\n\t]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7_Remove_BIGIP_Connector",
+			"description": "Delete a BIG-IP Connector using the Connector UUID\n\nInput Variables:\niwf_connector_uuid\t\tConnector UUID\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete a BIG-IP Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"connectorId\",",
+									"            \"value\":environment.iwf_connector_uuid",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8_Remove_Tenant_User",
+			"description": "Delete a iWorkflow Tenant User\n\nInput Variables:\niwf_tenant_username\t\tTenant Username\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete a Tenant User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_tenant_username",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/users/{{iwf_tenant_username}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9_Remove_Tenant",
+			"description": "Delete an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete iWorkflow Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_tenant_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tenants/{{iwf_tenant_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},

@@ -108,6 +108,14 @@ var prepareOptions = function(obj) {
 
 	// Apply workflow global variables to current run
 	Object.keys(workflow.globalVars).forEach(function(name) {
+		if(typeof workflow.globalVars[name] === 'object') {
+			printOut(`[prepareOptions]  getting value of ${workflow.globalVars[name].key} from ${workflow.globalVars[name].environment}`, 2);
+			var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
+			var includeKey = workflow.globalVars[name].key
+			delete workflow.globalVars[name];
+			workflow.globalVars[name] = includeEnv.values.find(e => e.key === includeKey).value;
+		}
+
 		if(typeof obj.environment.values.find(e => e.key === name) === 'undefined') {
 			printOut(`[prepareOptions] inheriting globalVars[${name}]`, 10);
 
@@ -207,10 +215,14 @@ var runCollection = function(obj) {
 			// See if we encountered any errors
 		    if (err || summary.error || summary.run.failures.length > 0) {
 		        printOut(`[runCollection][${obj.name}] collection run encountered error(s)`, 1, console.error);
-		        summary.run.failures.forEach(function(f) {
-		        	printOut(`[runCollection][${obj.name}] error: ${f.error.message}`, 1, console.error);
-		        	printOut(`[runCollection][${obj.name}]   stack: ${f.error.stack}`, 1, console.error);
-		        })
+		        if(typeof summary !== 'undefined') {
+			        summary.run.failures.forEach(function(f) {
+			        	printOut(`[runCollection][${obj.name}] error: ${f.error.message}`, 1, console.error);
+			        	printOut(`[runCollection][${obj.name}]   stack: ${f.error.stack}`, 1, console.error);
+			        })
+			    } else {
+			    	printOut(`[runCollection][${obj.name}]  ${err}`, 1, console.error);
+			    }
 		        printOut(`[runCollection][${obj.name}] exiting due to errors`, 1, console.error);
 		        process.exit(1);
 		    }

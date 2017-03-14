@@ -19,7 +19,11 @@
 	// are cloned into the environment for each item in the workflow
 	"globalVars": {
 		"key1":"value1",
-		"key2":"value2"
+		"key2":"value2",
+		"key3":{
+			"environment":"my_environment_file.json",
+			"key":"key_name_to_find"
+		}
 	},
 
 	// OPTIONAL, Save the environment variables to a file once complete

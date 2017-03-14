@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "1_Reset_Device",
+			"name": "0_Authenticate",
 			"description": "",
 			"item": [
 				{
@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "549c32bb-2ed0-402e-8f08-3cf42c5da1ab",
+							"id": "99fccf0a-b545-4ca8-a108-e89df1e2518d",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -122,7 +122,13 @@
 							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "1_Reset_Device",
+			"description": "",
+			"item": [
 				{
 					"name": "Reset Device Config",
 					"event": [
@@ -195,6 +201,12 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);",
+									"",
+									"if (environment.bigip_remove_license == \"1\") {",
+									"    postman.setNextRequest(\"Unlicense Device\");",
+									"} else {",
+									"    postman.setNextRequest(\"Cleanup Environment\");",
+									"}",
 									""
 								]
 							}
@@ -234,18 +246,6 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"f5_check_response();"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"if (environment.bigip_remove_license != \"1\") {",
-									"    postman.setNextRequest(\"Cleanup Environment\");",
-									"}",
-									""
 								]
 							}
 						}
