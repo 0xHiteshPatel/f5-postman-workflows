@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "dec0d4a8-5907-4fee-949b-f0a04ebaac91",
+							"id": "63ccd477-1e26-4062-a680-fc8a6f2ead73",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
@@ -177,7 +177,7 @@
 					},
 					"response": [
 						{
-							"id": "3da6456e-ab64-41e4-ab37-4f5c2a9f87b5",
+							"id": "bcd47daa-0ae7-4017-a4fe-637092fb8b9b",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
@@ -364,7 +364,10 @@
 									"    postman.setNextRequest(\"[BIGIP A] License Device\");",
 									"} else {",
 									"    postman.setNextRequest(\"[BIGIP B] Check License State\");",
-									"}"
+									"}",
+									"",
+									"f5_disable_poller();",
+									""
 								]
 							}
 						}
@@ -474,7 +477,10 @@
 									"    postman.setNextRequest(\"[BIGIP B] License Device\");",
 									"} else {",
 									"    postman.setNextRequest(\"[BIGIP A] Set root User Password\");",
-									"}"
+									"}",
+									"",
+									"f5_disable_poller();",
+									""
 								]
 							}
 						}

@@ -109,11 +109,17 @@ var prepareOptions = function(obj) {
 	// Apply workflow global variables to current run
 	Object.keys(workflow.globalVars).forEach(function(name) {
 		if(typeof workflow.globalVars[name] === 'object') {
-			printOut(`[prepareOptions]  getting value of ${workflow.globalVars[name].key} from ${workflow.globalVars[name].environment}`, 2);
 			var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
 			var includeKey = workflow.globalVars[name].key
-			delete workflow.globalVars[name];
-			workflow.globalVars[name] = includeEnv.values.find(e => e.key === includeKey).value;
+			var includeTemp = includeEnv.values.find(e => e.key === includeKey);
+			if(typeof includeTemp !== 'undefined' && includeTemp.value !== 'undefined') {
+				printOut(`[prepareOptions]  getting value of ${workflow.globalVars[name].key} from ${workflow.globalVars[name].environment}`, 2);
+				delete workflow.globalVars[name];
+				workflow.globalVars[name] = includeTemp.value;
+			} else {
+				printOut(`[prepareOptions]  could not find ${workflow.globalVars[name].key} in ${workflow.globalVars[name].environment}`, 2);
+				workflow.globalVars[name] = ""
+			}
 		}
 
 		if(typeof obj.environment.values.find(e => e.key === name) === 'undefined') {

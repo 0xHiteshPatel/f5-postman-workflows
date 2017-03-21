@@ -52,7 +52,7 @@
 			]
 		},
 		{
-			"name": "1_Discover_BIGIP",
+			"name": "1A_Discover_BIGIP",
 			"description": "Discover an F5 BIG-IP Device on iWorkflow\n\nInput Variables:\nbigip_mgmt\t\t\t\tBIG-IP Management Address\nbigip_root_username\t\tRoot Username\nbigip_root_password\t\tRoot Password\nbigip_admin_username\tAdmin Username\nbigip_admin_password\tAdmin Password\n\nOutput Variables:\niwf_bigip_uuid\tUUID of the discovered device",
 			"item": [
 				{
@@ -179,7 +179,7 @@
 			]
 		},
 		{
-			"name": "2_Get_BIGIP_UUID",
+			"name": "1B_Get_BIGIP_UUID",
 			"description": "Resolve the UUID of a BIG-IP device discovered on iWorkflow by the Management IP or Hostname\n\nInput Variables:\nbigip_mgmt\t\tManagement IP to search for\nbigip_hostname\tHostname to search for\n\nOutput Variables:\niwf_bigip_uuid\tUUID of the device",
 			"item": [
 				{
@@ -257,7 +257,7 @@
 			]
 		},
 		{
-			"name": "3_Remove_BIGIP",
+			"name": "1C_Delete_BIGIP",
 			"description": "Remove a discovered BIG-IP device from iWorkflow\n\nInput Variables:\niwf_bigip_uuid\t\tUUID of the discoverd BIG-IP device\n\n",
 			"item": [
 				{
@@ -308,7 +308,7 @@
 			]
 		},
 		{
-			"name": "4_Create_BIGIP_Connector",
+			"name": "2A_Create_BIGIP_Connector",
 			"description": "Create a BIG-IP Connector\n\nInput Variables:\niwf_connector_name\t\t\tConnector Name\niwf_connector_description\tConnector Description\niwf_bigip_<x>_uuid\t\t\t[OPTIONAL] BIGIP UUID to assign\n\nOutput Variables:\niwf_connector_uuid\t\t\tUUID of the created connector",
 			"item": [
 				{
@@ -377,7 +377,58 @@
 			]
 		},
 		{
-			"name": "5_Create_Tenant",
+			"name": "2C_Delete_BIGIP_Connector",
+			"description": "Delete a BIG-IP Connector using the Connector UUID\n\nInput Variables:\niwf_connector_uuid\t\tConnector UUID\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete a BIG-IP Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"connectorId\",",
+									"            \"value\":environment.iwf_connector_uuid",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3A_Create_Tenant",
 			"description": "Create an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\niwf_tenant_description\tTenant Description\niwf_connector_uuid*\t\tConnector reference(s)\n\nOutput Variables:\niwf_tenant_roleref\t\tTenant RBAC Role Reference\n",
 			"item": [
 				{
@@ -450,7 +501,58 @@
 			]
 		},
 		{
-			"name": "6_Create_Tenant_User",
+			"name": "3C_Delete_Tenant",
+			"description": "Delete an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete iWorkflow Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_tenant_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tenants/{{iwf_tenant_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4A_Create_Tenant_User",
 			"description": "Create a user associated with a iWorkflow tenant\n\nInput Variables:\niwf_tenant_name\t\tTenant Name\niwf_tenant_roleref\tTenant RBAC Role Reference\n\nOutput Variables:",
 			"item": [
 				{
@@ -547,58 +649,7 @@
 			]
 		},
 		{
-			"name": "7_Remove_BIGIP_Connector",
-			"description": "Delete a BIG-IP Connector using the Connector UUID\n\nInput Variables:\niwf_connector_uuid\t\tConnector UUID\n\nOutput Variables:\n",
-			"item": [
-				{
-					"name": "Delete a BIG-IP Connector",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var check_vals = [",
-									"        { ",
-									"            \"path\":\"connectorId\",",
-									"            \"value\":environment.iwf_connector_uuid",
-									"        }",
-									"    ];",
-									"",
-									"f5_check_response(check_vals);"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "X-F5-Auth-Token",
-								"value": "{{iwf_token}}",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "8_Remove_Tenant_User",
+			"name": "4C_Delete_Tenant_User",
 			"description": "Delete a iWorkflow Tenant User\n\nInput Variables:\niwf_tenant_username\t\tTenant Username\n\nOutput Variables:\n",
 			"item": [
 				{
@@ -625,57 +676,6 @@
 					],
 					"request": {
 						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/users/{{iwf_tenant_username}}",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "X-F5-Auth-Token",
-								"value": "{{iwf_token}}",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "9_Remove_Tenant",
-			"description": "Delete an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\n\nOutput Variables:\n",
-			"item": [
-				{
-					"name": "Delete iWorkflow Tenant",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var check_vals = [",
-									"        { ",
-									"            \"path\":\"name\",",
-									"            \"value\":environment.iwf_tenant_name",
-									"        }",
-									"    ];",
-									"",
-									"f5_check_response(check_vals);"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tenants/{{iwf_tenant_name}}",
 						"method": "DELETE",
 						"header": [
 							{
