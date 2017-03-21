@@ -2,14 +2,14 @@
 	"variables": [],
 	"info": {
 		"name": "iWf_API_Authentication",
-		"_postman_id": "f0a655c4-4f61-a6fb-510c-b80b2a06993d",
-		"description": "Authenticate to a F5 iWorkflow device.\n\nEnvironment Variables: \n\niwf_mgmt\t\tBIG-IP management address\niwf_username\tUsername\niwf_password\tPassword\n\nOutput Variables:\niwf_token\tAuthentication token",
+		"_postman_id": "ac76ac1a-a159-cc69-b888-b1ebf223db46",
+		"description": "Please see folder descriptions for details.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "1_Authenticate",
-			"description": "",
+			"description": "Authenticate to a F5 iWorkflow device.\n\nEnvironment Variables: \n\niwf_mgmt\t\t\tBIG-IP management address\niwf_username\t\tUsername\niwf_password\t\tPassword\niwf_token_timeout\t[OPTIONAL] Auth Token Timeout\n\n\nOutput Variables:\niwf_token\tAuthentication token",
 			"item": [
 				{
 					"name": "Authenticate and Obtain Token",
@@ -108,6 +108,17 @@
 									"    ",
 									"f5_check_response(check_vals);",
 									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if(typeof environment.bigip_token_timeout === 'undefined') {",
+									"    postman.setEnvironmentVariable('iwf_token_timeout', 1200);",
+									"}"
 								]
 							}
 						}

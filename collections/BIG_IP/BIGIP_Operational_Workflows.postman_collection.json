@@ -22,7 +22,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var populate_vars = [",
-									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
 									"    ];",
 									"    ",
 									"f5_populate_env_vars(populate_vars);",
@@ -45,7 +45,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+						"description": "Perform authentication and populate the {{bigip_token}} variable"
 					},
 					"response": [
 						{
@@ -150,7 +150,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -263,7 +263,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -409,7 +409,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -512,7 +512,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var populate_vars = [",
-									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
 									"    ];",
 									"    ",
 									"f5_populate_env_vars(populate_vars);",
@@ -535,7 +535,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+						"description": "Perform authentication and populate the {{bigip_token}} variable"
 					},
 					"response": [
 						{
@@ -640,7 +640,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -786,7 +786,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -889,7 +889,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var populate_vars = [",
-									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
 									"    ];",
 									"    ",
 									"f5_populate_env_vars(populate_vars);",
@@ -912,7 +912,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+						"description": "Perform authentication and populate the {{bigip_token}} variable"
 					},
 					"response": [
 						{
@@ -1017,7 +1017,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1130,7 +1130,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1243,7 +1243,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1346,7 +1346,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var populate_vars = [",
-									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
 									"    ];",
 									"    ",
 									"f5_populate_env_vars(populate_vars);",
@@ -1369,7 +1369,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+						"description": "Perform authentication and populate the {{bigip_token}} variable"
 					},
 					"response": [
 						{
@@ -1474,7 +1474,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1620,7 +1620,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1723,7 +1723,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var populate_vars = [",
-									"        {name:\"_rt_f5_token\", value:\"token.token\"}",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
 									"    ];",
 									"    ",
 									"f5_populate_env_vars(populate_vars);",
@@ -1746,7 +1746,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Perform authentication and populate the {{_rt_f5_token}} variable"
+						"description": "Perform authentication and populate the {{bigip_token}} variable"
 					},
 					"response": [
 						{
@@ -1851,7 +1851,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],
@@ -1998,7 +1998,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token}}",
+								"value": "{{bigip_token}}",
 								"description": ""
 							}
 						],

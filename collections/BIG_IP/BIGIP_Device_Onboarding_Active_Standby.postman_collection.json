@@ -3,272 +3,10 @@
 	"info": {
 		"name": "BIGIP_Device_Onboarding_Active_Standby",
 		"_postman_id": "96abd4dd-904f-0a21-943a-9c527f01b6c8",
-		"description": "",
+		"description": "Create an active/standby HA cluster between 2 BIG-IP devices.  \n\nInput Variables:\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "0_Authenticate",
-			"description": "",
-			"item": [
-				{
-					"name": "[BIGIP A] Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"_rt_f5_token_a\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{_rt_f5_token_a}} variable"
-					},
-					"response": [
-						{
-							"id": "63ccd477-1e26-4062-a680-fc8a6f2ead73",
-							"name": "Example",
-							"originalRequest": {
-								"url": " https://{{bigip_a_mgmt}}/mgmt/shared/authn/login",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"description": ""
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
-								},
-								"description": "Perform authentication and populate the {{_rt_f5_token_a}} variable"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"description": "",
-									"key": "Cache-Control",
-									"name": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate"
-								},
-								{
-									"description": "",
-									"key": "Connection",
-									"name": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"description": "",
-									"key": "Content-Length",
-									"name": "Content-Length",
-									"value": "710"
-								},
-								{
-									"description": "",
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"description": "",
-									"key": "Date",
-									"name": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
-								},
-								{
-									"description": "",
-									"key": "Expires",
-									"name": "Expires",
-									"value": "-1"
-								},
-								{
-									"description": "",
-									"key": "Pragma",
-									"name": "Pragma",
-									"value": "no-cache"
-								},
-								{
-									"description": "",
-									"key": "Server",
-									"name": "Server",
-									"value": "webd"
-								},
-								{
-									"description": "",
-									"key": "X-Real-IP",
-									"name": "X-Real-IP",
-									"value": "192.168.0.20"
-								},
-								{
-									"description": "",
-									"key": "accept-encoding",
-									"name": "accept-encoding",
-									"value": "gzip, deflate"
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
-				{
-					"name": "[BIGIP B] Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"_rt_f5_token_b\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{_rt_f5_token_b}} variable"
-					},
-					"response": [
-						{
-							"id": "bcd47daa-0ae7-4017-a4fe-637092fb8b9b",
-							"name": "Example",
-							"originalRequest": {
-								"url": " https://{{bigip_b_mgmt}}/mgmt/shared/authn/login",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"description": ""
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-								},
-								"description": "Perform authentication and populate the {{_rt_f5_token_b}} variable"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"description": "",
-									"key": "Cache-Control",
-									"name": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate"
-								},
-								{
-									"description": "",
-									"key": "Connection",
-									"name": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"description": "",
-									"key": "Content-Length",
-									"name": "Content-Length",
-									"value": "710"
-								},
-								{
-									"description": "",
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"description": "",
-									"key": "Date",
-									"name": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
-								},
-								{
-									"description": "",
-									"key": "Expires",
-									"name": "Expires",
-									"value": "-1"
-								},
-								{
-									"description": "",
-									"key": "Pragma",
-									"name": "Pragma",
-									"value": "no-cache"
-								},
-								{
-									"description": "",
-									"key": "Server",
-									"name": "Server",
-									"value": "webd"
-								},
-								{
-									"description": "",
-									"key": "X-Real-IP",
-									"name": "X-Real-IP",
-									"value": "192.168.0.20"
-								},
-								{
-									"description": "",
-									"key": "accept-encoding",
-									"name": "accept-encoding",
-									"value": "gzip, deflate"
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				}
-			]
-		},
 		{
 			"name": "1_Create_Cluster",
 			"description": "",
@@ -324,7 +62,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -383,7 +121,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -437,7 +175,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -496,7 +234,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							}
 						],
@@ -550,7 +288,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							}
 						],
@@ -584,7 +322,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -630,7 +368,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -675,7 +413,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -727,7 +465,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -788,7 +526,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -835,7 +573,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -874,7 +612,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -920,7 +658,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -965,7 +703,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1017,7 +755,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1068,7 +806,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1115,7 +853,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1160,7 +898,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1205,7 +943,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1250,7 +988,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1295,7 +1033,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1340,7 +1078,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1385,7 +1123,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1430,7 +1168,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -1475,7 +1213,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1520,7 +1258,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1565,7 +1303,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1610,7 +1348,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1655,7 +1393,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1700,7 +1438,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1745,7 +1483,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							},
 							{
@@ -1795,7 +1533,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -1840,7 +1578,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							}
 						],
@@ -1885,7 +1623,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -1930,7 +1668,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							}
 						],
@@ -1975,7 +1713,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2021,7 +1759,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2073,7 +1811,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2119,7 +1857,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2165,7 +1903,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2221,7 +1959,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2272,7 +2010,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2346,7 +2084,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2392,7 +2130,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_b}}",
+								"value": "{{bigip_b_token}}",
 								"description": ""
 							}
 						],
@@ -2449,7 +2187,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2490,7 +2228,7 @@
 						"header": [
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							},
 							{
@@ -2551,7 +2289,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
@@ -2602,7 +2340,7 @@
 							},
 							{
 								"key": "X-F5-Auth-Token",
-								"value": "{{_rt_f5_token_a}}",
+								"value": "{{bigip_a_token}}",
 								"description": ""
 							}
 						],
