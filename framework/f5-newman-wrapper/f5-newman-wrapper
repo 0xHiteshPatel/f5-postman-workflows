@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @file Implement a wrapper for newman that can chains collection runs
  *       together into workflows
