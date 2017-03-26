@@ -8,50 +8,6 @@
 	},
 	"item": [
 		{
-			"name": "0_Authenticate",
-			"description": "",
-			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"iwf_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"username\": {{iwf_username}},\n  \"password\": {{iwf_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the variable specified in the {{bigip_token_var}} variable."
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "1A_Discover_BIGIP",
 			"description": "Discover an F5 BIG-IP Device on iWorkflow\n\nInput Variables:\nbigip_mgmt\t\t\t\tBIG-IP Management Address\nbigip_root_username\t\tRoot Username\nbigip_root_password\t\tRoot Password\nbigip_admin_username\tAdmin Username\nbigip_admin_password\tAdmin Password\n\nOutput Variables:\niwf_bigip_uuid\tUUID of the discovered device",
 			"item": [
@@ -676,6 +632,212 @@
 					],
 					"request": {
 						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/users/{{iwf_tenant_username}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5A_Create_iApp_Template",
+			"description": "Create an iApp template on iWorkflow\n\nInput Variables:\niwf_iapp_name\t\tName of the iApp Template\niwf_iapp_template\tThe JSON body of the template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Install iApp Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {",
+									"            \"path\":\"name\",",
+									"            \"value\":\"/\" + environment.iwf_iapp_name + \".*/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/cm/cloud/templates/iapp",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{iwf_iapp_template}}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5B_Delete_iApp_Template",
+			"description": "Delete an iApp template on iWorkflow\n\nInput Variables:\niwf_iapp_name\t\tName of the iApp Template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete iApp Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_iapp_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/cm/cloud/templates/iapp/{{iwf_iapp_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6A_Create_Service_Template",
+			"description": "Create a Service Template on iWorkflow\n\nInput Variables:\niwf_service_name\t\tName of the Service Template\niwf_service_template\tThe JSON body of the template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Create Service Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {",
+									"            \"path\":\"name\",",
+									"            \"value\":\"/\" + environment.iwf_service_name + \".*/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/provider/templates/iapp",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{iwf_service_template}}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6B_Delete_Service_Template",
+			"description": "Delete a Service Template on iWorkflow\n\nInput Variables:\niwf_service_name\t\tName of Service Template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete Service Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"templateName\",",
+									"            \"value\":environment.iwf_service_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/provider/templates/iapp/{{iwf_service_name}}",
 						"method": "DELETE",
 						"header": [
 							{
