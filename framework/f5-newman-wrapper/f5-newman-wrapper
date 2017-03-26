@@ -111,8 +111,22 @@ var prepareOptions = function(obj) {
 	// Apply workflow global variables to current run
 	Object.keys(workflow.globalVars).forEach(function(name) {
 		if(typeof workflow.globalVars[name] === 'object') {
-			var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
-			var includeKey = workflow.globalVars[name].key
+			if(typeof workflow.globalVars[name].environment !== 'undefined') {
+				var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
+			} else {
+				if(typeof workflow.globalVarsIncludeFile === 'undefined') {
+			        printOut(`[prepareOptions][${name}] error: neither a 'environment' or 'globalVarsIncludeFile' were specified`, 1, console.error);
+			        process.exit(1);
+				}
+				var includeEnv = require(process.cwd() + '/' + workflow.globalVarsIncludeFile);
+			}
+
+			if(typeof workflow.globalVars[name].key !== 'undefined') {
+				var includeKey = workflow.globalVars[name].key;
+			} else {
+				var includeKey = name;
+			}
+
 			var includeTemp = includeEnv.values.find(e => e.key === includeKey);
 			if(typeof includeTemp !== 'undefined' && includeTemp.value !== 'undefined') {
 				printOut(`[prepareOptions]  getting value of ${workflow.globalVars[name].key} from ${workflow.globalVars[name].environment}`, 2);
@@ -340,6 +354,7 @@ var main = function() {
 		if(workflow.saveEnvVars) {
 			jsonfile.writeFileSync(workflow.envOutputFile, results.pop().environment, {spaces: 2});
 		}
+		printOut(`run completed`, 1);
 	});
 
 };

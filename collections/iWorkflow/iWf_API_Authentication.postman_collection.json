@@ -116,7 +116,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"if(typeof environment.bigip_token_timeout === 'undefined') {",
+									"if(typeof environment.iwf_token_timeout === 'undefined') {",
 									"    postman.setEnvironmentVariable('iwf_token_timeout', 1200);",
 									"}"
 								]

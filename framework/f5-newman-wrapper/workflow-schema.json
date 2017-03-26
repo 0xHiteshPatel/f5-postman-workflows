@@ -21,10 +21,12 @@
 		"key1":"value1",
 		"key2":"value2",
 		"key3":{
-			"environment":"my_environment_file.json",
-			"key":"key_name_to_find"
+			"environment":"my_environment_file.json",  // The env file name is OPTION.  If not specified the value of 'globalVarsIncludeFile' is used
+			"key":"key_name_to_find"  // The key name is OPTIONAL.  If not specified it's inherited from the object name (e.g. 'key3')
 		}
 	},
+	// The name of defaults environment include file (see key3 above)
+	"globalVarsIncludeFile":"my_environment_file.json",
 
 	// OPTIONAL, Save the environment variables to a file once complete
 	"saveEnvVars":true,

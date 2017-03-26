@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "BIGIP_Device_Onboarding_Active_Standby",
-		"_postman_id": "96abd4dd-904f-0a21-943a-9c527f01b6c8",
+		"_postman_id": "552ae89c-8429-943d-0951-892052775ba5",
 		"description": "Create an active/standby HA cluster between 2 BIG-IP devices.  \n\nInput Variables:\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -42,10 +42,10 @@
 									"postman.setEnvironmentVariable('_rt_syslog_servers', ",
 									"  JSON.stringify(f5_csv_to_json(environment.bigip_syslog_servers, 514, syslogTemplate)));",
 									"",
-									"console.log(\"dns_servers=\" + environment._rt_dns_servers);",
-									"console.log(\"dns_search=\" + environment._rt_dns_search);",
-									"console.log(\"ntp_servers=\" + environment._rt_ntp_servers);",
-									"console.log(\"syslog_servers=\" + environment._rt_syslog_servers);",
+									"//console.log(\"dns_servers=\" + environment._rt_dns_servers);",
+									"//console.log(\"dns_search=\" + environment._rt_dns_search);",
+									"//console.log(\"ntp_servers=\" + environment._rt_ntp_servers);",
+									"//console.log(\"syslog_servers=\" + environment._rt_syslog_servers);",
 									""
 								]
 							}
