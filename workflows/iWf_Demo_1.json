@@ -1,0 +1,204 @@
+{
+	"name":"iWf_Demo_1",
+	"description":"Create a Demo environment with an Active/Standby BIG-IP Cluster that is ready for L4-7 Service Deployment through iWorkflow",
+	"globalEnvVars":"../framework/f5-postman-workflows.postman_globals.json",
+	"globalOptions": {
+		"insecure":true,
+		"reporters":["cli"]
+	},
+	"globalVars": {
+		"bigip_a_mgmt": "",
+		"bigip_b_mgmt": "",
+		"bigip_username":"admin",
+		"bigip_password":"admin",
+		"iwf_mgmt": "",
+		"iwf_username": "admin",
+		"iwf_password": "admin",
+		"bigip_root_username": "root",
+		"bigip_root_password": "default",
+		"bigip_admin_username": "admin",
+		"bigip_admin_password": "admin",
+		"bigip_dns_servers":"4.2.2.2,8.8.8.8",
+		"bigip_dns_search":"localhost",
+		"bigip_ntp_servers":"0.pool.ntp.org,1.pool.ntp.org",
+		"bigip_timezone":"UTC",
+		"bigip_syslog_servers":"",
+		"bigip_a_hostname": "bigip-a.f5.local",
+		"bigip_a_regkey":"",
+		"bigip_a_addonkey":"",
+		"bigip_b_hostname": "bigip-b.f5.local",
+		"bigip_b_regkey":"",
+		"bigip_b_addonkey":"",
+		"iwf_connector_name": "Local Connector",
+		"iwf_connector_description": "Connector Description",
+		"iwf_tenant_name": "MyTenant",
+		"iwf_tenant_description":"My Tenant",
+		"iwf_tenant_username":"tenant",
+		"iwf_tenant_password":"tenant"
+	},
+	"saveEnvVars":true,
+	"outputFile":"iWf_Demo_1-run.json",
+	"envOutputFile":"iWf_Demo_1-env.json",
+	"workflow": [
+		{
+			"name":"Authenticate to Devices",
+			"skip":true,
+			"children": [
+				{
+					"name":"Authenticate to BIG-IP A",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"folder":"1_Authenticate",
+						"remapPreRun": {
+							"bigip_a_mgmt":"bigip_mgmt"
+						},
+						"remapPostRun": {
+							"bigip_token":"bigip_a_token"
+						}
+					}
+				},
+				{
+					"name":"Authenticate to BIG-IP B",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"folder":"1_Authenticate",
+						"remapPreRun": {
+							"bigip_b_mgmt":"bigip_mgmt"
+						},
+						"remapPostRun": {
+							"bigip_token":"bigip_b_token"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name":"Build Cluster",
+			"skip":false,
+			"options": {
+				"collection":"../collections/BIG_IP/BIGIP_Device_Onboarding_Active_Standby.postman_collection.json",
+				"folder":"1_Create_Cluster"
+			}
+		},
+		{
+			"name":"Authenticate to iWorkflow",
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_API_Authentication.postman_collection.json",
+				"folder":"1_Authenticate"
+			}
+		},
+		{
+			"name":"Discover BIG-IP A",
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"1A_Discover_BIGIP",
+				"remapPreRun": {
+					"bigip_a_mgmt": "bigip_mgmt"
+				}
+			},
+			"children": [
+				{
+					"name":"Get BIG-IP UUID",
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1B_Get_BIGIP_UUID",
+						"remapPreRun": {
+							"bigip_a_mgmt": "bigip_mgmt",
+							"bigip_a_hostname": "bigip_hostname"
+						},
+						"remapPostRun": {
+							"iwf_bigip_uuid": "iwf_bigip_a_uuid"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name":"Discover BIG-IP B",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"1A_Discover_BIGIP",
+				"remapPreRun": {
+					"bigip_b_mgmt": "bigip_mgmt"
+				}
+			},
+			"children": [
+				{
+					"name":"Get BIG-IP UUID",
+					"skip":true,
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1B_Get_BIGIP_UUID",
+						"remapPreRun": {
+							"bigip_b_mgmt": "bigip_mgmt",
+							"bigip_b_hostname": "bigip_hostname"
+						},
+						"remapPostRun": {
+							"iwf_bigip_uuid": "iwf_bigip_b_uuid"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name":"Create BIG-IP Connector",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"2A_Create_BIGIP_Connector"
+			}
+		},
+		{
+			"name":"Create iWorkflow Tenant",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"3A_Create_Tenant"
+			}
+		},
+		{
+			"name":"Create iWorkflow Tenant User",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"4A_Create_Tenant_User"
+			}
+		},
+		{
+			"name":"Import AppSvcs iApp Template",
+			"skip":false,
+			"options": {
+				"collection":"../../f5-application-services-integration-iApp/AppSvcs_iApp_Workflows.postman_collection.json",
+				"folder":"2_Install_on_iWorkflow"
+			}
+		},
+		{
+			"name":"Import AppSvcs Service Catalog Template Examples",
+			"skip":false,
+			"options": {
+				"collection":"../../f5-application-services-integration-iApp/AppSvcs_iApp_Workflows.postman_collection.json",
+				"folder":"3_iWorkflow_Service_Template_Examples"
+			}
+		},
+		{
+			"name":"Authenticate to iWorkflow Tenant",
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_API_Authentication.postman_collection.json",
+				"folder":"1_Authenticate"
+			},
+			"remapPreRun": {
+				"iwf_tenant_username": "iwf_username",
+				"iwf_tenant_password": "iwf_password"
+			}
+		},
+		{
+			"name":"Import AppSvcs Service Catalog Template Examples",
+			"skip":true,
+			"options": {
+				"collection":"../../f5-application-services-integration-iApp/AppSvcs_iApp_Workflows.postman_collection.json",
+				"folder":"4_iWorkflow_Deploy_Example_Services"
+			}
+		}
+	]
+}

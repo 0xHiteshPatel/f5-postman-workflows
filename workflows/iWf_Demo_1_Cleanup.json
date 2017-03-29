@@ -1,0 +1,263 @@
+{
+	"name":"iWf_Demo_1_Cleanup",
+	"description":"Cleanup the Demo environment deployed by workflow iWf_Demo_1.json",
+	"globalEnvVars":"../framework/f5-postman-workflows.postman_globals.json",
+	"globalOptions": {
+		"insecure":true,
+		"reporters":["cli"]
+	},
+	"globalVarsIncludeFile":"./iWf_Demo_1-env.json",
+	"globalVars": {
+		"iwf_mgmt": {},
+		"iwf_username": {},
+		"iwf_password": {},
+		"iwf_connector_uuid": {},
+		"iwf_iapp_name": { "key":"iwf_appsvcs_name" },
+		"iwf_tenant_name": {},
+		"iwf_tenant_username": {},
+		"bigip_a_mgmt": {},
+		"bigip_a_hostname": {},
+		"bigip_b_mgmt": {},
+		"bigip_b_hostname": {},
+		"bigip_username": {},
+		"bigip_password": {},
+		"iwf_token_timeout": "3600",
+		"bigip_remove_license":"1"
+	},
+	"saveEnvVars":true,
+	"outputFile":"iWf_Demo_1_Cleanup-run.json",
+	"envOutputFile":"iWf_Demo_1_Cleanup-env.json",
+	"workflow": [
+		{
+			"name":"Authenticate to iWorkflow",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_API_Authentication.postman_collection.json",
+				"folder":"1_Authenticate"
+			}
+		},
+		{
+			"name":"Remove Service Templates",
+			"skip":true,
+			"children":[
+				{
+					"name":"Remove Service Template f5-fasthttp-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-fasthttp-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-fastl4-tcp-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-fastl4-tcp-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-fastl4-udp-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-fastl4-udp-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-http-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-http-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-http-url-routing-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-http-url-routing-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-https-offload",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-https-offload"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				},
+				{
+					"name":"Remove Service Template f5-https-waf-lb",
+					"skip":false,
+					"options": {
+						"envVars":{
+							"iwf_service_name":"f5-https-waf-lb"
+						},
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"6B_Delete_Service_Template"
+					}
+				}
+			]
+		},
+		{
+			"name":"Remove AppSvcs iApp Template",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"5B_Delete_iApp_Template"
+			}
+		},
+		{
+			"name":"Remove BIG-IP A Device from iWorkflow",
+			"skip":true,
+			"children": [
+				{
+					"name":"Get BIG-IP A UUID",
+					"skip":false,
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1B_Get_BIGIP_UUID",
+						"remapPreRun": {
+							"bigip_a_mgmt": "bigip_mgmt",
+							"bigip_a_hostname": "bigip_hostname"
+						}
+					}
+				},
+				{
+					"name":"Remove BIG-IP A from iWorkflow",
+					"skip":false,
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1C_Delete_BIGIP"
+					}
+				}
+			]
+		},
+		{
+			"name":"Remove BIG-IP B Device from iWorkflow",
+			"skip":true,
+			"children": [
+				{
+					"name":"Get BIG-IP B UUID",
+					"skip":false,
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1B_Get_BIGIP_UUID",
+						"remapPreRun": {
+							"bigip_b_mgmt": "bigip_mgmt",
+							"bigip_b_hostname": "bigip_hostname"
+						}
+					}
+				},
+				{
+					"name":"Remove BIG-IP B from iWorkflow",
+					"skip":false,
+					"options": {
+						"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+						"folder":"1C_Delete_BIGIP"
+					}
+				}
+			]
+		},
+		{
+			"name":"Remove BIG-IP Connector from iWorkflow",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"2C_Delete_BIGIP_Connector"
+			}
+		},
+		{
+			"name":"Remove iWorkflow Tenant User",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"4C_Delete_Tenant_User"
+			}
+		},
+		{
+			"name":"Remove iWorkflow Tenant",
+			"skip":false,
+			"options": {
+				"collection":"../collections/iWorkflow/iWf_Operational_Workflows.postman_collection.json",
+				"folder":"3C_Delete_Tenant"
+			}
+		},
+		{
+			"name":"Reset BIG-IP A Device ",
+			"skip":true,
+			"children": [
+				{
+					"name":"Authenticate to BIG-IP A",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"folder":"1_Authenticate",
+						"remapPreRun": {
+							"bigip_a_mgmt":"bigip_mgmt"
+						}
+					}
+				},
+				{
+					"name":"Reset BIG-IP A",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_Reset_Device.postman_collection.json",
+						"folder":"1_Reset_Device",
+						"remapPreRun": {
+							"bigip_a_mgmt":"bigip_mgmt"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name":"Reset BIG-IP B Device ",
+			"skip":true,
+			"children": [
+				{
+					"name":"Authenticate to BIG-IP B",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"folder":"1_Authenticate",
+						"remapPreRun": {
+							"bigip_b_mgmt":"bigip_mgmt"
+						}
+					}
+				},
+				{
+					"name":"Reset BIG-IP B",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_Reset_Device.postman_collection.json",
+						"folder":"1_Reset_Device",
+						"remapPreRun": {
+							"bigip_b_mgmt":"bigip_mgmt"
+						}
+					}
+				}
+			]
+		}
+	]
+}

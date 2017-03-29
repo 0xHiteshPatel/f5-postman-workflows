@@ -1,0 +1,40 @@
+{
+	"name":"BIGIP_Reset_1",
+	"description":"Reset a single BIG-IP device",
+	"globalEnvVars":"../framework/f5-postman-workflows.postman_globals.json",
+	"globalOptions": {
+		"insecure":true,
+		"reporters":["cli"]
+	},
+	"globalVars": {
+		"bigip_mgmt": "",
+		"bigip_username":"admin",
+		"bigip_password":"admin",
+		"bigip_remove_license":"0"
+	},
+	"saveEnvVars":false,
+	"workflow": [
+		{
+			"name":"Reset BIG-IP Device ",
+			"skip":true,
+			"children": [
+				{
+					"name":"Authenticate to BIG-IP",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"folder":"1_Authenticate"
+					}
+				},
+				{
+					"name":"Reset BIG-IP A",
+					"skip":false,
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_Reset_Device.postman_collection.json",
+						"folder":"1_Reset_Device"
+					}
+				}
+			]
+		}
+	]
+}
