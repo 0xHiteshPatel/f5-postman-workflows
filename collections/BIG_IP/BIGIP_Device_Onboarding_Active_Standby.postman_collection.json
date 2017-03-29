@@ -214,7 +214,7 @@
 									"if(!(\"licensedDateTime\" in resp)) {",
 									"    postman.setNextRequest(\"[BIGIP B] License Device\");",
 									"} else {",
-									"    postman.setNextRequest(\"[BIGIP A] Set root User Password\");",
+									"    postman.setNextRequest(\"[BIGIP A] Check Root User Enabled\");",
 									"}",
 									"",
 									"f5_disable_poller();",
@@ -272,7 +272,8 @@
 									"    ];",
 									"",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"[BIGIP A] Set root User Password\");"
+									"f5_poll_until_all_tests_pass(\"[BIGIP A] Check Root User Enabled\");",
+									""
 								]
 							}
 						}
@@ -295,6 +296,60 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'SOAPLicenseClient --basekey \\\"{{bigip_b_regkey}}\\\" --addkey \\\"{{bigip_b_addonkey}}\\\" --verbose'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[BIGIP A] Check Root User Enabled",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":\"systemauth.disablerootlogin\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"",
+									"var resp = f5_parse_json_resp();",
+									"",
+									"if(resp.value == 'false') {",
+									"    postman.setNextRequest(\"[BIGIP A] Set admin User Password\");",
+									"} else {",
+									"    postman.setNextRequest(\"[BIGIP A] Set root User Password\");",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_a_mgmt}}/mgmt/tm/sys/db/systemauth.disablerootlogin",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_a_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
@@ -585,6 +640,60 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"remoteServers\": {{_rt_syslog_servers}}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[BIGIP B] Check Root User Enabled",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":\"systemauth.disablerootlogin\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"",
+									"var resp = f5_parse_json_resp();",
+									"",
+									"if(resp.value == 'false') {",
+									"    postman.setNextRequest(\"[BIGIP B] Set admin User Password\");",
+									"} else {",
+									"    postman.setNextRequest(\"[BIGIP B] Set root User Password\");",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_b_mgmt}}/mgmt/tm/sys/db/systemauth.disablerootlogin",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_b_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
