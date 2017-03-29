@@ -57,6 +57,7 @@ The following global environment variables can be used for configuration:
 | _f5_poll_useinternal    | Boolean | Use the internal while() loop to sleep **WARNING: this will block the thread** |
 | _f5_poll_apiurl         | String  | The URL for an API endpoint that implements a delay. |
 | _f5_poll_bypass_timeout | Boolean | Don't exit if a max_tries is reached
+| _f5_framework_branch    | String  | The Github branch to use during install.  Default is 'master'.
 
 
 ## Developers
@@ -68,7 +69,8 @@ an importable global environment file to Postman:
 ```
 $ git clone https://github.com/0xHiteshPatel/f5-postman-workflows.git
 $ cd framework
-$ ./build.sh
+$ npm install
+$ npm run build
 ```
 
 ### Docs
@@ -76,7 +78,8 @@ $ ./build.sh
 Additionally docs are generated using ``jsdoc`` with the command:
 ```
 $ cd framework
-$ jsdoc f5-post-workflows.js ../README.md -d docs -c jsdoc_conf.json
+$ npm install
+$ npm run doc
 ```
 
 ### Tests
@@ -84,3 +87,10 @@ $ jsdoc f5-post-workflows.js ../README.md -d docs -c jsdoc_conf.json
 The F5_Postman_Workflows collection includes a test framework under the 'Tests'
 folder.  Tests should be run manually, with Collection Runner and Newman before
 submitted a pull request.  Test output should be included with any pull requests.
+
+To run the test framework with newman perform the following:
+```
+$ cd framework
+$ npm test
+```
+

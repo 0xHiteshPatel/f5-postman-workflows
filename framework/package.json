@@ -1,0 +1,35 @@
+{
+  "name": "f5-postman-workflows",
+  "version": "1.1.0",
+  "description": "This extension is intended to be used with Postman. The purpose of this extension is to implement common functions that simplify building Collections that implement complex workflows",
+  "main": "src/f5-postman-workflows.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xHiteshPatel/f5-postman-workflows.git"
+  },
+  "keywords": [
+    "postman",
+    "newman",
+    "f5"
+  ],
+  "author": "Hitesh Patel <h.patel@f5.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/0xHiteshPatel/f5-postman-workflows/issues"
+  },
+  "homepage": "https://github.com/0xHiteshPatel/f5-postman-workflows#readme",
+  "scripts": {
+    "doc": "jsdoc src/f5-postman-workflows.js ../README.md -d docs -c build/jsdoc_conf.json --verbose",
+    "globals": "node build/gen_postman_globals.js",
+    "build": "npm run globals; npm run doc",
+    "pretest":  "npm run build",
+    "test": "node test/test-driver.js"
+  },
+  "dependencies": {
+    "jsdoc": "^3.4.3",
+    "uglify-js": "^2.8.7"
+  }
+}

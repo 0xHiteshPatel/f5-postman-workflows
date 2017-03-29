@@ -1,0 +1,1877 @@
+{
+	"variables": [],
+	"info": {
+		"name": "iWf_Pool_Licenses",
+		"_postman_id": "1a6da623-8885-8db0-b935-fe5a74380ffe",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_Install",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{f5_token}} variable"
+					},
+					"response": [
+						{
+							"id": "533308c3-1a25-456c-a37e-3f92c32d7ec3",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "710"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				},
+				{
+					"name": "Verify Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        {path:\"content\", value:\"Authentication works\"}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "91804420-685a-4db2-a9c3-b0cd3fdfd8ee",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "221"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:27 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 23,
+							"body": "{\"content\":\"Authentication works\",\"stageEnumValues\":[\"CREATED\",\"STARTED\",\"SHUTDOWN\"],\"generation\":2,\"lastUpdateMicros\":1482190407368033,\"kind\":\"shared:echo:echoworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/echo\"}"
+						}
+					]
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        { path:\"token\", value: environment._rt_iwf_token },",
+									"        { path:\"timeout\", value: 1800 }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"1800\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "821b4970-d1ff-4c3f-afb3-9695500bc1f9",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "Options that are desired for the connection",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "The length of the response body in octets (8-bit bytes)",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "529"
+								},
+								{
+									"description": "The mime type of this content",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "The date and time that the message was sent",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:35 GMT"
+								},
+								{
+									"description": "Gives the date/time after which the response is considered stale",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain.",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "A name for the server",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "Custom header",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "Custom header",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 24,
+							"body": "{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":36000,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":2,\"lastUpdateMicros\":1482190414998914,\"expirationMicros\":1482226386668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"}"
+						}
+					]
+				},
+				{
+					"name": "Initialize Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Activate License Pool Registration Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"status\",",
+									"            \"value\":\"ACTIVATING_AUTOMATIC\"",
+									"        },",
+									"        {",
+									"            \"path\":\"message\",",
+									"            \"value\":\"Automatic activation in progress\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Get EULA Text\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/system/licensing/pool/initial-activation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\":\"ACTIVATING_AUTOMATIC\",\n\t\"name\":\"{{iwf_license_pool_name}}\",\n\t\"regKey\":\"{{iwf_license_pool_regkey}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get EULA Text",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var stringify_eulaText = function(resp) { ",
+									"    if( !(\"eulaText\" in resp)) {",
+									"        return null;",
+									"    }",
+									"    ",
+									"    var string = JSON.stringify(resp.eulaText);",
+									"    var ret = string.replace(/\\\\n/g, \"\\\\n\")",
+									"                 .replace(/\\\\'/g, \"\\\\'\")",
+									"                 .replace(/\\\\\"/g, '\\\\\"')",
+									"                 .replace(/\\\\&/g, \"\\\\&\")",
+									"                 .replace(/\\\\r/g, \"\\\\r\")",
+									"                 .replace(/\\\\t/g, \"\\\\t\")",
+									"                 .replace(/\\\\b/g, \"\\\\b\")",
+									"                 .replace(/\\\\f/g, \"\\\\f\")",
+									"                 .replace(/^\\\"/g, \"\")",
+									"                 .replace(/\\\"$/g, \"\");",
+									"    return ret;",
+									"};",
+									"",
+									"var resp = f5_parse_json_resp();",
+									"",
+									"if(resp.status === 'READY') {",
+									"    var check_vals = [",
+									"            {",
+									"                \"path\":\"status\",",
+									"                \"value\":\"READY\"",
+									"            }",
+									"        ];  ",
+									"    f5_check_response(check_vals);",
+									"    f5_poll_until_all_tests_pass(\"Cleanup Environment\");",
+									"} else {",
+									"    check_vals = [",
+									"            {",
+									"                \"path\":\"eulaText\",",
+									"                \"value\":\"END USER\",",
+									"                \"op\":\"incl\"",
+									"            }",
+									"        ];",
+									"",
+									"    var populate_vars = [",
+									"            { ",
+									"                \"name\":\"_rt_iwf_pool_eula\",",
+									"                \"value\":stringify_eulaText",
+									"            }",
+									"        ];",
+									"    ",
+									"    f5_check_response(check_vals);",
+									"    f5_populate_env_vars(populate_vars);",
+									"    f5_poll_until_all_tests_pass(\"Accept EULA\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/system/licensing/pool/initial-activation/{{iwf_license_pool_regkey}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Accept EULA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"status\",",
+									"            \"value\":\"ACTIVATING_AUTOMATIC_EULA_ACCEPTED\"",
+									"        },",
+									"        {",
+									"            \"path\":\"message\",",
+									"            \"value\":\"Finishing activation\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/system/licensing/pool/initial-activation/{{iwf_license_pool_regkey}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\":\"ACTIVATING_AUTOMATIC_EULA_ACCEPTED\",\n\t\"eulaText\":\"{{_rt_iwf_pool_eula}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Check for Activation Completion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"status\",",
+									"            \"value\":\"READY\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Cleanup Environment\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/system/licensing/pool/initial-activation/{{iwf_license_pool_regkey}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2_Reactivate",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{_rt_iwf_token}} variable"
+					},
+					"response": [
+						{
+							"id": "2d178788-6949-4209-a29b-63f51b211e57",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "710"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				},
+				{
+					"name": "Verify Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        {path:\"content\", value:\"Authentication works\"}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "4c39ffb0-f39f-4028-ad50-6850c0fbfccd",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "221"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:27 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 23,
+							"body": "{\"content\":\"Authentication works\",\"stageEnumValues\":[\"CREATED\",\"STARTED\",\"SHUTDOWN\"],\"generation\":2,\"lastUpdateMicros\":1482190407368033,\"kind\":\"shared:echo:echoworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/echo\"}"
+						}
+					]
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        { path:\"token\", value: environment._rt_iwf_token },",
+									"        { path:\"timeout\", value: 1800 }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"1800\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "75bf43d6-faf3-470a-8f7e-477e8d251279",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "Options that are desired for the connection",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "The length of the response body in octets (8-bit bytes)",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "529"
+								},
+								{
+									"description": "The mime type of this content",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "The date and time that the message was sent",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:35 GMT"
+								},
+								{
+									"description": "Gives the date/time after which the response is considered stale",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain.",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "A name for the server",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "Custom header",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "Custom header",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 24,
+							"body": "{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":36000,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":2,\"lastUpdateMicros\":1482190414998914,\"expirationMicros\":1482226386668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"}"
+						}
+					]
+				},
+				{
+					"name": "Initialize Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate License Pool UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_pool_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools?$filter=name eq '{{iwf_license_pool_name}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivate License Pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"state\",",
+									"            \"value\":\"GETTING_EULA\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Verify License Pool Activation Completed\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"state\":\"RELICENSE\",\n\t\"method\":\"AUTOMATIC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify License Pool Activation Completed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"state\",",
+									"            \"value\":\"LICENSED\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Cleanup Environment\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3_Delete",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"_rt_iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{iwf_username}},\n\t\"password\": {{iwf_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the {{_rt_iwf_token}} variable"
+					},
+					"response": [
+						{
+							"id": "24c13e62-0ca0-43f7-b851-6fd22006d64b",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "710"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				},
+				{
+					"name": "Verify Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        {path:\"content\", value:\"Authentication works\"}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"Authentication works\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "1b7ed2d8-3de4-44ae-a88f-e140316a00ed",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "221"
+								},
+								{
+									"description": "",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:27 GMT"
+								},
+								{
+									"description": "",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 23,
+							"body": "{\"content\":\"Authentication works\",\"stageEnumValues\":[\"CREATED\",\"STARTED\",\"SHUTDOWN\"],\"generation\":2,\"lastUpdateMicros\":1482190407368033,\"kind\":\"shared:echo:echoworkerstate\",\"selfLink\":\"https://localhost/mgmt/shared/echo\"}"
+						}
+					]
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vars = [",
+									"        { path:\"token\", value: environment._rt_iwf_token },",
+									"        { path:\"timeout\", value: 1800 }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"1800\"\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "7707c6bd-10a7-4ca7-b12b-822a78836eb0",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds",
+									"key": "Cache-Control",
+									"name": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate"
+								},
+								{
+									"description": "Options that are desired for the connection",
+									"key": "Connection",
+									"name": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"description": "The length of the response body in octets (8-bit bytes)",
+									"key": "Content-Length",
+									"name": "Content-Length",
+									"value": "529"
+								},
+								{
+									"description": "The mime type of this content",
+									"key": "Content-Type",
+									"name": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"description": "The date and time that the message was sent",
+									"key": "Date",
+									"name": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:35 GMT"
+								},
+								{
+									"description": "Gives the date/time after which the response is considered stale",
+									"key": "Expires",
+									"name": "Expires",
+									"value": "-1"
+								},
+								{
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain.",
+									"key": "Pragma",
+									"name": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"description": "A name for the server",
+									"key": "Server",
+									"name": "Server",
+									"value": "webd"
+								},
+								{
+									"description": "Custom header",
+									"key": "X-Real-IP",
+									"name": "X-Real-IP",
+									"value": "192.168.0.20"
+								},
+								{
+									"description": "Custom header",
+									"key": "accept-encoding",
+									"name": "accept-encoding",
+									"value": "gzip, deflate"
+								}
+							],
+							"cookie": [],
+							"responseTime": 24,
+							"body": "{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":36000,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":2,\"lastUpdateMicros\":1482190414998914,\"expirationMicros\":1482226386668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"}"
+						}
+					]
+				},
+				{
+					"name": "Initialize Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Populate License Pool UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"_rt_iwf_license_pool_uuid\",",
+									"            \"value\":\"items.0.uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools?$filter=name eq '{{iwf_license_pool_name}}'",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete License Pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}//mgmt/cm/shared/licensing/pools/{{_rt_iwf_license_pool_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{_rt_iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

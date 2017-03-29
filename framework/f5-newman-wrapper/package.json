@@ -1,0 +1,29 @@
+{
+  "name": "f5-newman-wrapper",
+  "version": "1.0.0",
+  "description": "A wrapper for newman and f5-postman-workflows that allows easy packaging of collections into workflows",
+  "main": "f5-newman-wrapper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xHiteshPatel/f5-postman-workflows.git"
+  },
+  "keywords": [
+    "newman",
+    "f5-postman-workflows"
+  ],
+  "author": "Hitesh Patel <h.patel@f5.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/0xHiteshPatel/f5-postman-workflows/issues"
+  },
+  "homepage": "https://github.com/0xHiteshPatel/f5-postman-workflows#readme",
+  "dependencies": {
+    "async": "^2.1.5",
+    "commander": "^2.9.0",
+    "jsonfile": "^2.4.0",
+    "newman": "^3.3.0"
+  }
+}

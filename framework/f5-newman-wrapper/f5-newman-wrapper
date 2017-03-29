@@ -1,0 +1,363 @@
+#!/usr/bin/env node
+
+/**
+ * @file Implement a wrapper for newman that can chains collection runs
+ *       together into workflows
+ * @author Hitesh Patel, F5 Networks
+ * @version 1.0.0
+ */
+
+var newman = require('newman');
+var program = require('commander');
+var async = require('async');
+var fs = require('fs');
+var jsonfile = require('jsonfile');
+
+// Set our defaults
+var workflow = {};
+var workflowDefaults = {
+	"name":"UNDEFINED",
+	"globalOptions":{},
+	"globalVars": {},
+	"workflow": [],
+	"saveEnvVars":false
+};
+
+var itemDefaults = {
+	"name":"UNDEFINED",
+	"options": {
+		"collection":"ERROR"
+	},
+	"children":[],
+	"skip":false
+};
+
+// Create array used by async for newman runs
+var asyncStack = [];
+
+// Create global object to store env vars between runs
+var runtimeVars = {
+	"values":[]
+};
+
+/**
+ * @function printOut
+ * @param {String} str - The string to print
+ * @param {Integer} level - The log level for the message
+ * @param {Function} func - The function to call
+ * @returns {Null}
+ * @desc Print a string to console
+ */
+var printOut = function(str, level=1, func=console.log) {
+	if(level <= program.loglevel) {
+		func(`[${workflow.runId}] ` + str);
+	}
+};
+
+/**
+ * @function setDefaults
+ * @param {Object} obj - An object to manipulate
+ * @param {Object} template - Defaults template
+ * @returns {Null}
+ * @desc Prepare an object by applying defaults
+ */
+var setDefaults = function(obj, template) {
+	printOut('[setDefaults] obj=' + JSON.stringify(obj,null,3), 10);
+	printOut('[setDefaults] template=' + JSON.stringify(template,null,3), 10);
+
+	// Apply defaults from template
+	Object.keys(template).forEach(function(key) {
+		if(typeof obj[key] === 'undefined') {
+			obj[key] = template[key];
+			printOut(`[setDefaults]: setting default ${key}=${template[key]}`, 10);
+		}
+	});
+	printOut('[setDefaults] done obj=' + JSON.stringify(obj,null,3), 10);
+};
+
+/**
+ * @function prepareOptions
+ * @param {Object} obj - An object to manipulate
+ * @returns {Null}
+ * @desc Prepare a newman options object by applying defaults, remapping
+ * environment variables and applying global variables.
+ */
+var prepareOptions = function(obj) {
+	printOut('[prepareOptions] obj=' + JSON.stringify(obj,null,3), 10);
+
+	// Create an empty environment if one doesn't exist
+	if(typeof obj.environment === 'undefined') {
+		obj.environment = {
+			"values":[]
+		};
+	}
+
+	// Remap envVars object to the format newman likes
+	if(typeof obj.envVars !== 'undefined') {
+		Object.keys(obj.envVars).forEach(function(name) {
+			if(typeof obj.environment.values.find(e => e.key === name) === 'undefined') {
+				printOut(`[prepareOptions] remapping envVars[${name}]`, 10);
+				obj.environment.values.push({
+								  "key": name,
+								  "value": obj.envVars[name],
+								  "type": "text",
+								  "enabled": true
+								});
+			}
+		});
+		delete obj.envVars;
+	};
+
+	// Apply workflow global variables to current run
+	Object.keys(workflow.globalVars).forEach(function(name) {
+		if(typeof workflow.globalVars[name] === 'object') {
+			if(typeof workflow.globalVars[name].environment !== 'undefined') {
+				var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
+			} else {
+				if(typeof workflow.globalVarsIncludeFile === 'undefined') {
+			        printOut(`[prepareOptions][${name}] error: neither a 'environment' or 'globalVarsIncludeFile' were specified`, 1, console.error);
+			        process.exit(1);
+				}
+				var includeEnv = require(process.cwd() + '/' + workflow.globalVarsIncludeFile);
+			}
+
+			if(typeof workflow.globalVars[name].key !== 'undefined') {
+				var includeKey = workflow.globalVars[name].key;
+			} else {
+				var includeKey = name;
+			}
+
+			var includeTemp = includeEnv.values.find(e => e.key === includeKey);
+			if(typeof includeTemp !== 'undefined' && includeTemp.value !== 'undefined') {
+				printOut(`[prepareOptions]  getting value of ${workflow.globalVars[name].key} from ${workflow.globalVars[name].environment}`, 2);
+				delete workflow.globalVars[name];
+				workflow.globalVars[name] = includeTemp.value;
+			} else {
+				printOut(`[prepareOptions]  could not find ${workflow.globalVars[name].key} in ${workflow.globalVars[name].environment}`, 2);
+				workflow.globalVars[name] = ""
+			}
+		}
+
+		if(typeof obj.environment.values.find(e => e.key === name) === 'undefined') {
+			printOut(`[prepareOptions] inheriting globalVars[${name}]`, 10);
+
+			obj.environment.values.push({
+							  "key": name,
+							  "value": workflow.globalVars[name],
+							  "type": "text",
+							  "enabled": true
+							});
+
+			if(typeof obj.remapPreRun !== 'undefined' && typeof obj.remapPreRun[name] !== 'undefined') {
+				printOut(`[prepareOptions]  remapping globalVars ${name} -> ${obj.remapPreRun[name]}`, 10);
+				obj.environment.values.push({
+								  "key": obj.remapPreRun[name],
+								  "value": workflow.globalVars[name],
+								  "type": "text",
+								  "enabled": true
+								});
+			}
+		};
+	});
+	printOut("[prepareOptions] done obj=" + JSON.stringify(obj,null,3), 7);
+};
+
+/**
+ * @function childRecurse
+ * @param {Object} obj - Object to process
+ * @param {Array} level - Stack to push calls onto
+ * @returns {Null}
+ * @desc Recursively process an object and push runs onto the stack
+ */
+var childRecurse = function(obj, stack) {
+	obj.forEach(function(child) {
+		printOut(`[childRecurse] child=` + JSON.stringify(child), 10);
+		setDefaults(child, itemDefaults);
+		if(!child.skip) {
+			printOut(`[stack] added ${child.name}`, 5);
+			stack.push(runCollection(child));
+		}
+		childRecurse(child.children, stack);
+	});
+};
+
+/**
+ * @function mergeEnv
+ * @param {Object} a - Destination object
+ * @param {Object} b - Source Object
+ * @returns {Null}
+ * @desc Merge newman environment object b into a, preserving existing items in a
+ */
+var mergeEnv = function(a, b) {
+	printOut('[mergeEnv] a=' + JSON.stringify(a), 10);
+	printOut('[mergeEnv] b=' + JSON.stringify(b), 10);
+
+	JSON.parse(JSON.stringify(b.values)).forEach(function(o) {
+		if(typeof a.values.find(e => e.key === o.key) === 'undefined') {
+			printOut('[mergeEnv] push o=' + JSON.stringify(o,null,3), 10);
+			a.values.push(o);
+		}
+	});
+	printOut('[mergeEnv] done a=' + JSON.stringify(a,null,3), 10);
+};
+
+/**
+ * @function runCollection
+ * @param {Object} obj - Object to run
+ * @returns {Null}
+ * @desc Run a collection using newman
+ */
+var runCollection = function(obj) {
+	// Create an anonymous function to push onto the stack
+	return function(callback) {
+		printOut(`[runCollection] running ${obj.name}`, 6);
+		printOut("[runCollection] obj=" + JSON.stringify(obj), 10);
+
+		var options = obj.options;
+
+		// Set defaults and inherit our globalOptions
+		setDefaults(options, workflow.globalOptions);
+		prepareOptions(options);
+
+		// Set our run global variables
+		options.globals = workflow.globalEnvVars;
+
+		if(typeof workflow.globalOptions.reporters === 'undefined') options.reporters = [];
+
+		//mergeEnv(options.environment, runtimeVars);
+
+		// Setup our callback
+		var newmanCallback = function(err, summary) {
+			// Add run summary to the workflow object
+			obj.run = summary;
+
+			// Dump current run state to outputFile
+			jsonfile.writeFileSync(workflow.outputFile, workflow, {spaces: 2});
+
+			// See if we encountered any errors
+		    if (err || summary.error || summary.run.failures.length > 0) {
+		        printOut(`[runCollection][${obj.name}] collection run encountered error(s)`, 1, console.error);
+		        if(typeof summary !== 'undefined') {
+			        summary.run.failures.forEach(function(f) {
+			        	printOut(`[runCollection][${obj.name}] error: ${f.error.message}`, 1, console.error);
+			        	printOut(`[runCollection][${obj.name}]   stack: ${f.error.stack}`, 1, console.error);
+			        })
+			    } else {
+			    	printOut(`[runCollection][${obj.name}]  ${err}`, 1, console.error);
+			    }
+		        printOut(`[runCollection][${obj.name}] exiting due to errors`, 1, console.error);
+		        process.exit(1);
+		    }
+		    printOut(`[runCollection][${obj.name}] run completed`, 3);
+		}
+
+		// Inherit previous run environment vars
+		mergeEnv(options.environment, runtimeVars);
+
+		// Run the collection
+		newman.run(options, newmanCallback)
+			  .on('start', function(err, summary) {
+				printOut(`[runCollection][${obj.name}] running...`, 1);
+			  })
+			  .on('done', function (err, summary) {
+				// Store env vars from current run and pass to next run
+				var runtimeTemp = JSON.parse(JSON.stringify(summary.environment));
+
+				if(typeof obj.options.remapPostRun !== 'undefined') {
+					for(var i = 0; i < runtimeTemp.values.length; i++) {
+						//printOut(`[remapPostRun] pre=` + JSON.stringify(runtimeTemp.values[i],null,1), 2);
+						var k = runtimeTemp.values[i].key;
+						if(typeof obj.options.remapPostRun[k] !== 'undefined') {
+							printOut(`[remapPostRun] remapping ${k} -> ${obj.options.remapPostRun[k]}`, 2);
+							runtimeTemp.values[i].key = obj.options.remapPostRun[k];
+						}
+						//printOut(`[remapPostRun] post=` + JSON.stringify(runtimeTemp.values[i],null,1) , 2);
+					};
+
+				};
+				runtimeVars = runtimeTemp;
+				//runtimeVars = summary.environment;
+
+				if (err || summary.error || summary.run.failures.length > 0) {
+			        callback(1, summary);
+			    }
+			    else {
+			        callback(null, summary);
+			    }
+			  });
+	};
+};
+
+/**
+ * @function main
+ * @returns {Null}
+ * @desc Main program loop
+ */
+var main = function() {
+
+	// Set program parameters
+	program
+	  .version('1.0')
+	  .usage('[options] <file>')
+	  .option('-l, --loglevel <n>', 'Log Level', 1, parseInt)
+	  .action(function(file) {
+	  	program.file = file;
+	  })
+	  .parse(process.argv);
+
+	// Check that a JSON file was specified
+	if(typeof program.file === 'undefined') {
+		program.help(function(help){
+			console.log("\nERROR: A filename is required");
+			console.log(help);
+			process.exit(1);
+		});
+	}
+
+	// Read the JSON workflow file
+	workflow = JSON.parse(fs.readFileSync(program.file, 'utf8'));
+
+	// Create a runId using UTC time
+	workflow.runId = workflow.name + '-' + new Date().toISOString().replace(/[T:]/g, '-').replace(/\..+/g, '');
+	printOut(`starting run`, 1);
+
+	// Set the default outputFile name
+	if(typeof workflow.outputFile === 'undefined') {
+		workflow.outputFile = workflow.runId + "-run.json";
+	}
+	if(typeof workflow.envOutputFile === 'undefined') {
+		workflow.envOutputFile = workflow.runId + "-env.json";
+	}
+	setDefaults(workflow, workflowDefaults);
+
+	printOut("[main] workflow=" + JSON.stringify(workflow), 10);
+
+	// Prepare the async call stack
+	workflow.workflow.forEach(function(obj) {
+		setDefaults(obj, itemDefaults);
+		prepareOptions(obj.options);
+		if(!obj.skip) {
+			printOut(`[stack] added ${obj.name}`, 5);
+			asyncStack.push(runCollection(obj));
+		}
+		// Recurse over the children and push them onto the stack in order
+		childRecurse(obj.children, asyncStack);
+	});
+
+	// Output the initial run data
+	jsonfile.writeFileSync(workflow.outputFile, workflow, {spaces: 2});
+
+	// Execute the stack in series
+	async.series(asyncStack, function(err, results) {
+		printOut("[stack] done, err=" + err, 10);
+		printOut("[stack] done, results=" + JSON.stringify(results), 10);
+		if(workflow.saveEnvVars) {
+			jsonfile.writeFileSync(workflow.envOutputFile, results.pop().environment, {spaces: 2});
+		}
+		printOut(`run completed`, 1);
+	});
+
+};
+
+main();
+

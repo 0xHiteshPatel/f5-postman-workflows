@@ -1,0 +1,152 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BIGIP_API_Authentication",
+		"_postman_id": "f2593c59-4276-90d2-c065-c7f67af316a4",
+		"description": "Please see folder descriptions for details.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_Authenticate",
+			"description": "Authenticate to a BIG-IP device.\n\nInput Variables:\nbigip_mgmt\t\t\tBIG-IP management address\nbigip_username\t\tUsername\nbigip_password\t\tPassword\nbigip_token_timeout\t[OPTIONAL] Timeout for the auth token\n\nOutput Variables:\nbigip_token\t\t\tAuthentication token",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"bigip_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the variable specified in the {{bigip_token_var}} variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Authentication Works",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {path:\"token\", value:environment.bigip_token}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/shared/authz/tokens/{{bigip_token}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {path:\"timeout\", value:environment.bigip_token_timeout}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if(typeof environment.bigip_token_timeout === 'undefined') {",
+									"    postman.setEnvironmentVariable('bigip_token_timeout', 1200);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/shared/authz/tokens/{{bigip_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"{{bigip_token_timeout}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

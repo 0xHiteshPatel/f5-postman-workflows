@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "F5_Postman_Workflows",
-		"_postman_id": "bed163d1-246f-3927-8480-0e8c2b3c0132",
+		"_postman_id": "ad3abee3-64bf-3afe-905b-4b4147627e7e",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -38,9 +38,10 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
 									"// Disable polled mode",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
-									""
+									"f5_disable_poller();"
 								]
 							}
 						}
@@ -60,7 +61,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "Example to show how to properly intialize an environment before other items are executed.\n"
 					},
 					"response": []
@@ -131,7 +135,7 @@
 					},
 					"response": [
 						{
-							"id": "63a926ce-789b-4fcb-993e-52c908ba4d1c",
+							"id": "e65ab953-cfd4-40ea-8fe9-361568c1d571",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -140,20 +144,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
-										"name": "Content-Type",
 										"value": "application/json",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -161,93 +164,93 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "464",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "464"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 07:59:14 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 07:59:14 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"383-mEvcP2WyMxYKNIpP33dVgQ\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"383-mEvcP2WyMxYKNIpP33dVgQ\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								},
 								{
+									"description": "an HTTP cookie",
 									"key": "set-cookie",
-									"value": "sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": "an HTTP cookie"
+									"value": "sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg; Path=/; HttpOnly"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -337,7 +340,7 @@
 					},
 					"response": [
 						{
-							"id": "25875937-06ed-4ce8-8d41-f6e6897ef156",
+							"id": "9a01c0d1-adc4-458c-b95a-578036e601e8",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -346,20 +349,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
-										"name": "Content-Type",
 										"value": "application/json",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -367,93 +369,93 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "459",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "459"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 07:59:30 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 07:59:30 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37d-UosNRNm00FGi553MY5PqJw\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37d-UosNRNm00FGi553MY5PqJw\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								},
 								{
+									"description": "an HTTP cookie",
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AIcwFxHC2svGIMLkJ2mGfKhUNFMLszzBH.VCw9nEV4DAGzAH1MSoreIIaKwcEAogGmzJZKX5g5qhM; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": "an HTTP cookie"
+									"value": "sails.sid=s%3AIcwFxHC2svGIMLkJ2mGfKhUNFMLszzBH.VCw9nEV4DAGzAH1MSoreIIaKwcEAogGmzJZKX5g5qhM; Path=/; HttpOnly"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -570,7 +572,7 @@
 					},
 					"response": [
 						{
-							"id": "1e9a7f46-c0ba-4252-a257-fa07ed9ba392",
+							"id": "e019f346-fdda-4152-bce0-eaf0a1191244",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -579,21 +581,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -601,87 +601,87 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "461",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "461"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 07:54:05 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 07:54:05 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37f-tnnJJNd1rhOa3MSdmglL2A\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37f-tnnJJNd1rhOa3MSdmglL2A\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -799,7 +799,7 @@
 					},
 					"response": [
 						{
-							"id": "694d3fab-3c9a-4cdf-95b6-6aa8a06bab6d",
+							"id": "a1e0f3d9-b2e0-41dc-920e-f36179cff903",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -808,21 +808,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -830,93 +828,93 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "461",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "461"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 08:31:15 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 08:31:15 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37b-F1FQ+d6aV1Axo272gw9Yxg\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37b-F1FQ+d6aV1Axo272gw9Yxg\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								},
 								{
+									"description": "an HTTP cookie",
 									"key": "set-cookie",
-									"value": "sails.sid=s%3Ape4JgsFaJ3eoPb8Cz-_xqM7g-Sh8JmP9.iZUT1IO3tw3TcnVbcLTnhf8Gcs4A9IER1C9%2BVzCRy2s; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": "an HTTP cookie"
+									"value": "sails.sid=s%3Ape4JgsFaJ3eoPb8Cz-_xqM7g-Sh8JmP9.iZUT1IO3tw3TcnVbcLTnhf8Gcs4A9IER1C9%2BVzCRy2s; Path=/; HttpOnly"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -1007,7 +1005,7 @@
 					},
 					"response": [
 						{
-							"id": "5c553677-43e4-4c2c-b087-ad57289c601b",
+							"id": "dacc8e6e-9034-499f-bc28-3ee236077fb0",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1016,21 +1014,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -1038,87 +1034,87 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "460",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "460"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 08:45:47 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 08:45:47 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -1207,7 +1203,7 @@
 					},
 					"response": [
 						{
-							"id": "dea2c907-f8fa-4a5e-b38b-808dd14c090e",
+							"id": "2293717a-217d-46d3-939c-346983ed6f9e",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1216,21 +1212,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -1238,93 +1232,93 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "460",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "460"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 08:46:27 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 08:46:27 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37d-4IxDLHX6Wo04r8Qvqq3iNw\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								},
 								{
+									"description": "an HTTP cookie",
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AgZmxNzFqAdDF7xo6AiPld09847yYNVX7.ZYCMLqf5ptdThtqloxk2BzuGmeMX3OLZwa%2BKU03Y5V8; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": "an HTTP cookie"
+									"value": "sails.sid=s%3AgZmxNzFqAdDF7xo6AiPld09847yYNVX7.ZYCMLqf5ptdThtqloxk2BzuGmeMX3OLZwa%2BKU03Y5V8; Path=/; HttpOnly"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -1427,10 +1421,14 @@
 									"            \"op\":\"regex\"",
 									"        },",
 									"        // Check the length of an array",
+									"        //   The optional flag only performs the check is the attribute",
+									"        //   is present in the response.  If the attribute is not",
+									"        //   present the test will succeed",
 									"        {",
 									"            \"path\":\"data.numArray\",",
 									"            \"value\":\"3\",",
-									"            \"op\":\"length\"",
+									"            \"op\":\"length\",",
+									"            \"optional\":true",
 									"        }",
 									"    ];",
 									"",
@@ -1464,7 +1462,7 @@
 					},
 					"response": [
 						{
-							"id": "3f9ea6bb-9cf6-4509-ac39-791393911874",
+							"id": "5e38fc78-89bf-41d0-8134-6c3d08e68ea7",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1473,21 +1471,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -1495,87 +1491,87 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "460",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "460"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 09:23:34 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 09:23:34 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"381-bLGOR39ulwUFtb70j7wxEw\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"381-bLGOR39ulwUFtb70j7wxEw\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -1703,7 +1699,7 @@
 					},
 					"response": [
 						{
-							"id": "a90e8e8a-c9c0-4f6e-b32d-6ee8735af818",
+							"id": "1e22415f-8fb8-4bba-a6e7-428ea109d21f",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1712,21 +1708,19 @@
 									{
 										"key": "Authorization",
 										"value": "Basic YWRtaW46YWRtaW4=",
-										"enabled": true,
-										"disabled": false
+										"description": ""
 									},
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -1734,93 +1728,93 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "459",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "459"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Sun, 18 Dec 2016 08:47:54 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Sun, 18 Dec 2016 08:47:54 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"37d-Me7NFbUGeK6wfgQZOosaJg\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"37d-Me7NFbUGeK6wfgQZOosaJg\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								},
 								{
+									"description": "an HTTP cookie",
 									"key": "set-cookie",
-									"value": "sails.sid=s%3AzMhymS5FuoTT1fb7K-6DJTTUKwaGaX1n.JceCTn4wrknoF8s9Cue%2FPNcpYsPtRhVGSNbAy85NSRc; Path=/; HttpOnly",
 									"name": "set-cookie",
-									"description": "an HTTP cookie"
+									"value": "sails.sid=s%3AzMhymS5FuoTT1fb7K-6DJTTUKwaGaX1n.JceCTn4wrknoF8s9Cue%2FPNcpYsPtRhVGSNbAy85NSRc; Path=/; HttpOnly"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -1850,7 +1844,12 @@
 									"// echos this back to us.  The _f5_poll_iterator value is",
 									"// incremented by one each time the request is sent resulting",
 									"// in a running counter.  ",
-									"//",
+									"",
+									"// First we enable the poller.",
+									"// This allows clean runs of polled workflows in the Collection",
+									"// Runner and Newman",
+									"f5_enable_poller();",
+									"",
 									"// We then use the vars[] array below to check for the value",
 									"// of the iterator to be '5'.  The first 4 times the request ",
 									"// is sent this results in a failed test.  As a result the ",
@@ -1883,10 +1882,6 @@
 									"// in all tests being marked successful.  The PASS/FAIL statue",
 									"// of the test will conveyed in the test text instead.",
 									"//",
-									"// This allows clean runs of polled workflows in the Collection",
-									"// Runner and Newman",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
-									"",
 									"// Set the max_tries",
 									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
 									"",
@@ -1910,7 +1905,7 @@
 					},
 					"response": [
 						{
-							"id": "ecd0d426-86a4-42a1-8360-9bf2aea11c6c",
+							"id": "ba0dd17d-2218-41c7-b427-a245f131f628",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/post",
@@ -1919,7 +1914,8 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{{_f5_poll_iterator}}"
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -1927,87 +1923,87 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials.",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+									"value": ""
 								},
 								{
+									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
+									"value": ""
 								},
 								{
+									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request.",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
+									"value": ""
 								},
 								{
+									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource.",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+									"value": ""
 								},
 								{
+									"description": "Lets a server whitelist headers that browsers are allowed to access.",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
+									"value": ""
 								},
 								{
+									"description": "Options that are desired for the connection",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": "Options that are desired for the connection"
+									"value": "keep-alive"
 								},
 								{
+									"description": "The type of encoding used on the data.",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": "The type of encoding used on the data."
+									"value": "gzip"
 								},
 								{
+									"description": "The length of the response body in octets (8-bit bytes)",
 									"key": "Content-Length",
-									"value": "329",
 									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
+									"value": "329"
 								},
 								{
+									"description": "The mime type of this content",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": "The mime type of this content"
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "The date and time that the message was sent",
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 04:21:30 GMT",
 									"name": "Date",
-									"description": "The date and time that the message was sent"
+									"value": "Thu, 15 Dec 2016 04:21:30 GMT"
 								},
 								{
+									"description": "An identifier for a specific version of a resource, often a message digest",
 									"key": "ETag",
-									"value": "W/\"1c9-kmDdBZkfnHhNi2p87epcgw\"",
 									"name": "ETag",
-									"description": "An identifier for a specific version of a resource, often a message digest"
+									"value": "W/\"1c9-kmDdBZkfnHhNi2p87epcgw\""
 								},
 								{
+									"description": "A name for the server",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": "A name for the server"
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server.",
 									"key": "Vary",
-									"value": "X-HTTP-Method-Override, Accept-Encoding",
 									"name": "Vary",
-									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+									"value": "X-HTTP-Method-Override, Accept-Encoding"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -2053,12 +2049,15 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "617753e2-2c0c-4e5a-9495-76159f5d529b",
+							"id": "cbc4fd47-50f5-48cc-ba2b-d98ba1601ec0",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://echo.getpostman.com/get",
@@ -2067,12 +2066,14 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
-										"enabled": true,
-										"description": "The mime type of this content",
-										"disabled": false
+										"description": ""
 									}
 								],
-								"body": {}
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -2080,87 +2081,87 @@
 							"_postman_previewtype": "text",
 							"header": [
 								{
+									"description": "",
 									"key": "Access-Control-Allow-Credentials",
-									"value": "",
 									"name": "Access-Control-Allow-Credentials",
-									"description": ""
+									"value": ""
 								},
 								{
+									"description": "",
 									"key": "Access-Control-Allow-Headers",
-									"value": "",
 									"name": "Access-Control-Allow-Headers",
-									"description": ""
+									"value": ""
 								},
 								{
+									"description": "",
 									"key": "Access-Control-Allow-Methods",
-									"value": "",
 									"name": "Access-Control-Allow-Methods",
-									"description": ""
+									"value": ""
 								},
 								{
+									"description": "",
 									"key": "Access-Control-Allow-Origin",
-									"value": "",
 									"name": "Access-Control-Allow-Origin",
-									"description": ""
+									"value": ""
 								},
 								{
+									"description": "",
 									"key": "Access-Control-Expose-Headers",
-									"value": "",
 									"name": "Access-Control-Expose-Headers",
-									"description": ""
+									"value": ""
 								},
 								{
+									"description": "",
 									"key": "Connection",
-									"value": "keep-alive",
 									"name": "Connection",
-									"description": ""
+									"value": "keep-alive"
 								},
 								{
+									"description": "",
 									"key": "Content-Encoding",
-									"value": "gzip",
 									"name": "Content-Encoding",
-									"description": ""
+									"value": "gzip"
 								},
 								{
+									"description": "",
 									"key": "Content-Length",
-									"value": "300",
 									"name": "Content-Length",
-									"description": ""
+									"value": "300"
 								},
 								{
+									"description": "",
 									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
 									"name": "Content-Type",
-									"description": ""
+									"value": "application/json; charset=utf-8"
 								},
 								{
+									"description": "",
 									"key": "Date",
-									"value": "Thu, 15 Dec 2016 04:18:35 GMT",
 									"name": "Date",
-									"description": ""
+									"value": "Thu, 15 Dec 2016 04:18:35 GMT"
 								},
 								{
+									"description": "",
 									"key": "ETag",
-									"value": "W/\"18d-vTErUOawS+zwUx/pAOj0rQ\"",
 									"name": "ETag",
-									"description": ""
+									"value": "W/\"18d-vTErUOawS+zwUx/pAOj0rQ\""
 								},
 								{
+									"description": "",
 									"key": "Server",
-									"value": "nginx/1.10.1",
 									"name": "Server",
-									"description": ""
+									"value": "nginx/1.10.1"
 								},
 								{
+									"description": "",
 									"key": "Vary",
-									"value": "Accept-Encoding",
 									"name": "Vary",
-									"description": ""
+									"value": "Accept-Encoding"
 								}
 							],
 							"cookie": [
 								{
-									"expires": "Tue Jan 19 2038 03:14:07 GMT-0600 (CST)",
+									"expires": "Invalid Date",
 									"httpOnly": true,
 									"domain": "echo.getpostman.com",
 									"path": "/",
@@ -2203,7 +2204,10 @@
 						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "A reference item that implements a delay for the poller.  This item can be copied and modified as needed, however, the Test script must include the following code for the poller to work:\n\n```\neval(postman.getGlobalVariable(\"_f5_workflow_functions\"));\nf5_poll_next();\n```\n"
 					},
 					"response": []
@@ -2243,10 +2247,21 @@
 									""
 								]
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if( postman.getGlobalVariable('_f5_framework_branch') === undefined) {",
+									"    postman.setGlobalVariable('_f5_framework_branch', 'master');",
+									"}"
+								]
+							}
 						}
 					],
 					"request": {
-						"url": "https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/VERSION.md",
+						"url": "https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/VERSION.md",
 						"method": "GET",
 						"header": [
 							{
@@ -2255,7 +2270,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
 					},
 					"response": []
@@ -2271,7 +2289,7 @@
 									"var fresh_install = false;",
 									"var global_defaults = [",
 									"        [\"_f5_debug\"              ,\"1\"],    ",
-									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
+									"        [\"_f5_enable_polled_mode\" ,\"0\"],",
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
@@ -2297,13 +2315,27 @@
 									"} else {",
 									"    tests['Install Failed'] = 0;",
 									"}",
-									""
+									"",
+									"if (postman.getGlobalVariable('_f5_framework_branch') == 'master') {",
+									"    postman.clearGlobalVariable('_f5_framework_branch');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if( postman.getGlobalVariable('_f5_framework_branch') === undefined) {",
+									"    postman.setGlobalVariable('_f5_framework_branch', 'master');",
+									"}"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/src/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{
@@ -2312,7 +2344,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
 					},
 					"response": []
@@ -2328,7 +2363,7 @@
 									"var fresh_install = true;",
 									"var global_defaults = [",
 									"        [\"_f5_debug\"              ,\"1\"],    ",
-									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
+									"        [\"_f5_enable_polled_mode\" ,\"0\"],",
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
@@ -2354,13 +2389,27 @@
 									"} else {",
 									"    tests['Install Failed'] = 0;",
 									"}",
-									""
+									"",
+									"if (postman.getGlobalVariable('_f5_framework_branch') == 'master') {",
+									"    postman.clearGlobalVariable('_f5_framework_branch');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if( postman.getGlobalVariable('_f5_framework_branch') === undefined) {",
+									"    postman.setGlobalVariable('_f5_framework_branch', 'master');",
+									"}"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/master/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{
@@ -2369,7 +2418,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "This request uses Google's Closure Compiler service to GET the latest version of the package from Github, minify it and install it in the '_f5_workflow_functions' global variable\n\nIt will also create global variables for configuration if they don't already exist."
 					},
 					"response": []
@@ -2392,25 +2444,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"var global_defaults = [",
-									"        [\"_f5_enable_polled_mode\" ,\"1\"],",
-									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
-									"        [\"_f5_poll_wait\"          ,\"5\"],",
-									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
-									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
-									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
-									"        [\"_f5_poll_iterator\"      ,\"1\"],",
-									"        [\"_f5_poll_curr\"          ,\"1\"],",
-									"        [\"_f5_debug\"              ,\"1\"]   ",
-									"    ];",
-									"",
-									"postman.clearGlobalVariable('_f5_workflow_functions');",
-									"console.log(\"UNINSTALL: unset _f5_workflow_functions\");",
-									"    ",
-									"for(var i = 0; i < global_defaults.length; i++) {",
-									"    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);",
-									"    postman.clearGlobalVariable(global_defaults[i][0]);",
-									"}"
+									"var global_defaults = [\r        [\"_f5_enable_polled_mode\" ,\"1\"],\r        [\"_f5_poll_max_tries\"     ,\"60\"],\r        [\"_f5_poll_wait\"          ,\"5\"],\r        [\"_f5_poll_useinternal\"   ,\"0\"],\r        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],\r        [\"_f5_poll_bypass_timeout\",\"0\"],\r        [\"_f5_poll_iterator\"      ,\"1\"],\r        [\"_f5_poll_curr\"          ,\"1\"],\r        [\"_f5_debug\"              ,\"1\"],\r        [\"_f5_framework_branch\"   ,\"master\"]\r    ];\r\rpostman.clearGlobalVariable('_f5_workflow_functions');\rconsole.log(\"UNINSTALL: unset _f5_workflow_functions\");\r\rfor(var i = 0; i < global_defaults.length; i++) {\r    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);\r    postman.clearGlobalVariable(global_defaults[i][0]);\r}\r"
 								]
 							}
 						}
@@ -2425,8 +2459,54 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": "This request will remove the package from your system."
+					},
+					"response": []
+				},
+				{
+					"name": "[Developer] Use dev version of f5-postman-workflows",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Set branch to develop'] = 1;",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"console.log(\"INSTALL: global: _f5_framework_branch=develop\");",
+									"postman.setGlobalVariable(\"_f5_framework_branch\",\"develop\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "This request will set the github branch to use to 'develop'"
 					},
 					"response": []
 				}
@@ -2446,9 +2526,8 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
-									""
+									"f5_disable_poller();"
 								]
 							}
 						}
@@ -2482,7 +2561,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[GET Response Code]=200', 1]",
@@ -2526,7 +2605,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"f5_enable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [PASS] [GET Response Code]=200', 1]",
@@ -2536,6 +2615,8 @@
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -2570,7 +2651,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[GET Response Code]=204', 1]",
@@ -2614,7 +2695,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"f5_enable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [PASS] [GET Response Code]=204', 1]",
@@ -2624,6 +2705,8 @@
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -2658,7 +2741,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[GET Response Code]=404', 0]",
@@ -2702,17 +2785,18 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"f5_enable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [FAIL] [GET Response Code]=404', 1]",
 									"\t];",
 									"",
-									"",
 									"f5_check_response_code();",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -2747,7 +2831,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[GET Response Code]=404', 1]",
@@ -2791,7 +2875,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"f5_enable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [PASS] [GET Response Code]=404', 1]",
@@ -2801,6 +2885,8 @@
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -2835,7 +2921,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[GET Response Code]=500', 0]",
@@ -2879,7 +2965,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars();",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
+									"f5_enable_poller();",
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [FAIL] [GET Response Code]=500', 1]",
@@ -2889,6 +2975,8 @@
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -2921,7 +3009,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"//f5_clear_runtime_vars();",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var check_vals = [",
 									"        { \"path\":\"data\", \"value\":\"5\" }",
@@ -2938,7 +3027,6 @@
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);",
-									"",
 									""
 								]
 							}
@@ -2950,7 +3038,6 @@
 								"exec": [
 									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
 									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
 									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
 									""
@@ -2981,7 +3068,7 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var test_state = [",
-									"\t\t['[Polled] [PASS] [GET Response Code]=200', 1],",
+									"\t\t['[GET Response Code]=200', 1],",
 									"\t];",
 									"\t",
 									"f5_check_response();",
@@ -3002,7 +3089,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3017,6 +3107,8 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
+									"f5_enable_poller();",
+									"",
 									"var check_vals = [",
 									"        { \"path\":\"data\", \"value\":\"100\" }",
 									"    ];",
@@ -3025,7 +3117,7 @@
 									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
 									"\t\t['[Polled] [PASS] [Current Value] data=6', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] data == 100', 1],",
-									"\t\t['[Poller] Max Tries Reached', 0],",
+									"\t\t['[Poller] [FAIL] Max Tries Reached', 0],",
 									"\t];\t",
 									"\t",
 									"f5_check_response(check_vals);",
@@ -3059,8 +3151,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"//f5_clear_runtime_vars();",
 									"",
+									"f5_enable_poller();",
 									"var check_vals = [",
 									"        { \"path\":\"data\", \"value\":\"5\" }",
 									"    ];",
@@ -3087,7 +3179,6 @@
 								"type": "text/javascript",
 								"exec": [
 									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"1\");",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
 									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
 									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
 									"",
@@ -3119,10 +3210,165 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"",
 									"var test_state = [",
-									"\t\t['[Polled] [PASS] [GET Response Code]=200', 1],",
+									"\t\t['[GET Response Code]=200', 1],",
 									"\t];",
 									"\t",
 									"f5_check_response();",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/get",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 2 - Req 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
+									"",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"100\" }",
+									"    ];",
+									"",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] data=6', 1],",
+									"\t\t['[Polled] [FAIL] [Check Value] data == 100', 1],",
+									"\t\t['[Poller] [FAIL] Max Tries Reached', 0],",
+									"\t];",
+									"\t",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass('[polled] Poller Test 3 - Req 1');",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 3 - Req 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
+									"",
+									"var check_vals = [",
+									"        { \"path\":\"data\", \"value\":\"5\" }",
+									"    ];",
+									"",
+									"var test_state = [",
+									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] data=4', 1],",
+									"\t\t['[Polled] [FAIL] [Check Value] data == 5', 1],",
+									"\t\t['[Poller] Try 4 of 6', 1],",
+									"\t\t['[Poller] [FAIL] Unrecoverable Error', 0],",
+									"\t];",
+									"",
+									"var poll_error = [",
+									"        {",
+									"            \"path\":\"data\",",
+									"            \"value\":\"4\"",
+									"        }",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									"",
+									"f5_poll_until_all_tests_pass(\"[polled] Poller Test 3 - Req 2\", poll_error);",
+									"",
+									"f5_test_state_generate();",
+									"f5_test_check(test_state);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"_f5_poll_useinternal\", \"0\");",
+									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
+									"postman.setGlobalVariable(\"_f5_poll_max_tries\", \"6\");",
+									"postman.setGlobalVariable(\"_f5_poll_wait\", \"1\");",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://echo.getpostman.com/post",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{_f5_poll_iterator}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[polled] Poller Test 3 - Req 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var test_state = [",
+									"\t\t['[GET Response Code]=200', 1],",
+									"\t];",
+									"\t",
+									"f5_check_response();",
+									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
 									"",
 									"f5_test_state_generate();",
 									"f5_test_check(test_state);"
@@ -3146,50 +3392,6 @@
 					"response": []
 				},
 				{
-					"name": "[polled] Poller Test 2 - Req 3",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var check_vals = [",
-									"        { \"path\":\"data\", \"value\":\"100\" }",
-									"    ];",
-									"",
-									"",
-									"var test_state = [",
-									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
-									"\t\t['[Polled] [PASS] [Current Value] data=6', 1],",
-									"\t\t['[Polled] [FAIL] [Check Value] data == 100', 1],",
-									"\t\t['[Poller] Max Tries Reached', 0],",
-									"\t];",
-									"\t",
-									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass('[polled] Exercise check_response()');",
-									"",
-									"f5_test_state_generate();",
-									"f5_test_check(test_state);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "https://echo.getpostman.com/post",
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{{_f5_poll_iterator}}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
 					"name": "[polled] Exercise check_response()",
 					"event": [
 						{
@@ -3198,6 +3400,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var custom_fail = function(resp) { return 0 };",
 									"var custom_pass = function(resp) { return 1 };",
@@ -3250,7 +3454,11 @@
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" },",
+									"        { \"path\":\"data.long\",         \"value\":\"END\",    \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":\"2\",      \"op\":\"length\", \"optional\":true},",
+									"        { \"path\":\"data.numArray\",     \"value\":\"2\",      \"op\":\"length\", \"optional\":false},",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"3\",      \"op\":\"length\", \"optional\":true}",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3303,12 +3511,18 @@
 									"\t\t['[Polled] [PASS] [Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] i_dont_exist == this_should_fail', 1],",
 									"\t\t['[Polled] [FAIL] [Check Value] custom_test_name == this_should_fail', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] data.long=01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END[truncated]', 1],",
+									"\t\t['[Polled] [PASS] [Check Value] data.long incl END', 1],",
+									"\t\t['[Polled] [FAIL] [Check Value] data.numArray length 2', 1],",
 									"\t];",
 									"\t",
 									"f5_check_response(check_vals);",
 									"",
 									"f5_test_state_generate();",
-									"f5_test_check(test_state);"
+									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
+									""
 								]
 							}
 						},
@@ -3320,7 +3534,6 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"0\");",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
 									""
 								]
 							}
@@ -3343,7 +3556,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"long\":\"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END3456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -3358,6 +3571,8 @@
 								"type": "text/javascript",
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
 									"",
 									"var custom_undef = function(resp) { return undefined };",
 									"var custom_simple = function(resp) { return resp.data.foo };",
@@ -3413,7 +3628,10 @@
 									"f5_populate_env_vars(populate_vars);",
 									"",
 									"f5_test_state_generate();",
-									"f5_test_check(test_state);"
+									"f5_test_check(test_state);",
+									"",
+									"f5_disable_poller();",
+									""
 								]
 							}
 						},
@@ -3424,8 +3642,6 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
-									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"1\");",
 									""
 								]
 							}
@@ -3515,7 +3731,11 @@
 									"        { \"path\":\"data.numArray\",     \"value\":2,        \"op\":\"notincl\" },",
 									"        { \"path\":\"data.numArray\",     \"value\":10,       \"op\":\"notincl\" },        ",
 									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\" },",
-									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" }        ",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"this_should_fail\", \"testname\":\"custom_test_name\" },",
+									"        { \"path\":\"data.long\",         \"value\":\"END\",    \"op\":\"incl\" },",
+									"        { \"path\":\"data.numArray\",     \"value\":\"2\",      \"op\":\"length\", \"optional\":true},",
+									"        { \"path\":\"data.numArray\",     \"value\":\"2\",      \"op\":\"length\", \"optional\":false},",
+									"        { \"path\":\"i_dont_exist\",      \"value\":\"3\",      \"op\":\"length\", \"optional\":true}        ",
 									"    ];",
 									"    ",
 									"var test_state = [",
@@ -3567,7 +3787,10 @@
 									"\t\t['[Check Value] data.numArray notincl 2', 0],",
 									"\t\t['[Check Value] data.numArray notincl 10', 1],",
 									"\t\t['[Check Value] i_dont_exist == this_should_fail', false],",
-									"\t\t['[Check Value] custom_test_name == this_should_fail', false]\t\t",
+									"\t\t['[Check Value] custom_test_name == this_should_fail', false],",
+									"\t\t['[Current Value] data.long=01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END[truncated]', 1],",
+									"\t\t['[Check Value] data.long incl END', true],",
+									"\t\t['[Check Value] data.numArray length 2', false],",
 									"\t];",
 									"",
 									"f5_check_response(check_vals);",
@@ -3584,8 +3807,6 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
-									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
 									""
 								]
 							}
@@ -3608,7 +3829,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
+							"raw": "{\n  \"array\":[\"one\",\"two\",\"three\"],\n  \"numArray\":[1,2,3],\n  \"foo\":\"bar\",\n  \"long\":\"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789END3456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\",  \n  \"items\": [\n  \t{\n  \t\t\"uuid\":\"1111-2222-3333\",\n  \t\t\"name\":\"name_1\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"4444-5555-6666\",\n  \t\t\"name\":\"name_2\"\n  \t},\n  \t{\n  \t\t\"uuid\":\"7777-8888-9999\",\n  \t\t\"name\":\"name_3\"\n  \t}\n  ]\n}"
 						},
 						"description": ""
 					},
@@ -3690,7 +3911,6 @@
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
 									"",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
 									"postman.setGlobalVariable(\"_f5_poll_bypass_timeout\", \"1\");",
 									""
 								]
@@ -3739,7 +3959,7 @@
 								"exec": [
 									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
 									"f5_clear_runtime_vars(true);",
-									"postman.setGlobalVariable(\"_f5_enable_polled_mode\", \"0\");",
+									"f5_disable_poller();",
 									""
 								]
 							}
@@ -3791,7 +4011,10 @@
 						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []

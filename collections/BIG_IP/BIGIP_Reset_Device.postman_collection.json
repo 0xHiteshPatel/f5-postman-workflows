@@ -1,0 +1,239 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BIGIP_Reset_Device",
+		"_postman_id": "e00609b1-d0d1-689f-17ac-5a6939dd916b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_Reset_Device",
+			"description": "",
+			"item": [
+				{
+					"name": "Reset Device Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/resetting trust domain/i\",",
+									"            \"op\":\"regex\"",
+									"        }       ",
+									"    ];",
+									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/failed/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"Save Device Config\", error_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'tmsh load sys config default'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Save Device Config",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"command\",",
+									"        \"value\":\"save\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"",
+									"if (environment.bigip_remove_license == \"1\") {",
+									"    postman.setNextRequest(\"Unlicense Device\");",
+									"} else {",
+									"    postman.setNextRequest(\"Cleanup Environment\");",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/sys/config",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"save\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unlicense Device",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/tm/util/bash",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"command\":\"run\",\n  \"utilCmdArgs\":\"-c 'rm -f /config/bigip.license'\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_check_response();",
+									"postman.setNextRequest(null);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"//f5_clear_runtime_vars(true);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{bigip_mgmt}}/mgmt/shared/echo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

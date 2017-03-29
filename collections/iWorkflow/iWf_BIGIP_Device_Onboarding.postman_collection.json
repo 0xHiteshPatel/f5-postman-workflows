@@ -1,14 +1,14 @@
 {
 	"variables": [],
 	"info": {
-		"name": "iWf_Device_Onboarding",
-		"_postman_id": "f12964a1-e9ec-d4e4-f2c4-5cb8dab0ffc3",
+		"name": "iWf_BIGIP_Device_Onboarding",
+		"_postman_id": "d9d29ee9-3f13-1e23-2825-5749eb58d03c",
 		"description": "v1.0\n\nThis workflow can be used to create an Active/Standby Cluster between two BIG-IP devices using the iWorkflow Device Onboarding API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1_Workflow",
+			"name": "1_Create_Cluster",
 			"description": "",
 			"item": [
 				{
@@ -49,7 +49,7 @@
 					},
 					"response": [
 						{
-							"id": "4b914883-4080-4723-ad31-b3118335c43c",
+							"id": "67f9e397-0964-4526-82ab-b1c089557d9f",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -182,7 +182,7 @@
 					},
 					"response": [
 						{
-							"id": "49b6a88a-f1fa-4e7c-b6ae-c26c99f84635",
+							"id": "b65af86d-5ed2-4d7d-b74f-44a9e7508d69",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -321,7 +321,7 @@
 					},
 					"response": [
 						{
-							"id": "8b564778-3a2b-45ac-bced-ac4d36df87f6",
+							"id": "74d34366-ddf8-447c-88eb-f6f5ae783662",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -457,7 +457,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -956,8 +959,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\");",
+									"f5_poll_until_all_tests_pass(\"Get BIG-IP B Task Status\", error_vals);",
 									""
 								]
 							}
@@ -1007,8 +1017,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\");",
+									"f5_poll_until_all_tests_pass(\"Create Cluster Between BIG-IP A & B\", error_vals);",
 									""
 								]
 							}
@@ -1104,8 +1121,15 @@
 									"    }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"status\",",
+									"            \"value\":\"FAILED\"",
+									"        }",
+									"    ];",
+									"    ",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\");",
+									"f5_poll_until_all_tests_pass(\"Populate BIG-IP A REST Proxy Base URI\", error_vals);",
 									""
 								]
 							}
@@ -1272,7 +1296,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1320,7 +1347,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1355,7 +1385,7 @@
 			]
 		},
 		{
-			"name": "99_Cleanup",
+			"name": "2_Delete_Cluster",
 			"description": "",
 			"item": [
 				{
@@ -1396,7 +1426,7 @@
 					},
 					"response": [
 						{
-							"id": "4e68c72f-58a5-4a60-afed-7fa5d288f086",
+							"id": "2437c419-3cec-40b6-86ec-5682a34b5037",
 							"name": "Example",
 							"originalRequest": {
 								"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
@@ -1529,7 +1559,7 @@
 					},
 					"response": [
 						{
-							"id": "1268a243-bd4c-49eb-9395-4a3809125cbc",
+							"id": "1fdf3a1c-56c5-472c-9cac-9ea91d9236a9",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/echo",
@@ -1668,7 +1698,7 @@
 					},
 					"response": [
 						{
-							"id": "a9abcbf7-4ad0-4577-b088-2fa6863c9d68",
+							"id": "342bc563-8fb5-4524-a4ef-c9248f74b7a2",
 							"name": "Example",
 							"originalRequest": {
 								"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{_rt_iwf_token}}",
@@ -1812,7 +1842,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2335,8 +2368,15 @@
 									"        }        ",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/failed/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\");"
+									"f5_poll_until_all_tests_pass(\"Check BIG-IP B MCP State is Running\", error_vals);"
 								]
 							}
 						}
@@ -2387,8 +2427,15 @@
 									"        }",
 									"    ];",
 									"",
+									"var error_vals = [",
+									"        {",
+									"            \"path\":\"commandResult\",",
+									"            \"value\":\"/failed/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
 									"f5_check_response(check_vals);",
-									"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\");"
+									"f5_poll_until_all_tests_pass(\"Reset BIG-IP A Config\", error_vals);"
 								]
 							}
 						}
@@ -2829,7 +2876,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []

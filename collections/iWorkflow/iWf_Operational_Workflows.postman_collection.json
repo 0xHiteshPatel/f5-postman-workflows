@@ -1,0 +1,865 @@
+{
+	"variables": [],
+	"info": {
+		"name": "iWf_Operational_Workflows",
+		"_postman_id": "3a5039f2-bc08-8dba-0e8d-a8824b76fa9f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1A_Discover_BIGIP",
+			"description": "Discover an F5 BIG-IP Device on iWorkflow\n\nInput Variables:\nbigip_mgmt\t\t\t\tBIG-IP Management Address\nbigip_root_username\t\tRoot Username\nbigip_root_password\t\tRoot Password\nbigip_admin_username\tAdmin Username\nbigip_admin_password\tAdmin Password\n\nOutput Variables:\niwf_bigip_uuid\tUUID of the discovered device",
+			"item": [
+				{
+					"name": "Discover BIG-IP on iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"iwf_bigip_uuid\",",
+									"            \"value\":\"uuid\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\":\"{{bigip_mgmt}}\",\n    \"automaticallyUpdateFramework\":true,\n    \"properties\": {\n        \"isRestProxyEnabled\":true,\n        \"isSoapProxyEnabled\":true, \n        \"isTmshProxyEnabled\":false,\n        \"dmaConfigPathScope\":\"basic\"\n    },\n    \"rootUser\":\"{{bigip_root_username}}\",\n    \"rootPassword\":\"{{bigip_root_password}}\",\n    \"userName\":\"{{bigip_admin_username}}\",\n    \"password\":\"{{bigip_admin_password}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get BIG-IP Discovery Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"f5_enable_poller();",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"state\",",
+									"        \"value\":\"ACTIVE\"",
+									"    }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									"f5_poll_until_all_tests_pass(\"\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_uuid}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Wait for attribute state to be ACTIVE"
+					},
+					"response": []
+				},
+				{
+					"name": "_F5_POLL_DELAY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"f5_poll_next();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{_f5_poll_apiurl}}/{{_f5_poll_wait}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "1B_Get_BIGIP_UUID",
+			"description": "Resolve the UUID of a BIG-IP device discovered on iWorkflow by the Management IP or Hostname\n\nInput Variables:\nbigip_mgmt\t\tManagement IP to search for\nbigip_hostname\tHostname to search for\n\nOutput Variables:\niwf_bigip_uuid\tUUID of the device",
+			"item": [
+				{
+					"name": "Get BIG-IP UUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"    {",
+									"        \"path\":\"totalItems\",",
+									"        \"value\":1",
+									"    }",
+									"    ];",
+									"",
+									"var populate_vars = [",
+									"    {",
+									"        \"name\":\"iwf_bigip_uuid\",",
+									"        \"value\":\"items.0.uuid\"",
+									"    }]",
+									"    ",
+									"f5_check_response(check_vals);",
+									"f5_populate_env_vars(populate_vars);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Build filter",
+									"var filter = [];",
+									"if(environment.bigip_mgmt.length > 0) {",
+									"    filter.push(\"(managementAddress eq '\" + environment.bigip_mgmt + \"')\");",
+									"}",
+									"",
+									"if(environment.bigip_hostname.length > 0) {",
+									"    filter.push(\"(hostname eq '\" + environment.bigip_hostname + \"')\");",
+									"}",
+									"",
+									"postman.setEnvironmentVariable(\"_rt_filter\", filter.join(\" or \"));",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices?$filter={{_rt_filter}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "1C_Delete_BIGIP",
+			"description": "Remove a discovered BIG-IP device from iWorkflow\n\nInput Variables:\niwf_bigip_uuid\t\tUUID of the discoverd BIG-IP device\n\n",
+			"item": [
+				{
+					"name": "Remove  BIG-IP from iWorkflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"uuid\",",
+									"            \"value\":environment.iwf_bigip_uuid",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/{{iwf_bigip_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2A_Create_BIGIP_Connector",
+			"description": "Create a BIG-IP Connector\n\nInput Variables:\niwf_connector_name\t\t\tConnector Name\niwf_connector_description\tConnector Description\niwf_bigip_<x>_uuid\t\t\t[OPTIONAL] BIGIP UUID to assign\n\nOutput Variables:\niwf_connector_uuid\t\t\tUUID of the created connector",
+			"item": [
+				{
+					"name": "Create a BIG-IP Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"iwf_connector_uuid\",",
+									"            \"value\":\"connectorId\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var uuids = [];",
+									"Object.keys(environment).forEach(function(v) {",
+									"    if(v.match(/iwf_bigip_.*_uuid/)) {",
+									"        uuids.push({\"link\":\"https://localhost/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/\" + environment[v]});",
+									"    }",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"_rt_connector_devices\", JSON.stringify(uuids));",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{iwf_connector_name}}\",\n    \"description\":\"{{iwf_connector_description}}\",\n    \"parameters\":[],\n    \"deviceReferences\": {{_rt_connector_devices}}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2C_Delete_BIGIP_Connector",
+			"description": "Delete a BIG-IP Connector using the Connector UUID\n\nInput Variables:\niwf_connector_uuid\t\tConnector UUID\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete a BIG-IP Connector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"connectorId\",",
+									"            \"value\":environment.iwf_connector_uuid",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/connectors/local/{{iwf_connector_uuid}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3A_Create_Tenant",
+			"description": "Create an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\niwf_tenant_description\tTenant Description\niwf_connector_uuid*\t\tConnector reference(s)\n\nOutput Variables:\niwf_tenant_roleref\t\tTenant RBAC Role Reference\n",
+			"item": [
+				{
+					"name": "Create iWorkflow Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var fixup_ref = function(resp) {",
+									"    return resp.roleReference.link.replace('https://localhost','');",
+									"}",
+									"",
+									"var populate_vars = [",
+									"        { ",
+									"            \"name\":\"iwf_tenant_roleref\",",
+									"            \"value\":fixup_ref",
+									"        }",
+									"    ];",
+									"",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var uuids = [];",
+									"Object.keys(environment).forEach(function(v) {",
+									"    if(v.match(/iwf_connector_uuid.*/)) {",
+									"        uuids.push({\"link\":\"https://localhost/mgmt/cm/cloud/connectors/local/\" + environment[v]});",
+									"    }",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"_rt_tenant_connectors\", JSON.stringify(uuids));",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tenants",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"{{iwf_tenant_name}}\",\n\t\"cloudConnectorReferences\": {{_rt_tenant_connectors}},\n\t\"description\": \"{{iwf_tenant_description}}\",\n\t\"addressContact\": \"\",\n\t\"phone\": \"\",\n\t\"email\": \"\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3C_Delete_Tenant",
+			"description": "Delete an iWorkflow Tenant\n\nInput Variables:\niwf_tenant_name\t\t\tTenant Name\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete iWorkflow Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_tenant_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/tenants/{{iwf_tenant_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4A_Create_Tenant_User",
+			"description": "Create a user associated with a iWorkflow tenant\n\nInput Variables:\niwf_tenant_name\t\tTenant Name\niwf_tenant_roleref\tTenant RBAC Role Reference\n\nOutput Variables:",
+			"item": [
+				{
+					"name": "Create Tenant User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"name\":\"name\",",
+									"            \"value\":environment.iwf_tenant_username",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"{{iwf_tenant_username}}\",\n\t\"displayName\": \"{{iwf_tenant_username}}\",\n\t\"password\": \"{{iwf_tenant_password}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Assign User to Tenat Admin Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"userReferences.0.link\",",
+									"            \"value\":\"https://localhost/mgmt/shared/authz/users/\"+environment.iwf_tenant_username",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/{{iwf_tenant_roleref}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userReferences\": [\n\t\t{\n\t\t\t\"link\": \"https://localhost/mgmt/shared/authz/users/{{iwf_tenant_username}}\"\n\t\t}\n\t]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4C_Delete_Tenant_User",
+			"description": "Delete a iWorkflow Tenant User\n\nInput Variables:\niwf_tenant_username\t\tTenant Username\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete a Tenant User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_tenant_username",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/users/{{iwf_tenant_username}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5A_Create_iApp_Template",
+			"description": "Create an iApp template on iWorkflow\n\nInput Variables:\niwf_iapp_name\t\tName of the iApp Template\niwf_iapp_template\tThe JSON body of the template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Install iApp Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {",
+									"            \"path\":\"name\",",
+									"            \"value\":\"/\" + environment.iwf_iapp_name + \".*/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/cm/cloud/templates/iapp",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{iwf_iapp_template}}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5B_Delete_iApp_Template",
+			"description": "Delete an iApp template on iWorkflow\n\nInput Variables:\niwf_iapp_name\t\tName of the iApp Template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete iApp Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"name\",",
+									"            \"value\":environment.iwf_iapp_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/cm/cloud/templates/iapp/{{iwf_iapp_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6A_Create_Service_Template",
+			"description": "Create a Service Template on iWorkflow\n\nInput Variables:\niwf_service_name\t\tName of the Service Template\niwf_service_template\tThe JSON body of the template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Create Service Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {",
+									"            \"path\":\"name\",",
+									"            \"value\":\"/\" + environment.iwf_service_name + \".*/i\",",
+									"            \"op\":\"regex\"",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/provider/templates/iapp",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{iwf_service_template}}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6B_Delete_Service_Template",
+			"description": "Delete a Service Template on iWorkflow\n\nInput Variables:\niwf_service_name\t\tName of Service Template\n\nOutput Variables:\n",
+			"item": [
+				{
+					"name": "Delete Service Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        { ",
+									"            \"path\":\"templateName\",",
+									"            \"value\":environment.iwf_service_name",
+									"        }",
+									"    ];",
+									"",
+									"f5_check_response(check_vals);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/cm/cloud/provider/templates/iapp/{{iwf_service_name}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

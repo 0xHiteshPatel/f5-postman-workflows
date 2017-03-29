@@ -1,0 +1,152 @@
+{
+	"variables": [],
+	"info": {
+		"name": "iWf_API_Authentication",
+		"_postman_id": "ac76ac1a-a159-cc69-b888-b1ebf223db46",
+		"description": "Please see folder descriptions for details.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_Authenticate",
+			"description": "Authenticate to a F5 iWorkflow device.\n\nEnvironment Variables: \n\niwf_mgmt\t\t\tBIG-IP management address\niwf_username\t\tUsername\niwf_password\t\tPassword\niwf_token_timeout\t[OPTIONAL] Auth Token Timeout\n\n\nOutput Variables:\niwf_token\tAuthentication token",
+			"item": [
+				{
+					"name": "Authenticate and Obtain Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var populate_vars = [",
+									"        {name:\"iwf_token\", value:\"token.token\"}",
+									"    ];",
+									"    ",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{iwf_mgmt}}/mgmt/shared/authn/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": {{iwf_username}},\n  \"password\": {{iwf_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Perform authentication and populate the variable iwf_token"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Authentication Works",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {path:\"token\", value:environment.iwf_token}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{iwf_token}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Set Authentication Token Timeout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var check_vals = [",
+									"        {path:\"timeout\", value:environment.iwf_token_timeout}",
+									"    ];",
+									"    ",
+									"f5_check_response(check_vals);",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if(typeof environment.iwf_token_timeout === 'undefined') {",
+									"    postman.setEnvironmentVariable('iwf_token_timeout', 1200);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{iwf_mgmt}}/mgmt/shared/authz/tokens/{{iwf_token}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{iwf_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeout\":\"{{iwf_token_timeout}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
