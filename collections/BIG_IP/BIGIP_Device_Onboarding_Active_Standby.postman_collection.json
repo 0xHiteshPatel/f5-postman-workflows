@@ -395,7 +395,7 @@
 					"response": []
 				},
 				{
-					"name": " [BIGIP A] Set admin User Password",
+					"name": "[BIGIP A] Set admin User Password",
 					"event": [
 						{
 							"listen": "test",
@@ -739,7 +739,7 @@
 					"response": []
 				},
 				{
-					"name": " [BIGIP B] Set admin User Password",
+					"name": "[BIGIP B] Set admin User Password",
 					"event": [
 						{
 							"listen": "test",
