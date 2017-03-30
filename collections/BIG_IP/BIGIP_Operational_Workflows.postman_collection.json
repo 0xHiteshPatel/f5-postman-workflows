@@ -2,127 +2,15 @@
 	"variables": [],
 	"info": {
 		"name": "BIGIP_Operational_Workflows",
-		"_postman_id": "46675699-d82c-012e-885e-51c975122fcc",
+		"_postman_id": "04710109-90fe-fb90-a297-94678ad3546f",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1_Change_Pool_Member_State",
-			"description": "",
+			"name": "1A_Change_Pool_Member_State",
+			"description": "Change the specified pool member state.\n\nInput Variables:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n ",
 			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"bigip_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{bigip_token}} variable"
-					},
-					"response": [
-						{
-							"id": "bfc0bddd-c14b-43ee-8af4-f59d26c620a3",
-							"name": "Example",
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate",
-									"name": "Cache-Control",
-									"description": ""
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"name": "Connection",
-									"description": ""
-								},
-								{
-									"key": "Content-Length",
-									"value": "710",
-									"name": "Content-Length",
-									"description": ""
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": ""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
-									"name": "Date",
-									"description": ""
-								},
-								{
-									"key": "Expires",
-									"value": "-1",
-									"name": "Expires",
-									"description": ""
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": ""
-								},
-								{
-									"key": "Server",
-									"value": "webd",
-									"name": "Server",
-									"description": ""
-								},
-								{
-									"key": "X-Real-IP",
-									"value": "192.168.0.20",
-									"name": "X-Real-IP",
-									"description": ""
-								},
-								{
-									"key": "accept-encoding",
-									"value": "gzip, deflate",
-									"name": "accept-encoding",
-									"description": ""
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
 				{
 					"name": "Check Pool Exists",
 					"event": [
@@ -158,11 +46,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_pool_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "f2134448-e9d1-46b9-8a16-8d77ff68de86",
+							"id": "b8cfc81a-7c23-41a7-97c0-ac755613789d",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -271,11 +159,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool member exists in the pool:\n\nVariables Used:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "b16063b0-e5e7-4f0e-aa86-2740b32a0ef4",
+							"id": "1a1b094e-6aed-4b1e-93ea-28ea4ab58e8e",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -417,11 +305,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"state\":\"{{_rt_member_state}}\",\n\t\"session\":\"{{_rt_member_session}}\"\n}"
 						},
-						"description": "Change the specified pool member state:\n\nVariables Used:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "1fc9357a-f722-44a2-a3ba-7226aa22ed7c",
+							"id": "6b4a8ee0-1e82-48df-acfe-dcd36a5852d2",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -498,121 +386,9 @@
 			]
 		},
 		{
-			"name": "2_Add_Pool_Member",
-			"description": "",
+			"name": "1B_Add_Pool_Member",
+			"description": "Add a pool member to a pool.\n\nInput Variables:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n ",
 			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"bigip_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{bigip_token}} variable"
-					},
-					"response": [
-						{
-							"id": "6caeded2-87e6-455d-9fc3-fcb11d75defd",
-							"name": "Example",
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate",
-									"name": "Cache-Control",
-									"description": ""
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"name": "Connection",
-									"description": ""
-								},
-								{
-									"key": "Content-Length",
-									"value": "710",
-									"name": "Content-Length",
-									"description": ""
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": ""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
-									"name": "Date",
-									"description": ""
-								},
-								{
-									"key": "Expires",
-									"value": "-1",
-									"name": "Expires",
-									"description": ""
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": ""
-								},
-								{
-									"key": "Server",
-									"value": "webd",
-									"name": "Server",
-									"description": ""
-								},
-								{
-									"key": "X-Real-IP",
-									"value": "192.168.0.20",
-									"name": "X-Real-IP",
-									"description": ""
-								},
-								{
-									"key": "accept-encoding",
-									"value": "gzip, deflate",
-									"name": "accept-encoding",
-									"description": ""
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
 				{
 					"name": "Check Pool Exists",
 					"event": [
@@ -648,11 +424,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_pool_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "d43e645d-510c-4412-b56e-98eff81122be",
+							"id": "357dad5a-6a84-4297-bbe3-dabc98001866",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -794,11 +570,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"name\":\"{{bigip_pool_member}}\",\n\t\"state\":\"{{_rt_member_state}}\",\n\t\"session\":\"{{_rt_member_session}}\"\t\n}"
 						},
-						"description": "Change the specified pool member state:\n\nVariables Used:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "f495f663-6c23-4341-8613-318d8fb4ff91",
+							"id": "552b1e80-8300-4719-8394-9345efa3c41f",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -875,121 +651,9 @@
 			]
 		},
 		{
-			"name": "3_Remove_Pool_Member",
-			"description": "",
+			"name": "1C_Delete_Pool_Member",
+			"description": "Delete the specified pool member.\n\nInput Variables:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n",
 			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"bigip_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{bigip_token}} variable"
-					},
-					"response": [
-						{
-							"id": "bca0327c-fb74-4b4c-bee6-ea3ba97c9997",
-							"name": "Example",
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate",
-									"name": "Cache-Control",
-									"description": ""
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"name": "Connection",
-									"description": ""
-								},
-								{
-									"key": "Content-Length",
-									"value": "710",
-									"name": "Content-Length",
-									"description": ""
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": ""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
-									"name": "Date",
-									"description": ""
-								},
-								{
-									"key": "Expires",
-									"value": "-1",
-									"name": "Expires",
-									"description": ""
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": ""
-								},
-								{
-									"key": "Server",
-									"value": "webd",
-									"name": "Server",
-									"description": ""
-								},
-								{
-									"key": "X-Real-IP",
-									"value": "192.168.0.20",
-									"name": "X-Real-IP",
-									"description": ""
-								},
-								{
-									"key": "accept-encoding",
-									"value": "gzip, deflate",
-									"name": "accept-encoding",
-									"description": ""
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
 				{
 					"name": "Check Pool Exists",
 					"event": [
@@ -1025,11 +689,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_pool_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "aa4e8171-3a2c-49a5-a8ef-f776d437ff13",
+							"id": "8f74240e-7c1b-4b06-a910-b8336b4aa711",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1138,11 +802,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool member exists in the pool:\n\nVariables Used:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "9a985c41-e8fd-4d96-a7a7-60ae6af3e496",
+							"id": "e0e4d39c-fa1e-44c8-bd80-5bccd02c620f",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1251,11 +915,11 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": "Change the specified pool member state:\n\nVariables Used:\n\n {{bigip_pool_name}} \tPool Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_pool_member}}\tPool Member IP/Node Name\n"
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "4db46c0c-88ed-4fd5-ba3f-5af525c6839a",
+							"id": "976cdb3f-1612-48d9-af88-d719c96cdd0a",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1332,121 +996,9 @@
 			]
 		},
 		{
-			"name": "4_Change_Node_State",
-			"description": "",
+			"name": "2A_Change_Node_State",
+			"description": "Change the specified pool member state.\n\nInput Variables:\n\n {{bigip_parition}}\t\tPartition Name\n {{bigip_node_name}}\tNode Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n ",
 			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"bigip_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{bigip_token}} variable"
-					},
-					"response": [
-						{
-							"id": "e8c3fc3c-6e1c-4499-b9de-c1696eeb7ca9",
-							"name": "Example",
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate",
-									"name": "Cache-Control",
-									"description": ""
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"name": "Connection",
-									"description": ""
-								},
-								{
-									"key": "Content-Length",
-									"value": "710",
-									"name": "Content-Length",
-									"description": ""
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": ""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
-									"name": "Date",
-									"description": ""
-								},
-								{
-									"key": "Expires",
-									"value": "-1",
-									"name": "Expires",
-									"description": ""
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": ""
-								},
-								{
-									"key": "Server",
-									"value": "webd",
-									"name": "Server",
-									"description": ""
-								},
-								{
-									"key": "X-Real-IP",
-									"value": "192.168.0.20",
-									"name": "X-Real-IP",
-									"description": ""
-								},
-								{
-									"key": "accept-encoding",
-									"value": "gzip, deflate",
-									"name": "accept-encoding",
-									"description": ""
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
 				{
 					"name": "Check Node Exists",
 					"event": [
@@ -1482,11 +1034,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_node_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "e64ce213-4d92-42b2-a26d-e48abe578a8b",
+							"id": "24caaf97-3c53-4e96-97bd-b2b616bdcc42",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1628,11 +1180,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"state\":\"{{_rt_member_state}}\",\n\t\"session\":\"{{_rt_member_session}}\"\n}"
 						},
-						"description": "Change the specified pool member state:\n\nVariables Used:\n\n {{bigip_parition}}\t\tPartition Name\n {{bigip_node_name}}\tNode Name\n {{bigip_object_state}} Pool Member State\n \nThe {{bigip_object_state}} variable must be one of the following:\n\n enabled\n disabled\n force-disabled\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "ad94be83-5b7a-417b-a2ed-50c7807519b7",
+							"id": "6a6e3932-fd0c-4087-9a57-f1bfd00522e0",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1709,121 +1261,9 @@
 			]
 		},
 		{
-			"name": "5_Change_Virtual_Server_State",
-			"description": "",
+			"name": "3A_Change_Virtual_Server_State",
+			"description": "Change the specified virtual server state.\n\nInput Variables:\n\n {{bigip_vs_name}} \t\tVirtual Server Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_vs_enabled}} \tVirtual Server State\n \nThe {{bigip_vs_enabled}} variable must be one of the following:\n\n true\n false\n\n",
 			"item": [
-				{
-					"name": "Authenticate and Obtain Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
-									"",
-									"var populate_vars = [",
-									"        {name:\"bigip_token\", value:\"token.token\"}",
-									"    ];",
-									"    ",
-									"f5_populate_env_vars(populate_vars);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": " https://{{bigip_mgmt}}/mgmt/shared/authn/login",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
-						},
-						"description": "Perform authentication and populate the {{bigip_token}} variable"
-					},
-					"response": [
-						{
-							"id": "14183774-7a9c-4ba3-9dc3-6797ae2c5efc",
-							"name": "Example",
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Cache-Control",
-									"value": "no-store, no-cache, must-revalidate",
-									"name": "Cache-Control",
-									"description": ""
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive",
-									"name": "Connection",
-									"description": ""
-								},
-								{
-									"key": "Content-Length",
-									"value": "710",
-									"name": "Content-Length",
-									"description": ""
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": ""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
-									"name": "Date",
-									"description": ""
-								},
-								{
-									"key": "Expires",
-									"value": "-1",
-									"name": "Expires",
-									"description": ""
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": ""
-								},
-								{
-									"key": "Server",
-									"value": "webd",
-									"name": "Server",
-									"description": ""
-								},
-								{
-									"key": "X-Real-IP",
-									"value": "192.168.0.20",
-									"name": "X-Real-IP",
-									"description": ""
-								},
-								{
-									"key": "accept-encoding",
-									"value": "gzip, deflate",
-									"name": "accept-encoding",
-									"description": ""
-								}
-							],
-							"cookie": [],
-							"responseTime": 63,
-							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
-						}
-					]
-				},
 				{
 					"name": "Check Virtual Server Exists",
 					"event": [
@@ -1859,11 +1299,11 @@
 							"mode": "raw",
 							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
 						},
-						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_vs_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "b09bd4eb-db8b-4d64-b530-8a41b2355c9d",
+							"id": "e78ac3b0-4723-4872-b578-b75eb2885a98",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -2006,11 +1446,154 @@
 							"mode": "raw",
 							"raw": "{\n\t\"{{_rt_vs_attribute}}\":true\n}"
 						},
-						"description": "Change the specified virtual server state:\n\nVariables Used:\n\n {{bigip_vs_name}} \t\tVirtual Server Name\n {{bigip_parition}}\t\tPartition Name\n {{bigip_vs_enabled}} \tVirtual Server State\n \nThe {{bigip_vs_enabled}} variable must be one of the following:\n\n true\n false\n "
+						"description": ""
 					},
 					"response": [
 						{
-							"id": "70c951e7-a8bb-418c-b716-da46e303d569",
+							"id": "e1b9f83c-3ab6-41aa-b658-5acf4e082f64",
+							"name": "Example",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-store, no-cache, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "710",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Dec 2016 23:33:06 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "-1",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "webd",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Real-IP",
+									"value": "192.168.0.20",
+									"name": "X-Real-IP",
+									"description": ""
+								},
+								{
+									"key": "accept-encoding",
+									"value": "gzip, deflate",
+									"name": "accept-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": 63,
+							"body": "{\"username\":\"admin\",\"loginReference\":{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"},\"loginProviderName\":\"local\",\"token\":{\"token\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"name\":\"BTKMOGLPSSAPSIXJAI76XFFCE7\",\"userName\":\"admin\",\"authProviderName\":\"local\",\"user\":{\"link\":\"https://localhost/mgmt/shared/authz/users/admin\"},\"groupReferences\":[],\"timeout\":1200,\"startTime\":\"2016-12-19T15:33:06.668-0800\",\"address\":\"192.168.0.20\",\"partition\":\"[All]\",\"generation\":1,\"lastUpdateMicros\":1482190386668185,\"expirationMicros\":1482191586668000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/BTKMOGLPSSAPSIXJAI76XFFCE7\"},\"generation\":0,\"lastUpdateMicros\":0}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "4A_Get_BIGIP_Version",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Software Version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"eval(postman.getGlobalVariable(\"_f5_workflow_functions\"));",
+									"",
+									"var f5_find_version = function(resp, attr) {",
+									"    //console.log(resp);",
+									"    for(var i=0; i < resp.items.length; i++) {",
+									"        console.log(resp.items[i]);",
+									"        if(resp.items[i].active === true) {",
+									"            return resp.items[i][attr];",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"var populate_vars = [",
+									"    {",
+									"        \"name\":\"bigip_version\",",
+									"        \"value\":f5_find_version,",
+									"        \"args\":[\"version\"]",
+									"    },",
+									"    {",
+									"        \"name\":\"bigip_build\",",
+									"        \"value\":f5_find_version,",
+									"        \"args\":[\"build\"]",
+									"    }",
+									"];",
+									"",
+									"f5_check_response();",
+									"f5_populate_env_vars(populate_vars);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " https://{{bigip_mgmt}}/mgmt/tm/sys/software/volume",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{bigip_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+						},
+						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_vs_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
+					},
+					"response": [
+						{
+							"id": "296b156e-6cf5-4909-9eaa-a35ad1f9a64c",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
