@@ -224,8 +224,6 @@ var runCollection = function(obj) {
 
 		if(typeof workflow.globalOptions.reporters === 'undefined') options.reporters = [];
 
-		//mergeEnv(options.environment, runtimeVars);
-
 		// Setup our callback
 		var newmanCallback = function(err, summary) {
 			// Add run summary to the workflow object
@@ -265,18 +263,23 @@ var runCollection = function(obj) {
 
 				if(typeof obj.options.remapPostRun !== 'undefined') {
 					for(var i = 0; i < runtimeTemp.values.length; i++) {
-						//printOut(`[remapPostRun] pre=` + JSON.stringify(runtimeTemp.values[i],null,1), 2);
+						printOut(`[remapPostRun] pre=` + JSON.stringify(runtimeTemp.values[i],null,1), 10);
 						var k = runtimeTemp.values[i].key;
+						var v = runtimeTemp.values[i].value;
 						if(typeof obj.options.remapPostRun[k] !== 'undefined') {
 							printOut(`[remapPostRun] remapping ${k} -> ${obj.options.remapPostRun[k]}`, 2);
 							runtimeTemp.values[i].key = obj.options.remapPostRun[k];
+							if(typeof workflow.globalVars[obj.options.remapPostRun[k]] === 'undefined') {
+								workflow.globalVars[obj.options.remapPostRun[k]] = v;
+							} else {
+								printOut(`[remapPostRun] WARNING: There was a collision in globalVars trying to remap '${k}' -> '${obj.options.remapPostRun[k]}'`, 1, console.error)
+							}
 						}
-						//printOut(`[remapPostRun] post=` + JSON.stringify(runtimeTemp.values[i],null,1) , 2);
+						printOut(`[remapPostRun] post=` + JSON.stringify(runtimeTemp.values[i],null,1) , 10);
 					};
 
 				};
 				runtimeVars = runtimeTemp;
-				//runtimeVars = summary.environment;
 
 				if (err || summary.error || summary.run.failures.length > 0) {
 			        callback(1, summary);
@@ -347,14 +350,26 @@ var main = function() {
 	// Output the initial run data
 	jsonfile.writeFileSync(workflow.outputFile, workflow, {spaces: 2});
 
+	// Measure total execution time
+	var startTime = process.hrtime();
+	var stopTime = null;
+
 	// Execute the stack in series
 	async.series(asyncStack, function(err, results) {
 		printOut("[stack] done, err=" + err, 10);
 		printOut("[stack] done, results=" + JSON.stringify(results), 10);
 		if(workflow.saveEnvVars) {
-			jsonfile.writeFileSync(workflow.envOutputFile, results.pop().environment, {spaces: 2});
+			jsonfile.writeFileSync(workflow.envOutputFile, runtimeVars, {spaces: 2});
 		}
-		printOut(`run completed`, 1);
+		process.stdout.write("");
+		var stopTime = process.hrtime(startTime)[1] / 1000000;
+
+		var runComplete = function() {
+			var totalRunTime = process.hrtime(startTime)[0] + "s, " + stopTime.toFixed(3) + " ms";
+			printOut(`run completed in ${totalRunTime}`, 1);
+		}
+		// Delay 100 ms so newman can finish flushing it's output to console
+		setTimeout(runComplete, 100);
 	});
 
 };

@@ -1,0 +1,88 @@
+{
+	"name":"Wrapper_Demo_2",
+	"description":"Execute a chained workflow that authenticates to two BIG-IPs and retrieves their software version",
+	"globalEnvVars":"../framework/f5-postman-workflows.postman_globals.json",
+	"globalOptions": {
+		"insecure":true,
+		"reporters":["cli"]
+	},
+	"globalVars": {
+		"bigip_a_mgmt": "",
+		"bigip_b_mgmt": "",
+		"bigip_username":"admin",
+		"bigip_password":"admin"
+	},
+	"saveEnvVars":true,
+	"outputFile":"Wrapper_Demo_2-run.json",
+	"envOutputFile":"Wrapper_Demo_2-env.json",
+	"workflow": [
+		{
+			"name":"Authenticate to BIG-IPs",
+			"skip":true,
+			"children": [
+				{
+					"name":"Authenticate to BIG-IP A",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"remapPreRun": {
+							"bigip_a_mgmt": "bigip_mgmt"
+						},
+						"folder":"1_Authenticate",
+						"remapPostRun": {
+							"bigip_token": "bigip_a_token"
+						}
+					}
+				},
+				{
+					"name":"Authenticate to BIG-IP B",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+						"remapPreRun": {
+							"bigip_b_mgmt": "bigip_mgmt"
+						},
+						"folder":"1_Authenticate",
+						"remapPostRun": {
+							"bigip_token": "bigip_b_token"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name":"Get BIG-IP Software Versions",
+			"skip":true,
+			"children": [
+				{
+					"name":"Get BIG-IP A Software Version",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_Operational_Workflows.postman_collection.json",
+						"remapPreRun": {
+							"bigip_a_mgmt": "bigip_mgmt",
+							"bigip_a_token": "bigip_token"
+						},
+						"folder":"4A_Get_BIGIP_Version",
+						"remapPostRun": {
+							"bigip_version": "bigip_a_version",
+							"bigip_build": "bigip_a_build"
+						}
+					}
+				},
+				{
+					"name":"Get BIG-IP B Software Version",
+					"options": {
+						"collection":"../collections/BIG_IP/BIGIP_Operational_Workflows.postman_collection.json",
+						"remapPreRun": {
+							"bigip_b_mgmt": "bigip_mgmt",
+							"bigip_b_token": "bigip_token"
+						},
+						"folder":"4A_Get_BIGIP_Version",
+						"remapPostRun": {
+							"bigip_version": "bigip_b_version",
+							"bigip_build": "bigip_b_build"
+						}
+					}
+				}
+			]
+		}
+	]
+}
