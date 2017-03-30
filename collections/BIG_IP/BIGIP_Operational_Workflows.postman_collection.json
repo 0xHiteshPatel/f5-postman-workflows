@@ -44,13 +44,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "b8cfc81a-7c23-41a7-97c0-ac755613789d",
+							"id": "95ada5af-9379-4652-84a7-7baaa912f73f",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -157,13 +157,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "1a1b094e-6aed-4b1e-93ea-28ea4ab58e8e",
+							"id": "7a6804e4-7aff-4136-99d0-066db32befa3",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -309,7 +309,7 @@
 					},
 					"response": [
 						{
-							"id": "6b4a8ee0-1e82-48df-acfe-dcd36a5852d2",
+							"id": "a8741202-1b84-4362-83ed-05c803ac30ce",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -422,13 +422,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "357dad5a-6a84-4297-bbe3-dabc98001866",
+							"id": "0a2ea5a2-e353-4ab4-8eb3-4eeae81a7548",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -574,7 +574,7 @@
 					},
 					"response": [
 						{
-							"id": "552b1e80-8300-4719-8394-9345efa3c41f",
+							"id": "d4c164dc-fe65-4f2f-839c-c9f970ed8799",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -687,13 +687,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "8f74240e-7c1b-4b06-a910-b8336b4aa711",
+							"id": "89811e89-e780-4228-968e-714bd40a7a4b",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -800,13 +800,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "e0e4d39c-fa1e-44c8-bd80-5bccd02c620f",
+							"id": "6ab3f85a-1176-4324-8978-842d3e605051",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -919,7 +919,7 @@
 					},
 					"response": [
 						{
-							"id": "976cdb3f-1612-48d9-af88-d719c96cdd0a",
+							"id": "e5407c6b-4d7e-4aa2-acf0-1d9ecc57bfa6",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1032,13 +1032,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "24caaf97-3c53-4e96-97bd-b2b616bdcc42",
+							"id": "0475bda8-1147-4d0c-94f8-16c9bd80e23f",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1184,7 +1184,7 @@
 					},
 					"response": [
 						{
-							"id": "6a6e3932-fd0c-4087-9a57-f1bfd00522e0",
+							"id": "07e181b8-6a74-41e5-9a3f-f7653e203df3",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1297,13 +1297,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": ""
 					},
 					"response": [
 						{
-							"id": "e78ac3b0-4723-4872-b578-b75eb2885a98",
+							"id": "5ffec527-c3d7-40f5-afb4-939eb004e49f",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1450,7 +1450,7 @@
 					},
 					"response": [
 						{
-							"id": "e1b9f83c-3ab6-41aa-b658-5acf4e082f64",
+							"id": "de176301-ac2b-413b-884b-3e0926ff9ada",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
@@ -1543,7 +1543,7 @@
 									"var f5_find_version = function(resp, attr) {",
 									"    //console.log(resp);",
 									"    for(var i=0; i < resp.items.length; i++) {",
-									"        console.log(resp.items[i]);",
+									"        //console.log(resp.items[i]);",
 									"        if(resp.items[i].active === true) {",
 									"            return resp.items[i][attr];",
 									"        }",
@@ -1587,13 +1587,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": {{bigip_username}},\n\t\"password\": {{bigip_password}},\n\t\"loginProvidername\":\"tmos\"\n}\n"
+							"raw": ""
 						},
 						"description": "Check the specified pool exists:\n\nVariables Used:\n\n {{bigip_vs_name}} \tBIG-IP Pool Name\n {{bigip_parition}}\t\tBIG-IP Partition Name\n "
 					},
 					"response": [
 						{
-							"id": "296b156e-6cf5-4909-9eaa-a35ad1f9a64c",
+							"id": "3eccd5ef-d949-41eb-890d-8d7f635e5713",
 							"name": "Example",
 							"status": "OK",
 							"code": 200,
