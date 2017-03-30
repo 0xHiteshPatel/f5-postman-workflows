@@ -1,0 +1,34 @@
+{
+	"name":"Wrapper_Demo_1",
+	"description":"Execute a chained workflow that authenticates to a BIG-IP and retrieves it's software version",
+	"globalEnvVars":"../framework/f5-postman-workflows.postman_globals.json",
+	"globalOptions": {
+		"insecure":true,
+		"reporters":["cli"]
+	},
+	"globalVars": {
+		"bigip_mgmt": "",
+		"bigip_username":"admin",
+		"bigip_password":"admin"
+	},
+	"saveEnvVars":true,
+	"outputFile":"Wrapper_Demo_1-run.json",
+	"envOutputFile":"Wrapper_Demo_1-env.json",
+	"workflow": [
+		{
+			"name":"Authenticate to BIG-IP",
+			"options": {
+				"collection":"../collections/BIG_IP/BIGIP_API_Authentication.postman_collection.json",
+				"folder":"1_Authenticate"
+			}
+		},
+		{
+			"name":"Get BIG-IP Software Version",
+			"skip":false,
+			"options": {
+				"collection":"../collections/BIG_IP/BIGIP_Operational_Workflows.postman_collection.json",
+				"folder":"4A_Get_BIGIP_Version"
+			}
+		}
+	]
+}
