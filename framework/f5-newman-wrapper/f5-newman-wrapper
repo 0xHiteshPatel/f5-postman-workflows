@@ -112,13 +112,19 @@ var prepareOptions = function(obj) {
 	Object.keys(workflow.globalVars).forEach(function(name) {
 		if(typeof workflow.globalVars[name] === 'object') {
 			if(typeof workflow.globalVars[name].environment !== 'undefined') {
-				var includeEnv = require(process.cwd() + '/' + workflow.globalVars[name].environment);
+				var tmpIncludeFilename = process.cwd() + '/' + workflow.globalVars[name].environment;
 			} else {
 				if(typeof workflow.globalVarsIncludeFile === 'undefined') {
 			        printOut(`[prepareOptions][${name}] error: neither a 'environment' or 'globalVarsIncludeFile' were specified`, 1, console.error);
 			        process.exit(1);
 				}
-				var includeEnv = require(process.cwd() + '/' + workflow.globalVarsIncludeFile);
+				var tmpIncludeFilename = process.cwd() + '/' + workflow.globalVarsIncludeFile;
+			}
+
+			var includeEnv = JSON.parse(fs.readFileSync(tmpIncludeFilename, 'utf8'));
+			if(typeof includeEnv.values === 'undefined') {
+				printOut(`[prepareOptions] The environment file '${tmpIncludeFilename}' does not have a valid format`, 1, console.error);
+				process.exit(1);
 			}
 
 			if(typeof workflow.globalVars[name].key !== 'undefined') {
