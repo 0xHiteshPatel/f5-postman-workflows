@@ -133,7 +133,7 @@
 						}
 					]
 				}
-			],
+			]
 		},
 		{
 			// Items can act as organizing containers for children by specifying skip:true
