@@ -52,7 +52,7 @@
     {
       "key": "_f5_debug",
       "type": "text",
-      "value": "1",
+      "value": "0",
       "enabled": true
     }
   ]
