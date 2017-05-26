@@ -28,7 +28,7 @@
     {
       "key": "_f5_poll_apiurl",
       "type": "text",
-      "value": "http://echo.getpostman.com/delay",
+      "value": "https://postman-echo.com/delay",
       "enabled": true
     },
     {
@@ -52,7 +52,7 @@
     {
       "key": "_f5_debug",
       "type": "text",
-      "value": "0",
+      "value": "1",
       "enabled": true
     }
   ]
