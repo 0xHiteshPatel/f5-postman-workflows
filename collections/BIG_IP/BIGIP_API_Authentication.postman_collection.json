@@ -43,7 +43,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": {{bigip_username}},\n  \"password\": {{bigip_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
+							"raw": "{\n  \"username\": \"{{bigip_username}}\",\n  \"password\": \"{{bigip_password}}\",\n  \"loginProvidername\":\"tmos\"\n}\n"
 						},
 						"description": "Perform authentication and populate the variable specified in the {{bigip_token_var}} variable."
 					},

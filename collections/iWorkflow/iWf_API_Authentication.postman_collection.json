@@ -43,7 +43,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": {{iwf_username}},\n  \"password\": {{iwf_password}},\n  \"loginProvidername\":\"tmos\"\n}\n"
+							"raw": "{\n  \"username\": \"{{iwf_username}}\",\n  \"password\": \"{{iwf_password}}\",\n  \"loginProvidername\":\"tmos\"\n}\n"
 						},
 						"description": "Perform authentication and populate the variable iwf_token"
 					},

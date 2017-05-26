@@ -47,7 +47,7 @@
 						}
 					],
 					"request": {
-						"url": "http://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -113,7 +113,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -138,7 +138,7 @@
 							"id": "e65ab953-cfd4-40ea-8fe9-361568c1d571",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -252,7 +252,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg",
@@ -260,7 +260,7 @@
 								}
 							],
 							"responseTime": 82,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AA27CqaLHwT863gQq40R7DZItQ4g5Pf2x.O7t9uo%2BW39UMi%2FLzJU2jyg1%2BDhElRbyXn%2BphOWJSzCI\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AA27CqaLHwT863gQq40R7DZItQ4g5Pf2x.O7t9uo%2BW39UMi%2FLzJU2jyg1%2BDhElRbyXn%2BphOWJSzCI\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -318,7 +318,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -343,7 +343,7 @@
 							"id": "9a01c0d1-adc4-458c-b95a-578036e601e8",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -457,7 +457,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AIcwFxHC2svGIMLkJ2mGfKhUNFMLszzBH.VCw9nEV4DAGzAH1MSoreIIaKwcEAogGmzJZKX5g5qhM",
@@ -465,7 +465,7 @@
 								}
 							],
 							"responseTime": 102,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A801gAW7LmP-8M-aREtVYoK_kzuN9VX_e.OeKECSHo%2FaiqR3Ck5c2cX3ewv4UxpJqPotnV3foOwTg\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -550,7 +550,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -575,7 +575,7 @@
 							"id": "e019f346-fdda-4152-bce0-eaf0a1191244",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -683,7 +683,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AWi_v8okrYrWjjBXegaH5TKlyMIkPBltR.XrXUqb5%2BpJDVQISNY0g5KF12XpMjry%2BEE8a2Hvmi8oc",
@@ -691,7 +691,7 @@
 								}
 							],
 							"responseTime": 282,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AWi_v8okrYrWjjBXegaH5TKlyMIkPBltR.XrXUqb5%2BpJDVQISNY0g5KF12XpMjry%2BEE8a2Hvmi8oc\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AWi_v8okrYrWjjBXegaH5TKlyMIkPBltR.XrXUqb5%2BpJDVQISNY0g5KF12XpMjry%2BEE8a2Hvmi8oc\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -777,7 +777,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -802,7 +802,7 @@
 							"id": "a1e0f3d9-b2e0-41dc-920e-f36179cff903",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -916,7 +916,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3Ape4JgsFaJ3eoPb8Cz-_xqM7g-Sh8JmP9.iZUT1IO3tw3TcnVbcLTnhf8Gcs4A9IER1C9%2BVzCRy2s",
@@ -924,7 +924,7 @@
 								}
 							],
 							"responseTime": 1076,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AJVuIHEavewqM54iER83DCs9IhX5UZLl2.RYlu0UzDCSPNLMJCjn25N4dZVP0SEc5VofQJFXWozZk\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AJVuIHEavewqM54iER83DCs9IhX5UZLl2.RYlu0UzDCSPNLMJCjn25N4dZVP0SEc5VofQJFXWozZk\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -971,7 +971,7 @@
 									"var check_vals = [",
 									"        {",
 									"            \"path\":\"url\",",
-									"            \"value\":\"https://echo.getpostman.com/post\"",
+									"            \"value\":\"https://postman-echo.com/post\"",
 									"        }",
 									"    ];",
 									"",
@@ -983,7 +983,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -1008,7 +1008,7 @@
 							"id": "dacc8e6e-9034-499f-bc28-3ee236077fb0",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -1116,7 +1116,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8",
@@ -1124,7 +1124,7 @@
 								}
 							],
 							"responseTime": 94,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -1181,7 +1181,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -1206,7 +1206,7 @@
 							"id": "2293717a-217d-46d3-939c-346983ed6f9e",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -1320,7 +1320,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AgZmxNzFqAdDF7xo6AiPld09847yYNVX7.ZYCMLqf5ptdThtqloxk2BzuGmeMX3OLZwa%2BKU03Y5V8",
@@ -1328,7 +1328,7 @@
 								}
 							],
 							"responseTime": 88,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3A1sWPzJKive8PAjxl7iDetZsuxqIZbUDJ.Jf%2Brk7bYCqrbVvZBJTKgGzWIojoTDm7vlflxY6GuOU8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -1440,7 +1440,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -1465,7 +1465,7 @@
 							"id": "5e38fc78-89bf-41d0-8134-6c3d08e68ea7",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -1573,7 +1573,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AKe72ow7E3X7o2qxPoURmHLVKfA4_auXH.Ag4oXicDw1cAwXMpd4PTLOcjRIHg1%2FUfKa%2Bns%2BgAS3w",
@@ -1581,7 +1581,7 @@
 								}
 							],
 							"responseTime": 89,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AKe72ow7E3X7o2qxPoURmHLVKfA4_auXH.Ag4oXicDw1cAwXMpd4PTLOcjRIHg1%2FUfKa%2Bns%2BgAS3w\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AKe72ow7E3X7o2qxPoURmHLVKfA4_auXH.Ag4oXicDw1cAwXMpd4PTLOcjRIHg1%2FUfKa%2Bns%2BgAS3w\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -1677,7 +1677,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -1702,7 +1702,7 @@
 							"id": "1e22415f-8fb8-4bba-a6e7-428ea109d21f",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [
 									{
@@ -1816,7 +1816,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AzMhymS5FuoTT1fb7K-6DJTTUKwaGaX1n.JceCTn4wrknoF8s9Cue%2FPNcpYsPtRhVGSNbAy85NSRc",
@@ -1824,7 +1824,7 @@
 								}
 							],
 							"responseTime": 90,
-							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AaRUW-D_49j1P_sljgea5QEFiM5kRtfsm.CTJ2YjxnkJirj%2FIONkAGpeI06NWN6CUPAAvmn0WBGI8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"269\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"authorization\":\"Basic YWRtaW46YWRtaW4=\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AaRUW-D_49j1P_sljgea5QEFiM5kRtfsm.CTJ2YjxnkJirj%2FIONkAGpeI06NWN6CUPAAvmn0WBGI8\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":{\"array\":[\"one\",\"two\",\"three\"],\"numArray\":[1,2,3],\"foo\":\"bar\",\"items\":[{\"uuid\":\"1111-2222-3333\",\"name\":\"name_1\"},{\"uuid\":\"4444-5555-6666\",\"name\":\"name_2\"},{\"uuid\":\"7777-8888-9999\",\"name\":\"name_3\"}]},\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -1894,7 +1894,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1908,7 +1908,7 @@
 							"id": "ba0dd17d-2218-41c7-b427-a245f131f628",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/post",
+								"url": "https://postman-echo.com/post",
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -2005,7 +2005,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AxXqDGa_0wqwBPEhb6jc_jJGpTSEvOxTB.okxnMe1egpZJo%2BMu2%2FZmDei7yr1oEJCg7spcfGeUF1g",
@@ -2013,7 +2013,7 @@
 								}
 							],
 							"responseTime": 305,
-							"body": "{\"args\":{},\"data\":\"1\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"content-length\":\"1\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3AxXqDGa_0wqwBPEhb6jc_jJGpTSEvOxTB.okxnMe1egpZJo%2BMu2%2FZmDei7yr1oEJCg7spcfGeUF1g\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://echo.getpostman.com/post\"}"
+							"body": "{\"args\":{},\"data\":\"1\",\"files\":{},\"form\":{},\"headers\":{\"host\":\"postman-echo.com\",\"content-length\":\"1\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"cache-control\":\"no-cache\",\"content-type\":\"text/plain\",\"cookie\":\"sails.sid=s%3AxXqDGa_0wqwBPEhb6jc_jJGpTSEvOxTB.okxnMe1egpZJo%2BMu2%2FZmDei7yr1oEJCg7spcfGeUF1g\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"json\":null,\"url\":\"https://postman-echo.com/post\"}"
 						}
 					]
 				},
@@ -2040,7 +2040,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -2060,7 +2060,7 @@
 							"id": "cbc4fd47-50f5-48cc-ba2b-d98ba1601ec0",
 							"name": "Example",
 							"originalRequest": {
-								"url": "https://echo.getpostman.com/get",
+								"url": "https://postman-echo.com/get",
 								"method": "GET",
 								"header": [
 									{
@@ -2163,7 +2163,7 @@
 								{
 									"expires": "Invalid Date",
 									"httpOnly": true,
-									"domain": "echo.getpostman.com",
+									"domain": "postman-echo.com",
 									"path": "/",
 									"secure": false,
 									"value": "s%3AhYZaM17On6aLPsFM6zGWI4gvZ2-vUilT.aELox%2FZEDav8N0%2FqWfRsuanVnGaebUMUYcf6hiwuw6E",
@@ -2171,7 +2171,7 @@
 								}
 							],
 							"responseTime": 299,
-							"body": "{\"args\":{},\"headers\":{\"host\":\"echo.getpostman.com\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AhYZaM17On6aLPsFM6zGWI4gvZ2-vUilT.aELox%2FZEDav8N0%2FqWfRsuanVnGaebUMUYcf6hiwuw6E\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"url\":\"https://echo.getpostman.com/get\"}"
+							"body": "{\"args\":{},\"headers\":{\"host\":\"postman-echo.com\",\"accept\":\"*/*\",\"accept-encoding\":\"gzip, deflate\",\"cache-control\":\"no-cache\",\"content-type\":\"application/json\",\"cookie\":\"sails.sid=s%3AhYZaM17On6aLPsFM6zGWI4gvZ2-vUilT.aELox%2FZEDav8N0%2FqWfRsuanVnGaebUMUYcf6hiwuw6E\",\"user-agent\":\"PostmanRuntime/3.0.5\",\"x-forwarded-port\":\"443\",\"x-forwarded-proto\":\"https\"},\"url\":\"https://postman-echo.com/get\"}"
 						}
 					]
 				},
@@ -2293,7 +2293,7 @@
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
-									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],",
 									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
 									"        [\"_f5_poll_iterator\"      ,\"1\"],",
 									"        [\"_f5_poll_curr\"          ,\"\"],",
@@ -2367,7 +2367,7 @@
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
-									"        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],",
 									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
 									"        [\"_f5_poll_iterator\"      ,\"1\"],",
 									"        [\"_f5_poll_curr\"          ,\"\"],",
@@ -2444,13 +2444,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"var global_defaults = [\r        [\"_f5_enable_polled_mode\" ,\"1\"],\r        [\"_f5_poll_max_tries\"     ,\"60\"],\r        [\"_f5_poll_wait\"          ,\"5\"],\r        [\"_f5_poll_useinternal\"   ,\"0\"],\r        [\"_f5_poll_apiurl\"        ,\"http://echo.getpostman.com/delay\"],\r        [\"_f5_poll_bypass_timeout\",\"0\"],\r        [\"_f5_poll_iterator\"      ,\"1\"],\r        [\"_f5_poll_curr\"          ,\"1\"],\r        [\"_f5_debug\"              ,\"1\"],\r        [\"_f5_framework_branch\"   ,\"master\"]\r    ];\r\rpostman.clearGlobalVariable('_f5_workflow_functions');\rconsole.log(\"UNINSTALL: unset _f5_workflow_functions\");\r\rfor(var i = 0; i < global_defaults.length; i++) {\r    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);\r    postman.clearGlobalVariable(global_defaults[i][0]);\r}\r"
+									"var global_defaults = [\r        [\"_f5_enable_polled_mode\" ,\"1\"],\r        [\"_f5_poll_max_tries\"     ,\"60\"],\r        [\"_f5_poll_wait\"          ,\"5\"],\r        [\"_f5_poll_useinternal\"   ,\"0\"],\r        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],\r        [\"_f5_poll_bypass_timeout\",\"0\"],\r        [\"_f5_poll_iterator\"      ,\"1\"],\r        [\"_f5_poll_curr\"          ,\"1\"],\r        [\"_f5_debug\"              ,\"1\"],\r        [\"_f5_framework_branch\"   ,\"master\"]\r    ];\r\rpostman.clearGlobalVariable('_f5_workflow_functions');\rconsole.log(\"UNINSTALL: unset _f5_workflow_functions\");\r\rfor(var i = 0; i < global_defaults.length; i++) {\r    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);\r    postman.clearGlobalVariable(global_defaults[i][0]);\r}\r"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -2493,7 +2493,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -2533,7 +2533,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/200",
+						"url": "https://postman-echo.com/status/200",
 						"method": "GET",
 						"header": [
 							{
@@ -2577,7 +2577,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/200",
+						"url": "https://postman-echo.com/status/200",
 						"method": "GET",
 						"header": [
 							{
@@ -2623,7 +2623,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/200",
+						"url": "https://postman-echo.com/status/200",
 						"method": "GET",
 						"header": [
 							{
@@ -2667,7 +2667,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/204",
+						"url": "https://postman-echo.com/status/204",
 						"method": "GET",
 						"header": [
 							{
@@ -2713,7 +2713,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/204",
+						"url": "https://postman-echo.com/status/204",
 						"method": "GET",
 						"header": [
 							{
@@ -2757,7 +2757,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/404",
+						"url": "https://postman-echo.com/status/404",
 						"method": "GET",
 						"header": [
 							{
@@ -2803,7 +2803,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/404",
+						"url": "https://postman-echo.com/status/404",
 						"method": "GET",
 						"header": [
 							{
@@ -2847,7 +2847,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/404",
+						"url": "https://postman-echo.com/status/404",
 						"method": "GET",
 						"header": [
 							{
@@ -2893,7 +2893,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/404",
+						"url": "https://postman-echo.com/status/404",
 						"method": "GET",
 						"header": [
 							{
@@ -2937,7 +2937,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/500",
+						"url": "https://postman-echo.com/status/500",
 						"method": "GET",
 						"header": [
 							{
@@ -2983,7 +2983,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/500",
+						"url": "https://postman-echo.com/status/500",
 						"method": "GET",
 						"header": [
 							{
@@ -3046,7 +3046,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -3080,7 +3080,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -3131,7 +3131,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -3188,7 +3188,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -3222,7 +3222,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -3274,7 +3274,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -3342,7 +3342,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -3377,7 +3377,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/get",
+						"url": "https://postman-echo.com/get",
 						"method": "GET",
 						"header": [
 							{
@@ -3414,7 +3414,7 @@
 									"};",
 									"",
 									"var check_vals = [",
-									"        { \"path\":\"url\",               \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"path\":\"url\",               \"value\":\"https://postman-echo.com/post\" },",
 									"        { \"path\":\"data.foo\",          \"value\":\"bar\" },",
 									"        { \"path\":\"data.array.2\",      \"value\": \"three\" },",
 									"        { \"path\":\"data.numArray.1\",   \"value\": \"2\" },",
@@ -3463,8 +3463,8 @@
 									"    ",
 									"var test_state = [",
 									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
-									"\t\t['[Polled] [PASS] [Current Value] url=https://echo.getpostman.com/post', 1],",
-									"\t\t['[Polled] [PASS] [Check Value] url == https://echo.getpostman.com/post', 1],",
+									"\t\t['[Polled] [PASS] [Current Value] url=https://postman-echo.com/post', 1],",
+									"\t\t['[Polled] [PASS] [Check Value] url == https://postman-echo.com/post', 1],",
 									"\t\t['[Polled] [PASS] [Current Value] data.foo=bar', 1],",
 									"\t\t['[Polled] [PASS] [Check Value] data.foo == bar', 1],",
 									"\t\t['[Polled] [PASS] [Current Value] data.array.2=three', 1],",
@@ -3540,7 +3540,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -3608,7 +3608,7 @@
 									"",
 									"var test_state = [",
 									"\t\t['[Polled] [PASS] [POST Response Code]=200', 1],",
-									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_url=https://echo.getpostman.com/post', 1],",
+									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_url=https://postman-echo.com/post', 1],",
 									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_var1=one', 1],",
 									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_var2=2', 1],",
 									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_var3=name_2', 1],",
@@ -3620,7 +3620,7 @@
 									"\t\t['[Polled] [FAIL] [Populate Variable] _rt_tpop_no_exist=', 1],",
 									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_simple=bar', 1],",
 									"\t\t['[Polled] [FAIL] [Populate Variable] _rt_tpop_undef=', 1],",
-									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_hostname=echo.getpostman.com', 1],",
+									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_hostname=postman-echo.com', 1],",
 									"\t\t['[Polled] [PASS] [Populate Variable] _rt_tpop_advanced=three', 1],",
 									"\t\t['[Polled] [FAIL] [Populate Variable] _rt_tpop_noex_var=', 1],",
 									"\t];",
@@ -3648,7 +3648,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -3691,7 +3691,7 @@
 									"};",
 									"",
 									"var check_vals = [",
-									"        { \"path\":\"url\",               \"value\":\"https://echo.getpostman.com/post\" },",
+									"        { \"path\":\"url\",               \"value\":\"https://postman-echo.com/post\" },",
 									"        { \"path\":\"data.foo\",          \"value\":\"bar\" },",
 									"        { \"path\":\"data.array.2\",      \"value\": \"three\" },",
 									"        { \"path\":\"data.numArray.1\",   \"value\": \"2\" },",
@@ -3740,8 +3740,8 @@
 									"    ",
 									"var test_state = [",
 									"\t\t['[POST Response Code]=200', 1],",
-									"\t\t['[Current Value] url=https://echo.getpostman.com/post', 1],",
-									"\t\t['[Check Value] url == https://echo.getpostman.com/post', true],",
+									"\t\t['[Current Value] url=https://postman-echo.com/post', 1],",
+									"\t\t['[Check Value] url == https://postman-echo.com/post', true],",
 									"\t\t['[Current Value] data.foo=bar', 1],",
 									"\t\t['[Check Value] data.foo == bar', true],",
 									"\t\t['[Current Value] data.array.2=three', 1],",
@@ -3813,7 +3813,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -3879,7 +3879,7 @@
 									"",
 									"var test_state = [",
 									"\t\t['[POST Response Code]=200', 1],",
-									"\t\t['[Populate Variable] _rt_tpop_url=https://echo.getpostman.com/post', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_url=https://postman-echo.com/post', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_var1=one', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_var2=2', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_var3=name_2', 1],",
@@ -3891,7 +3891,7 @@
 									"\t\t['[Populate Variable] _rt_tpop_no_exist=', 0],",
 									"\t\t['[Populate Variable] _rt_tpop_simple=bar', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_undef=', 0],",
-									"\t\t['[Populate Variable] _rt_tpop_hostname=echo.getpostman.com', 1],",
+									"\t\t['[Populate Variable] _rt_tpop_hostname=postman-echo.com', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_advanced=three', 1],",
 									"\t\t['[Populate Variable] _rt_tpop_noex_var=', 0],",
 									"\t];",
@@ -3918,7 +3918,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/post",
+						"url": "https://postman-echo.com/post",
 						"method": "POST",
 						"header": [
 							{
@@ -3966,7 +3966,7 @@
 						}
 					],
 					"request": {
-						"url": "https://echo.getpostman.com/status/200",
+						"url": "https://postman-echo.com/status/200",
 						"method": "GET",
 						"header": [
 							{

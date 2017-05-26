@@ -71,7 +71,7 @@ function f5_populate_env_vars(vars) {
     var poll = parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"),10);
 
     if(!f5_check_response_code()) {
-        f5_debug("response code bad, next is null");
+        f5_debug("[f5_populate_env_vars] response code bad, next is null");
         if(!poll &amp;&amp; !parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"),10)) {
             postman.setNextRequest(null);
         }
@@ -82,10 +82,10 @@ function f5_populate_env_vars(vars) {
     for (var i = 0; i &lt; vars.length; i++) {
         var test_name = '[Populate Variable] ' + vars[i].name + "=";
 
-        f5_debug("name=" + vars[i].name);
+        f5_debug("[f5_populate_env_vars] name=" + vars[i].name);
 
         if (typeof vars[i].value === 'function') {
-            f5_debug("running custom function");
+            f5_debug("[f5_populate_env_vars] running custom function");
             var args = !('args' in vars[i]) ? [json] : [json].concat(vars[i].args);
             var ret = vars[i].value.apply(this, args);
 
@@ -99,14 +99,14 @@ function f5_populate_env_vars(vars) {
             }
         } else {
             var obj = f5_get_by_string(vars[i].value);
-            f5_debug("obj=" + obj);
+            f5_debug("[f5_populate_env_vars] obj=" + obj);
 
             if(obj) {
-                f5_debug("found attribute");
+                f5_debug("[f5_populate_env_vars] found attribute");
                 postman.setEnvironmentVariable(vars[i].name, obj);
                 f5_set_test_result(test_name, 1, obj);
             } else {
-                f5_debug("did not find attribute");
+                f5_debug("[f5_populate_env_vars] did not find attribute");
                 f5_set_test_result(test_name, 0, undefined);
                 if(!poll &amp;&amp; !parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"),10)) {
                     postman.setNextRequest(null);
@@ -140,7 +140,7 @@ function f5_check_response(vars, test) {
     }
 
     if (!f5_check_response_code()) {
-        f5_debug("response code bad, next is null");
+        f5_debug("[f5_check_response] response code bad, next is null");
         if(!poll &amp;&amp; !parseInt(postman.getGlobalVariable("_f5_poll_bypass_timeout"),10)) {
             postman.setNextRequest(null);
         }
@@ -172,7 +172,7 @@ function f5_check_response(vars, test) {
 
         var check_test_name = "[Check Value] "+vars[i].testname+" "+vars[i].op+ " ";
         if (typeof vars[i].value === 'function') {
-            f5_debug("running custom function");
+            f5_debug("[f5_check_response] running custom function");
             var args = !('args' in vars[i]) ? [json] : [json].concat(vars[i].args);
             var ret = vars[i].value.apply(this, args);
 
@@ -187,7 +187,7 @@ function f5_check_response(vars, test) {
             }
         } else {
             var tf = null;
-            f5_debug("op=" + vars[i].op.toLowerCase());
+            f5_debug("[f5_check_response] op=" + vars[i].op.toLowerCase());
             switch(vars[i].op.toLowerCase()) {
                 case '===':
                     tf = function(x,y) { return x === y };
@@ -259,8 +259,8 @@ function f5_check_response(vars, test) {
                 return undefined;
             }
 
-            f5_debug("tf=" + tf);
-            f5_debug("obj=" + obj);
+            f5_debug("[f5_check_response] tf=" + tf);
+            f5_debug("[f5_check_response] obj=" + obj);
             var match = tf(obj, vars[i].value);
             if(test) {
                 f5_set_test_result(check_test_name, match, vars[i].value);
@@ -272,8 +272,8 @@ function f5_check_response(vars, test) {
         }
     }
 
-    f5_debug("passcount=" + passcount);
-    f5_debug("varslen=" + vars.length);
+    f5_debug("[f5_check_response] passcount=" + passcount);
+    f5_debug("[f5_check_response] varslen=" + vars.length);
 
     if(!test) {
         return passcount === vars.length;
@@ -317,13 +317,13 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
         curr = request.name;
     }
 
-    f5_debug("curr=" + curr);
-    f5_debug("next=" + next);
-    f5_debug("err=" + err);
-    f5_debug("_f5_enable_polled_mode=" + globals._f5_enable_polled_mode);
+    f5_debug("[f5_poll_until_all_tests_pass] curr=" + curr);
+    f5_debug("[f5_poll_until_all_tests_pass] next=" + next);
+    f5_debug("[f5_poll_until_all_tests_pass] err=" + err);
+    f5_debug("[f5_poll_until_all_tests_pass] _f5_enable_polled_mode=" + globals._f5_enable_polled_mode);
 
     // if(parseInt(postman.getGlobalVariable("_f5_enable_polled_mode"), 10) == 0) {
-    //     f5_debug("enabling polled mode");
+    //     f5_debug("[f5_poll_until_all_tests_pass] enabling polled mode");
     //     postman.setGlobalVariable("_f5_enable_polled_mode", "1");
     // }
 
@@ -332,7 +332,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
     tests['[Poller] Try ' + iterator + ' of ' + max_tries] = 1;
 
     if (f5_all_tests_passed() === true) {
-        f5_debug("tests passed, next is '" + next + "'");
+        f5_debug("[f5_poll_until_all_tests_pass] tests passed, next is '" + next + "'");
         postman.setGlobalVariable("_f5_poll_iterator", "1");
         postman.setGlobalVariable("_f5_enable_polled_mode", "0");
         postman.setNextRequest(next);
@@ -341,7 +341,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
 
     if (parseInt(postman.getGlobalVariable("_f5_poll_iterator"), 10) >=
         parseInt(postman.getGlobalVariable("_f5_poll_max_tries"), 10)) {
-        f5_debug("reached max_tries, next is null");
+        f5_debug("[f5_poll_until_all_tests_pass] reached max_tries, next is null");
         tests['[Poller] [FAIL] Max Tries Reached'] = 0;
         postman.setGlobalVariable("_f5_poll_iterator", "1");
         postman.setGlobalVariable("_f5_enable_polled_mode", "0");
@@ -353,7 +353,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
 
     if (err !== undefined) {
         if(f5_check_response(err, false)) {
-            f5_debug("error function returned true, stopping poller");
+            f5_debug("[f5_poll_until_all_tests_pass] error function returned true, stopping poller");
             tests['[Poller] [FAIL] Unrecoverable Error'] = 0;
             postman.setGlobalVariable("_f5_poll_iterator", "1");
             postman.setGlobalVariable("_f5_enable_polled_mode", "0");
@@ -366,19 +366,19 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
 
     if (parseInt(postman.getGlobalVariable("_f5_poll_iterator"), 10) !=
         parseInt(postman.getGlobalVariable("_f5_poll_max_tries"), 10)) {
-        f5_debug("tests NOT passed, trying again");
+        f5_debug("[f5_poll_until_all_tests_pass] tests NOT passed, trying again");
         var i = parseInt(postman.getGlobalVariable("_f5_poll_iterator"), 10);
         i++;
         postman.setGlobalVariable("_f5_poll_iterator", i);
 
-        f5_debug("useinternal=" + parseInt(postman.getGlobalVariable("_f5_poll_useinternal"), 10));
+        f5_debug("[f5_poll_until_all_tests_pass] useinternal=" + parseInt(postman.getGlobalVariable("_f5_poll_useinternal"), 10));
         if(parseInt(postman.getGlobalVariable("_f5_poll_useinternal"), 10)===1){
-            f5_debug("using internal sleep");
+            f5_debug("[f5_poll_until_all_tests_pass] using internal sleep");
             f5_sleep(parseInt(postman.getGlobalVariable("_f5_poll_wait"), 10)*1000)
             postman.setNextRequest(curr);
             postman.setGlobalVariable("_f5_poll_curr", "");
         } else {
-            f5_debug("using external sleep");
+            f5_debug("[f5_poll_until_all_tests_pass] using external sleep");
             postman.setGlobalVariable("_f5_poll_curr", curr);
             postman.setNextRequest("_F5_POLL_DELAY");
         }
@@ -392,7 +392,7 @@ function f5_poll_until_all_tests_pass(next, err, curr) {
  * @desc Enable the poller by setting _f5_enable_polled_mode = 1
  */
 function f5_enable_poller() {
-    f5_debug("enabling poller");
+    f5_debug("[f5_enable_poller] enabling poller");
     postman.setGlobalVariable("_f5_enable_polled_mode", "1");
     return true;
 }
@@ -403,7 +403,7 @@ function f5_enable_poller() {
  * @desc Disable the poller by setting _f5_enable_polled_mode = 0
  */
 function f5_disable_poller() {
-    f5_debug("disabling poller");
+    f5_debug("[f5_disable_poller] disabling poller");
     postman.setGlobalVariable("_f5_enable_polled_mode", "0");
     return false;
 }
@@ -418,15 +418,15 @@ function f5_disable_poller() {
 function f5_all_tests_passed() {
     for (var test in tests) {
         if(test.startsWith("[Polled] [FAIL] ")) {
-            f5_debug("polled test '" + test + "' not passed, return 0");
+            f5_debug("[f5_all_tests_passed] polled test '" + test + "' not passed, return 0");
             return false;
         }
         if(tests[test] === 0) {
-            f5_debug("test '" + test + "' not passed, return 0");
+            f5_debug("[f5_all_tests_passed] test '" + test + "' not passed, return 0");
             return false;
         }
     }
-    f5_debug("all passed, return 1");
+    f5_debug("[f5_all_tests_passed] all passed, return 1");
     return true;
 }
 
@@ -458,7 +458,7 @@ function f5_check_response_code(mode) {
     };
 
     if (mode !== undefined) {
-        f5_debug("got mode, adding 404 to GET okCodes");
+        f5_debug("[f5_check_response_code] got mode, adding 404 to GET okCodes");
         okCodes.GET.push(404);
     }
 
@@ -466,19 +466,19 @@ function f5_check_response_code(mode) {
 
     if (request.method in okCodes &amp;&amp;
         okCodes[request.method].indexOf(responseCode.code) > -1) {
-        f5_debug("response code in okCodes, return 1");
+        f5_debug("[f5_check_response_code] response code in okCodes, return 1");
         f5_set_test_result(test_name, 1, responseCode.code);
         return ret.SUCCESS_METHOD;
     }
 
     if (responseCode.code >= 200 &amp;&amp; responseCode.code &lt; 300) {
-        f5_debug("response code was 2xx, return 2");
+        f5_debug("[f5_check_response_code] response code was 2xx, return 2");
         f5_set_test_result(test_name, 1, responseCode.code);
         return ret.SUCCESS_2XX;
     }
 
     f5_set_test_result(test_name, 0, responseCode.code);
-    f5_debug("response code bad, return 0");
+    f5_debug("[f5_check_response_code] response code bad, return 0");
     return ret.FAIL;
 }
 
@@ -533,7 +533,7 @@ function f5_set_test_result(name, result, value, polloverride) {
  */
 function f5_debug(msg) {
     if(postman.getGlobalVariable("_f5_debug") == "1") {
-        console.log('[' + arguments.callee.caller.name + '] ' + msg);
+        console.log(msg);
     }
     return;
 }
@@ -552,7 +552,7 @@ function f5_clear_runtime_vars(del) {
     var envKeys = Object.keys(environment);
     for(var i = 0; i &lt; envKeys.length; i++) {
         if(envKeys[i].startsWith("_rt_")) {
-            f5_debug("clearing env variable: " + envKeys[i]);
+            f5_debug("[f5_clear_runtime_vars] clearing env variable: " + envKeys[i]);
             if(del) {
                 postman.clearEnvironmentVariable(envKeys[i], "");
             } else {
@@ -571,7 +571,7 @@ function f5_clear_runtime_vars(del) {
  * entry item for a polled request.
  */
 function f5_poll_next() {
-    f5_debug("_f5_poll_curr=" + globals._f5_poll_curr)
+    f5_debug("[f5_poll_next] _f5_poll_curr=" + globals._f5_poll_curr)
 
     if(f5_check_response_code()) {
         postman.setNextRequest(globals._f5_poll_curr);
@@ -588,8 +588,8 @@ function f5_poll_next() {
  * @returns {Undefined}
  * @desc Implements a thread-blocking sleep.
  */
-function f5_sleep (time) {
-    f5_debug("sleeping for " + time);
+function f5_sleep(time) {
+    f5_debug("[f5_sleep] sleeping for " + time);
     var now = new Date().getTime();
     while(new Date().getTime() &lt; now + time){ }
     return;
@@ -649,19 +649,19 @@ function f5_search_json(json, value, attr, maxdepth, path) {
     depth = path.length || 0;
 
     if (!value &amp;&amp; !attr) {
-        f5_debug("nothing to search for, return undefined");
+        f5_debug("[f5_search_json] nothing to search for, return undefined");
         return undefined;
     }
 
     var pre = "[" + depth + "]" + " ".repeat(depth);
-    f5_debug(pre + "path=" + path)
+    f5_debug('[f5_search_json] ' + pre + "path=" + path)
     if(depth > maxdepth) {
-        f5_debug("hit search depth limit, return null")
+        f5_debug("[f5_search_json] hit search depth limit, return null")
         return null;
     }
 
     for(var i in json) {
-        f5_debug(pre + "{" + typeof json[i] + "}" + i + "={" + typeof json[i] + "}" + json[i]);
+        f5_debug('[f5_search_json] ' + pre + "{" + typeof json[i] + "}" + i + "={" + typeof json[i] + "}" + json[i]);
 
         var pathtemp = i;
 
@@ -670,15 +670,15 @@ function f5_search_json(json, value, attr, maxdepth, path) {
             if(ret) { return(ret); }
         } else {
             if((value &amp;&amp; attr) &amp;&amp; (json[i] === value &amp;&amp; attr in json)) {
-                f5_debug(pre + " [MATCH 1] value=" + value + " attr=" + attr + " return=" + json[i]);
+                f5_debug('[f5_search_json] ' + pre + " [MATCH 1] value=" + value + " attr=" + attr + " return=" + json[i]);
                 return json[attr];
             }
             if((!value &amp;&amp; attr) &amp;&amp; attr in json) {
-                f5_debug(pre + " [MATCH 2] attr=" + attr + " return=" + json[i]);
+                f5_debug('[f5_search_json] ' + pre + " [MATCH 2] attr=" + attr + " return=" + json[i]);
                 return json[attr];
             }
             if((value &amp;&amp; !attr) &amp;&amp; (json[i] === value)) {
-                f5_debug(pre + " [MATCH 3] value=" + value + " return=" + i);
+                f5_debug('[f5_search_json] ' + pre + " [MATCH 3] value=" + value + " return=" + i);
                 path.push(pathtemp);
                 return path.join('.');
             }
@@ -759,7 +759,7 @@ function f5_get_by_string(s, d) {
     s = s.replace('/^\./', '');           // strip a leading dot
     s = s.replace(/([^\\])\./g, '$1\u000B'); // handle escaped '.'
     var a = s.split('\u000B');
-    f5_debug("a=" + a)
+    f5_debug("[f5_get_by_string] a=" + a)
     a = a.splice(0, a.length - d);
     for (var i = 0, n = a.length; i &lt; n; ++i) {
         var k = a[i];
@@ -800,7 +800,7 @@ function f5_csv_to_json(str, port, template) {
             tempIp = m[1];
             tempIp = tempIp.replace(/\[|\]/g, '');
         }
-        f5_debug("ip=" + tempIp + " port=" + tempPort);
+        f5_debug("[f5_csv_to_json] ip=" + tempIp + " port=" + tempPort);
         ret.push(template({"i":i, "ip":tempIp,"port":tempPort}));
     }
     return(ret);
@@ -822,7 +822,7 @@ function f5_csv_to_json(str, port, template) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 14 2017 12:25:06 GMT+0900 (JST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri May 26 2017 10:06:10 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>
