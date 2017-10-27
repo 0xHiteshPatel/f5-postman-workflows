@@ -55,5 +55,8 @@
       "value": "0",
       "enabled": true
     }
-  ]
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-10-27T22:18:49.604Z",
+  "_postman_exported_using": "Postman/5.3.1"
 }
