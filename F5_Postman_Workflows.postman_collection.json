@@ -2293,7 +2293,7 @@
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
-									"        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"https://postman-echo.com/delay\"],",
 									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
 									"        [\"_f5_poll_iterator\"      ,\"1\"],",
 									"        [\"_f5_poll_curr\"          ,\"\"],",
@@ -2335,7 +2335,7 @@
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/src/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "https://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/src/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{
@@ -2367,7 +2367,7 @@
 									"        [\"_f5_poll_max_tries\"     ,\"60\"],",
 									"        [\"_f5_poll_wait\"          ,\"5\"],",
 									"        [\"_f5_poll_useinternal\"   ,\"0\"],",
-									"        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],",
+									"        [\"_f5_poll_apiurl\"        ,\"https://postman-echo.com/delay\"],",
 									"        [\"_f5_poll_bypass_timeout\",\"0\"],",
 									"        [\"_f5_poll_iterator\"      ,\"1\"],",
 									"        [\"_f5_poll_curr\"          ,\"\"],",
@@ -2409,7 +2409,7 @@
 						}
 					],
 					"request": {
-						"url": "http://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/src/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
+						"url": "https://closure-compiler.appspot.com/compile?code_url=https://raw.githubusercontent.com/0xHiteshPatel/f5-postman-workflows/{{_f5_framework_branch}}/framework/src/f5-postman-workflows.js&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=json&output_info=warnings&output_info=errors&output_info=compiled_code",
 						"method": "POST",
 						"header": [
 							{
@@ -2444,7 +2444,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"var global_defaults = [\r        [\"_f5_enable_polled_mode\" ,\"1\"],\r        [\"_f5_poll_max_tries\"     ,\"60\"],\r        [\"_f5_poll_wait\"          ,\"5\"],\r        [\"_f5_poll_useinternal\"   ,\"0\"],\r        [\"_f5_poll_apiurl\"        ,\"http://postman-echo.com/delay\"],\r        [\"_f5_poll_bypass_timeout\",\"0\"],\r        [\"_f5_poll_iterator\"      ,\"1\"],\r        [\"_f5_poll_curr\"          ,\"1\"],\r        [\"_f5_debug\"              ,\"1\"],\r        [\"_f5_framework_branch\"   ,\"master\"]\r    ];\r\rpostman.clearGlobalVariable('_f5_workflow_functions');\rconsole.log(\"UNINSTALL: unset _f5_workflow_functions\");\r\rfor(var i = 0; i < global_defaults.length; i++) {\r    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);\r    postman.clearGlobalVariable(global_defaults[i][0]);\r}\r"
+									"var global_defaults = [\r        [\"_f5_enable_polled_mode\" ,\"1\"],\r        [\"_f5_poll_max_tries\"     ,\"60\"],\r        [\"_f5_poll_wait\"          ,\"5\"],\r        [\"_f5_poll_useinternal\"   ,\"0\"],\r        [\"_f5_poll_apiurl\"        ,\"https://postman-echo.com/delay\"],\r        [\"_f5_poll_bypass_timeout\",\"0\"],\r        [\"_f5_poll_iterator\"      ,\"1\"],\r        [\"_f5_poll_curr\"          ,\"1\"],\r        [\"_f5_debug\"              ,\"1\"],\r        [\"_f5_framework_branch\"   ,\"master\"]\r    ];\r\rpostman.clearGlobalVariable('_f5_workflow_functions');\rconsole.log(\"UNINSTALL: unset _f5_workflow_functions\");\r\rfor(var i = 0; i < global_defaults.length; i++) {\r    console.log(\"UNINSTALL: global: \" + global_defaults[i][0]);\r    postman.clearGlobalVariable(global_defaults[i][0]);\r}\r"
 								]
 							}
 						}
